@@ -15,6 +15,15 @@
 The volume is separate from the container. Recreating the container therefore
 does not erase the database.
 
+The `database/init` directory is mounted read-only into PostgreSQL's standard
+initialization directory. It is applied automatically for a new empty volume.
+For the existing database, apply migrations explicitly:
+
+```powershell
+.\scripts\apply-database.ps1
+.\scripts\test-database.ps1
+```
+
 ## pgAdmin
 
 Open `http://localhost:5050` and sign in with the pgAdmin email/password from

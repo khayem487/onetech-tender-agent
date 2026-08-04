@@ -44,7 +44,16 @@ itself happened.
 - Database connectivity was verified for `onetech_ao` using the `onetech`
   database role.
 
+## Database schema milestone
+
+- Added versioned SQL initialization under `database/init`.
+- Separated collection runs, official tender facts, and public documents.
+- Added duplicate-prevention constraints, indexes, update timestamps, and an
+  open-tenders view.
+- Added a transactional smoke test that proves tender and document upserts do
+  not create duplicates.
+
 ## Next milestone
 
-Create the first business schema in `database/init/001_schema.sql`, then connect
-the HAICOP collector and prove idempotent upserts.
+Connect the HAICOP collector to PostgreSQL and prove idempotent upserts across
+two real collection runs.

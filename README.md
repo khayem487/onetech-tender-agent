@@ -13,7 +13,9 @@ produces a useful digest for OneTech.
 - HAICOP collection workflow documented as an OpenClaw skill.
 - Three tender analysis records preserved as Markdown.
 - PostgreSQL 16 and pgAdmin run locally through Docker Compose.
-- The PostgreSQL business schema and collector integration are the next work.
+- The first PostgreSQL business schema stores collection runs, tenders, and
+  public document references with duplicate-prevention constraints.
+- The HAICOP collector integration is the next work.
 
 ## Planned pipeline
 
@@ -28,3 +30,5 @@ HAICOP public source
 
 This repository is maintained by Khayem for personal progress tracking. See
 [`HISTORY.md`](HISTORY.md) for the reconstructed work timeline.
+
+Database setup and tests are documented in [`database/README.md`](database/README.md).
