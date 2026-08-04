@@ -15,6 +15,23 @@ services:
       timeout: 5s
       retries: 10
 
+  pgadmin:
+    image: dpage/pgadmin4:9
+    container_name: onetech-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres_data:
     name: onetech_postgres_data
+  pgadmin_data:
+    name: onetech_pgadmin_data

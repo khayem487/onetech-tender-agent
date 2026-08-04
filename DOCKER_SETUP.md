@@ -2,7 +2,7 @@
 
 ## What this runs
 
-`compose.yaml` describes the `postgres` service.
+`compose.yaml` describes two services: `postgres` and `pgadmin`.
 
 - Docker downloads the PostgreSQL 16 image.
 - The container runs the PostgreSQL server.
@@ -10,9 +10,35 @@
 - PostgreSQL stores its files in the named Docker volume
   `onetech_postgres_data`.
 - `.env` supplies the initial database name, user, password, and host port.
+- pgAdmin provides a browser interface at `http://localhost:5050`.
 
 The volume is separate from the container. Recreating the container therefore
 does not erase the database.
+
+## pgAdmin
+
+Open `http://localhost:5050` and sign in with the pgAdmin email/password from
+`.env`. These credentials protect the pgAdmin interface; they are separate
+from the PostgreSQL credentials.
+
+The server is already registered under `Servers > OneTech PostgreSQL` with:
+
+```text
+Name: OneTech PostgreSQL
+Host: postgres
+Port: 5432
+Maintenance database: onetech_ao
+Username: onetech
+Password: the POSTGRES_PASSWORD value from .env
+```
+
+The host is `postgres`, not `localhost`, because pgAdmin reaches PostgreSQL
+through the internal Compose network.
+
+The shareable server definition is stored in `pgadmin/servers.json`. The
+database password is stored separately in the ignored `pgadmin/pgpass` file
+and copied into pgAdmin's persistent volume with permissions limited to the
+pgAdmin process.
 
 ## Commands
 
