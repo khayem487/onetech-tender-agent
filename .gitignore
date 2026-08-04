@@ -1,0 +1,23 @@
+.env
+pgadmin/pgpass
+
+# OpenClaw runtime and private assistant state
+/AGENTS.md
+/HEARTBEAT.md
+/IDENTITY.md
+/MEMORY.md
+/SOUL.md
+/TOOLS.md
+/USER.md
+/memory/
+/openclaw-workspace-state.json
+
+# Superseded experiments kept locally for recovery only
+/_removed_by_claw/
+
+# Local/generated data
+*.db
+*.sqlite
+*.sqlite3
+__pycache__/
+*.py[cod]
