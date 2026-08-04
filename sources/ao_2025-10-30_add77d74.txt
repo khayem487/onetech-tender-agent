@@ -1,0 +1,1430 @@
+Appel d’offres N°03/2025
+
+
+
+
+                               REPUBLIQUE TUNISIENNE
+
+               Ministère de l’Industrie des mines et de l’Energie
+
+
+                           Institut National de la Normalisation
+                              Et de la Propriété Industrielle
+
+                                         *******
+
+
+                           APPEL D’OFFRES NATIONAL
+
+                                       N° 03/2025
+
+               Acquisition de matériels informatique
+
+
+                     CAHIER DES CHARGES
+
+
+                                       Octobre 2025
+
+
+
+       Date limite de réception des offres : 24/11/2025. A 15H.00
+       Date d’ouverture des plis : 24/11/2025. A15H.30
+
+
+
+
+                                                                    Page 1
+Appel d’offres N°03/2025
+
+
+
+
+Sommaire
+
+     Avis d’appel d'offres ……………….. ……………….…...……………..……....….03
+
+     Cahier des Conditions d'Appel d'Offres………..…………………….…….…….….05
+
+     Cahier des Clauses Administratives Particulières…………...…………..……….…12
+
+     Cahier des Clauses Techniques Particulières………..………..………………….….15
+
+
+     Annexes
+             1- Tableaux de soumissions techniques…..…………...……………….….23
+
+             2- Bordereaux des prix et détails estimatifs………..…………….…….….25
+
+             3- Soumissions..……..………………………….………......…………….…27
+
+             4- Modèle de Caution provisoire………..………….......……………….…..29
+
+             5- Modèle de Caution définitive………..……………....……………….…..30
+
+             6- Déclaration sur l'honneur de non influence…….……………...….….…31
+
+             7- Déclaration sur l'honneur de non appartenance…..……………...….….32
+
+             8- Fiche de renseignements généraux sur le soumissionnaire ……………33
+
+
+
+
+                                                                                  Page 2
+Appel d’offres N°03/2025
+
+
+
+
+                                    REPUBLIQUE TUNISIENNE
+
+        MINISTERE DE L’INDUSTRIE ET DES PETITES ET MOYENNES ENTREPRISES
+
+
+          INSTITUT NATIONAL DE NORMALISATION ET DE PROPRIETE
+                        INDUSTRIELLE (INNORPI)
+
+
+            AVIS D’APPEL D’OFFRES NATIONAL N° 03/2025
+                        Pour l’acquisition de matériel informatique
+
+
+         L’Institut national de normalisation et de propriété industrielle (INNORPI lance un appel
+  d’offres auprès des soumissionnaires éligibles et répondant aux qualifications requises pour
+  fournir, en deux (02) lots séparés, ce qui suit :
+
+    •   Lot N° 1    : Composé d’un seul article : 25 Ordinateurs ALL in One.
+
+    •   Lot N° 2 : Composé de quatre articles :
+                - Article 1 : 08 Imprimantes laser 3 en 1
+                - Article 2 : 04 Photocopieurs multifonctions
+                - Article 3 : 03 Imprimantes matricielles
+                - Article 4 : 01 Vidéoprojecteur
+       Chaque lot est considéré comme une offre à part et les soumissionnaires peuvent
+  soumissionner pour un ou pour les deux lots.
+        Les spécifications techniques sont        détaillées dans le Cahier des Clauses Techniques
+  Particulières.
+        La passation du Marché sera conduite par Appel d‘Offres National (AON) tel que défini
+  dans le Dossier d'Appel d'Offres.
+Le soumissionnaire doit être inscrit sur le système d’achat public en ligne TUNEPS, il peut
+télécharger gratuitement le cahier des charges et doit participer à l’appel d’offres à partir du site :
+www.tuneps.tn
+
+    Envoi des offres à travers la procédure en ligne :
+L’envoi des pièces administratives, offres techniques et financières se fait obligatoirement à travers
+le système des achats publics en ligne TUNEPS (www.tuneps.tn).
+L’envoi des pièces administratives, offres techniques et financières se fait obligatoirement à travers
+le système des achats publics en ligne TUNEPS (www.tuneps.tn).
+Pour la caution, provisoire si la banque du soumissionnaire n’est pas adhérée à TUNEPS, elle doit être adressée
+à l’Innorpi par voie matérielle (par poste ou au déposée au bureau d’ordre) avant la date limite de réception des
+offres.
+
+
+
+
+                                                                                                         Page 3
+Appel d’offres N°03/2025
+
+
+
+
+En cas ou le dossier de l’appel d’offres atteint le volume maximal toléré par le système d’achat en
+ligne TUNEPS le soumissionnaire peut compléter son offre en envoyant un complément de dossier
+dans une enveloppe fermée indiquant la référence de l’appel d’offre et son objet au nom de Monsieur
+le Directeur Général de L’Institut National de la Normalisation et de la Propriété Industrielle «
+INNORPI » à l’adresse suivante :
+Rue de l’assistance N°8 par la rue Alain Savary, Cité El Khadra –Tunis 1003
+Et doit porter la mention suivante :
+              « Ne pas ouvrir, Complément de dossier de l’appel d’offres - N°03/2025 »
+« Pour l’acquisition de matériel informatique »
+Et ce au plus tard le 24/11/2025. à 15h.00.
+Toute offre non accompagnée de la caution provisoire sera rejetée.
+
+Du seul fait de la présentation de leurs soumissions, les soumissionnaires sont censés avoir recueilli,
+par leurs propres soins et sous leur entière responsabilité, tout renseignement jugé par eux
+nécessaire à la préparation de leurs offres et à la parfaite exécution de leurs obligations.
+La commission d’ouverture des plis procédera, dans la même séance à l'ouverture des documents
+administratifs, des offres techniques et financières reçues sur le système TUNEPS, le résultat
+d’ouverture des offres sera publié automatiquement sur le système TUNEPS.
+
+        La séance d’ouverture des plis est publique, et sera tenue au siège social de L’Institut National de la
+Normalisation et de la Propriété Industrielle « INNORPI » sise à rue de l’assistance N°8 par la rue Alain
+Savary Cité El Khadra -Tunis le 24 /11/2025 à 15H.30 - (strict respect des horaires et date indiquées). Nous
+vous invitons par ailleurs à vous présenter 15 minutes avant l’horaire prescrit ci-dessus.
+Les soumissionnaires ou leurs mandataires habilités seront les seuls autorisés à y assister.
+Les soumissionnaires sont liés par leurs offres pour une période de cent vingt (120 jours) à compter
+du lendemain de la date limite fixée pour la réception des offres.
+L’INNORPI se réserve le droit de rejeter, toute offre non conforme aux conditions prévues dans le
+cahier des charges.
+
+
+
+
+                                                                                                       Page 4
+Appel d’offres N°03/2025
+
+
+
+
+                     CAHIER DES CONDITIONS D'APPEL D'OFFRES
+                                                       (CAO)
+LEGISLATION REGISSANT LE MARCHE
+      Les marchés de l’INNORPI sont régis par la réglementation tunisienne des Marchés Publics en vigueur.
+Tout ce qui n'est pas prévu par le présent cahier des charges reste régi par le décret n° 2014-1039 du
+13/03/2014 tel que modifié par le décret 416/2018 du 11/05/2018. En particulier, le présent marché est régi
+par les dispositions du C.C.A.G. applicables aux marchés de fournitures courantes de biens et services.
+
+ARTICLE 1 : OBJET DE L'APPEL D'OFFRES
+Le présent Appel d'Offres National a pour objet l’acquisition de matériel informatique en deux lots distincts,
+selon le détail suivant :
+
+    •     Lot N° 1    : Composé d’un seul article: 25 Ordinateurs ALL in One.
+
+    •     Lot N° 2 : Composé de quatre articles :
+                  - Article 1 : 08 Imprimantes laser 3 en 1
+                  - Article 2 : 04 Photocopieurs multifonctions
+                  - Article 3 : 03 Imprimantes matricielles
+               - Article 4 : 01 Vidéoprojecteur
+Les spécifications techniques sont détaillées dans le Cahier des Clauses Techniques Particulières.
+ARTICLE 2 : ALLOTISSEMENT
+       Le marché est constitué de deux (02) lots distincts. Chaque lot est considéré comme une offre à part et les
+soumissionnaires peuvent soumissionner pour un ou pour les deux lots. De même, chaque soumissionnaire peut
+être retenu pour l'exécution d’un ou de deux lots.
+ARTICLE 3 : CONDITIONS DE PARTICIPATION
+        3-1- Conditions à remplir pour prendre part au marché :
+      Le marché objet du présent appel d'offres ne peut être passé qu'avec des fournisseurs qui présentent les
+garanties et les références nécessaires pour la bonne exécution de leurs obligations, ainsi que les garanties
+requises pour assurer l’exécution du marché dans de bonnes conditions.
+        3-2- Justificatifs à fournir :
+      Le dossier de l'offre doit être présenté conformément à l'article 5 relatif à la "présentation des offres" du
+présent cahier des charges. Toutes les pièces à fournir doivent être de dates récentes et en cours de validité.
+ARTICLE 4 : PRESENTATION DES OFFRES
+     Conformément au décret n° 2014-1039 du 13 mars 2014 portant réglementation des marchés publics, le
+soumissionnaire est tenu de présenter son offre comme suit :
+             4.1 Forme générale :
+
+ La date limite de réception des offres est fixée le 24 /11/2025. À 15h.00 sur le système TUNEPS.
+
+L’offre est constituée de :
+
+   -     Cautionnements provisoires et les documents administratifs.
+
+                                                                                                           Page 5
+        Appel d’offres N°03/2025
+
+
+
+
+           -   L’offre technique.
+           -   L’offre financière.
+
+        La liste détaillée des documents à fournir est indiquée à l’article 5
+
+                   4.2 Procédure en ligne (TUNEPS) :
+         Les soumissionnaires ne peuvent participer à l’appel d’offres qu’à travers la procédure en ligne, l’envoi de
+l’offre technique et de l’offre financière se fait obligatoirement à travers le système des achats publics en ligne TUNEPS
+conformément au guide de procédures établi par la haute instance de la commande publique. Le système des achats
+publics en ligne permet aux soumissionnaires de joindre automatiquement à leurs offres les documents administratifs
+énumérés à l’article 5
+
+        ARTICLE N° 5 : DOCUMENTS CONSTITUANT L’APPEL D’OFFRES.
+        5.1/ Documents administratifs et caution provisoire
+
+
+                                           OPERATIONS A            AUTHENTIFICATIO                      Procédure
+   N            DOCUMENT
+                                              REALISER                          NS
+                                                                                                         En ligne
+          Pour chaque lot, une
+          caution bancaire
+          provisoire valable pour
+          une période de 120 jours à                                                        Transmis par votre banque via
+          partir du lendemain de la                                                         TUNEPS ou bien le fournir en
+          date limite de réception                                                          pièce jointe si la banque n’est pas
+   1      des offres. Les montants                                Date, signature et        adhérée à TUNEPS, et l’original
+          des cautions provisoires       Annexe N° 4                                        doit être envoyé hors ligne par la
+                                                                  cachet de la banque.
+          sont comme suit :                                                                 procédure matérielle avant la
+                                                                                            date limite de réception des
+          Lot N°1 : 1000 DT                                                                 offres.
+          Lot N°2 : 1000 DT
+
+
+          La fiche d’identification du                          Date, signature et
+   2                                     Selon modèle figurant àcachet du                   A fournir en pièce jointe sur
+          soumissionnaire dûment
+                                         l’annexe N° 8          soumissionnaire à la fin    TUNEPS
+          remplie
+                                                                  du document
+                                                                  Extrait récent ne
+   3     Extrait du Registre                                      dépassant pas 3 mois à    A fournir en pièce jointe sur
+         national des entreprises                                 la date de la             TUNEPS
+                                                                  présentation de l’offre
+         Déclaration sur l’honneur                              Date, signature et
+   4     de non influence                Selon modèle figurant àcachet humide du            A fournir en pièce jointe sur
+                                              l’annexe N° 6     soumissionnaire à la fin    TUNEPS
+                                                                  du document.
+
+
+
+                                                                                                                    Page 6
+    Appel d’offres N°03/2025
+
+
+
+
+     Déclaration sur
+                                                               Date, signature et
+     l’honneur de non                       Selon modèle
+5                                                              cachet humide du           A fournir en pièce jointe sur
+     appartenance à                      figurant à l’annexe
+                                                               soumissionnaire à la       TUNEPS
+     l’INNORPI depuis cinq                      N° 7
+                                                               fin du document.
+     ans au moins
+         Cahier des conditions
+                                                                 Paraphe sur chaque
+      de l’Appel d’offres et
+                                                                 page, date, signature
+6                                       Original des cahiers                              A fournir en pièce jointe sur
+      Le cahier des clauses                                      et cachet humide du
+                                            des charges                                   TUNEPS
+      administratives                                            soumissionnaire à la
+      particulières                                              fin du document.
+      (CCAO+CCAP)
+
+
+    5.2/ L’offre technique :
+
+N° d'ordre               Désignation              Opération à réaliser      Authentifications           Procédure En ligne
+
+                 Un tableau de soumission                                                           A fournir en pièce jointe
+                                                  A remplir selon           Date, signature et
+     1           technique                                                                          sur TUNEPS
+                                                  modèle de l’Annexe        cachet du
+                 Pour les deux (02) lots          N° 1                      Soumissionnaire.
+
+                 Fiches techniques et                                                               A fournir en pièce jointe
+     2           brochures Pour les deux                                                            sur TUNEPS
+                 (02) lots
+
+
+
+
+            5.3/ L’offre financière :
+
+
+N° d'ordre         Désignation            Opération à réaliser            Authentifications             Procédure En ligne
+
+                                      Dûment signée par le Date, signature et                    A fournir en pièce jointe sur
+     1           La soumission        soumissionnaire, établie selon cachet du                    TUNEPS
+                                      le modèle fourni (Annexe 03) Soumissionnaire.
+                 Le bordereau         Dûment rempli et signé selon        Date, signature et        A fournir en pièce jointe sur
+     2           des prix et détail   le modèle fourni (Annexe 02)           cachet du              TUNEPS
+                 estimatif                                                Soumissionnaire.
+
+
+    NB : Tous les documents (administratifs, techniques et financiers) doivent être visé sur toutes les pages et
+    portant la date et la signature à la dernière page en apposant le cachet humide du soumissionnaire et la
+    signature du représentant légal.
+
+     En cas ou le dossier de l’appel d’offres atteint le volume maximal toléré par le system d’achat en ligne
+     TUNEPS, le soumissionnaire peut compléter son offre par la procédure matérielle en envoyant un
+     complément de dossier dans une enveloppe indiquant la référence de l’appel d’offre et son objet et envoyée au
+
+
+                                                                                                                    Page 7
+Appel d’offres N°03/2025
+
+
+
+
+ nom de Monsieur le Directeur Général de L’Institut National de la Normalisation et de la Propriété
+ Industrielle « INNORPI » à l’adresse suivante :
+
+Rue de l’assistance N°8 par la rue Alain Savary, Cité El Khadra –Tunis 1003
+Et doit porter les références de l’appel d’offres, son objet et la mention
+« Ne pas ouvrir, Complément de dossier de l’appel d’offres - N°03/2025 »
+« Acquisition de matériel informatique »
+Et ce au plus tard le 24/11/2025. À 15h.00.
+ARTICLE 6 : OFFRES VARIANTES
+      Les offres variantes ne sont pas autorisées. Les soumissionnaires sont tenus de présenter des offres
+conformes au cahier des clauses techniques particulières.
+ARTICLE 7 : CONDITIONS DE REJET AUTOMATIQUE
+      Le rejet automatique s'applique sur :
+
+          •   Les offres ne contenant pas le cautionnement provisoire.
+          •   Les offres ne contenant pas le bordereau des prix et détail estimatif.
+          •   Les offres ne contenant pas l’offre technique.
+
+ARTICLE 8 : VALIDITE DE L'OFFRE
+       Le soumissionnaire restera lié par son offre pour une période de 120 jours, à compter du jour suivant la
+date limite fixée pour la réception des offres.
+     Durant ce délai, l’INNORPI n'acceptera aucune contre-offre et ignorera tous motifs évoqués par le
+soumissionnaire qui l'aurait proposée.
+ARTICLE 9 : ADDITIF AU DOSSIER DE L'APPEL D'OFFRES
+       Au cas où certains soumissionnaires auraient des renseignements à demander ou auraient des doutes sur
+la signification exacte de certaines parties des documents de l'appel d'offres, ils devraient en référer par écrit à
+L’INNORPI, en vue d'obtenir les éclaircissements nécessaires, avant de transmettre leur offre et ce dans un
+délai minimum de quinze (15) jours avant l'expiration de la date limite de réception des offres.
+ARTICLE 10 : OUVERTURE DES PLIS
+ La séance d’ouverture des plis est publique, et sera tenue au siège social de L’Institut National de la
+ Normalisation et de la Propriété Industrielle « INNORPI » sise à la rue de l’assistance N°8 par la rue Alain
+ Savary Cité El Khadra Tunis 1003, le 24/11/2025 à 15h.30.
+
+ Les soumissionnaires ou leurs mandataires habilités seront les seuls autorisés à y assister (ils doivent
+ présenter une procuration signée par le représentant légal).
+
+La commission d'ouverture des plis se réunit et procédera à l’ouverture des documents administratifs, des offres
+techniques et financières reçues sur le système TUNEPS.
+Le résultat d’ouverture des offres sera publié automatiquement sur le système TUNEPS.
+
+ARTICLE 11 : CAUTION PROVISOIRE ET CAUTION DEFINITIVE
+Les soumissionnaires doivent fournir à l'appui de leur soumission un cautionnement provisoire d'un montant
+égal à :
+
+
+                                                                                                            Page 8
+Appel d’offres N°03/2025
+
+
+
+
+                   Pour le lot N° 1      :             ( 1000 DT)
+                   Pour le lot N° 2      :             ( 1000 DT)
+
+
+
+L'engagement doit être par le moyen d'une caution bancaire délivrée par une banque tunisienne et souscrite au
+profit de l’INNORPI.
+La caution provisoire doit rester valable pendant la durée de la validité de l'offre. Il sera restitué au
+soumissionnaire après la proclamation définitive du résultat de l'appel d'offres. Toutefois, il sera échangé contre
+un cautionnement définitif pour celui qui aurait été proclamé titulaire du marché.
+Le cautionnement définitif de bonne exécution est fixé à 10% du montant global du marché pour chaque lot, il
+devra être constitué au plus tard dans un délai de vingt (20) jours à partir de la notification du marché (Annexe
+5).
+      Le cautionnement définitif est restitué si le titulaire du marché s'est acquitté de ses obligations et ce dans
+un délai maximum de quatre mois à compter de la date de signature du PV de réception définitif.
+       Le cautionnement cesse d'avoir effet à l'expiration de ce délai sauf si l’INNORPI a signalé au titulaire du
+marché avant l'expiration de ce délai par lettre recommandée ou par tout autre moyen ayant date certaine, qu'il
+n'a pas rempli toutes ses obligations. Dans ce cas, le cautionnement définitif n'est restitué que par main levée
+par l’INNORPI.
+ARTICLE 12 : COMPLEMENT D'INFORMATIONS
+      En vue de faciliter l'examen, l'évaluation et la comparaison des offres, l’INNORPI a toute la latitude de
+demander aux soumissionnaires des éclaircissements et/ou des justificatifs pour leurs offres si elle le juge
+nécessaire. La demande et la réponse doivent être faites par écrit.
+      A cette occasion, les soumissionnaires ne sont pas autorisés à introduire aucune modification d'ordre
+technique, administratif ou financier.
+ARTICLE 13 : SUITE RESERVEE AUX OFFRES
+      L’INNORPI se réserve le droit de subordonner l'acceptation des propositions à certaines modifications et
+éventuellement de ne pas donner suite aux offres si aucune d'elles ne lui parait acceptable soit du point de vue
+technique, soit en raison des prix et des délais proposés ou pour tout autre motif. Dans ce cas l'appel d'offres
+sera déclaré infructueux et l’INNORPI en avisera tous les soumissionnaires.
+ARTICLE 14 : RESULTAT DEFINITIF DE L'APPEL D'OFFRES
+      Les soumissionnaires resteront systématiquement liés par leurs offres pendant 120 jours à compter du
+jour suivant la date limite fixée pour la réception des offres.
+      Le marché n'est valable et définitif qu'après son approbation par les instances compétentes, sa signature
+par les deux parties contractantes et son enregistrement.
+       Un soumissionnaire ne peut prétendre à être indemnisé si l’INNORPI ne donne pas suite à l'appel
+d'offres pour quelque motif que ce soit.
+ARTICLE 15 : PROCEDURE DE CONCLUSION DU MARCHE
+      Le soumissionnaire provisoirement retenu en recevra la notification, il devra dans les vingt (20) jours
+qui suivent, remplir toutes les formalités relatives à la passation du marché et en particulier remettre le marché
+dûment signé et enregistré accompagné du cautionnement définitif.
+
+
+                                                                                                            Page 9
+Appel d’offres N°03/2025
+
+
+
+
+Si le titulaire du marché ne remplit pas ses obligations pour exécuter les prestations objet du marché,
+L’INNORPI pourra et après avis de la commission compétente de contrôle des marchés, annuler son choix et
+désigner un autre soumissionnaire ou annuler purement et simplement l'appel d'offres
+Une fois la caution définitive est remise et le marché signé par les deux parties et enregistré, le choix du
+titulaire du marché deviendra définitif.
+ARTICLE 16 : ACTUALISATION DE L'OFFRE FINANCIERE
+     Si la période écoulée entre la date de remise de l'offre et la date de notification du marché dépasse un délai
+de 120 jours, le titulaire du marché peut demander l'actualisation de son offre financière conformément à la
+formule suivante :
+               Montant actualisé du marché = Montant initial du marché + R
+
+               R = 2 ‰ du Montant initial du marché multiplié par le nombre de jours "Nj"
+               Nj = (date de notification du marché – date de remise de l'offre) – 120 jours
+               R : est le Ratio de base de calcul de l'actualisation de l'offre. Ce ratio est plafonné à 2% du
+                   montant initial de l'offre.
+ARTICLE 17 : METHODOLOGIE D'EVALUATION DES OFFRES
+      Pour chaque lot, l'évaluation des offres sera effectuée en 2 phases :
+                      Phase 1 – vérification des offres et examen des offres financières.
+                      Phase 2 – évaluation technique des offres.
+
+      Phase 1– vérification des offres et examen des offres financières
+                Il s'agit d'une phase de :
+                      -   Vérification des pièces administratives et de leur conformité.
+                      -   Vérification des pièces constitutives de l'offre financière, des montants et des calculs
+                          relatifs aux prix et rectification des erreurs le cas échéant.
+                      -   Classement des offres en partant de l'offre le moins disant.
+                Le montant de l'offre financière tient compte de la remise accordée par le soumissionnaire.
+
+      Phase 2 – évaluation technique de l'offre la moins disante
+                Il s'agit de la vérification de la conformité technique des offres aux conditions exigées dans le
+                cahier des charges.
+
+
+
+                A l'issue de cette phase :
+                           a- si l'offre la moins disante est techniquement conforme, elle sera retenue
+                           b- sinon, l’évaluation technique se poursuit pour l'offre classée juste après et ainsi de
+                               suite jusqu'à l'obtention d'une offre conforme techniquement.
+
+                Sera déclarée meilleure offre, l'offre la moins disante et techniquement conforme.
+
+
+                                                                                                            Page 10
+Appel d’offres N°03/2025
+
+
+
+
+Au cas où plusieurs offres sont financièrement équivalentes et techniquement conformes, l’INNORPI se
+réserve le droit de demander, en l'application de l'article 68 du décret 1039/2014 du 13 mars 2014 portant
+la réglementation des marchés publics et après avis de la commission compétente de contrôle des marchés, de
+nouvelles offres financières.
+
+
+
+                                                  Fait à ……………. Le … /…. /….
+
+
+                                                               LE SOUMISSIONNAIRE
+
+
+                                                                 "LU ET APPROUVE"
+
+
+                                                                SIGNATURE ET CACHET
+
+
+
+
+                                                                                                  Page 11
+Appel d’offres N°03/2025
+
+
+
+
+   CAHIER DES CLAUSES ADMINISTRATIVES PARTICULIERES
+                                                    (CCAP)
+ARTICLE 1 : OBJET DU MARCHE
+Le présent Appel d'Offres National a pour objet l’acquisition du matériel informatique en deux lots distincts,
+selon le détail suivant :
+
+    •     Lot N° 1        : Composé d’un seul article: 25 Ordinateurs ALL in One.
+
+    •     Lot N° 2      : Composé de quatre articles :
+                   - Article 1 : 08 Imprimantes laser 3 en 1
+                   - Article 2 : 04 Photocopieurs multifonctions
+                   - Article 3 : 03 Imprimantes matricielles
+                - Article 4 : 01 Vidéoprojecteur
+
+
+
+
+        Les spécifications techniques sont détaillées dans le Cahier des Clauses Techniques Particulières.
+ARTICLE 2 : PIECES CONSTITUTIVES DU MARCHE
+        Les pièces constitutives du marché sont les suivantes :
+            - La soumission dûment remplie et signée ;
+            - Le bordereau des prix dûment rempli et signé ;
+            - Le Cahier des Clauses Administratives Particulières (CCAP) dûment signé et paraphé ;
+            - Le Cahier des Clauses Techniques Particulières (CCTP) dûment signé et paraphé ;
+        Il est à noter que le fournisseur reste engager par son offre technique.
+ARTICLE 3 : DISPOSITIONS APPLICABLES
+      Les marchés de l’INNORPI sont régis par la Règlementation Tunisienne des Marchés Publics, en
+vigueur. Tout ce qui n'est pas prévu par le présent CCAP reste régi par le décret n° 2014-1039 du 13/03/2014
+portant réglementation des marchés publics. En particulier, le présent marché est régi par les dispositions du
+Cahier des Clauses Administratives Générales (CCAG) applicables aux marchés de fournitures courantes de
+biens et services.
+
+
+ARTICLE 4 : PRIX DU MARCHE
+        Les prix proposés par le soumissionnaire sont considérés fermes et non révisables.
+ARTICLE 5 : VARIATION DANS LA MASSE
+     L’INNORPI se réserve le droit d'augmenter ou de diminuer la masse des prestations objet du marché
+sans que le titulaire du marché ne puisse élever aucune réclamation ou réserve. Cette augmentation ou
+diminution ne doit en aucun cas excéder 20% du montant du marché.
+ARTICLE 6 : AVENANT
+
+
+
+
+                                                                                                         Page 12
+Appel d’offres N°03/2025
+
+
+
+
+        La modification dans la masse des prestations objet du marché dépassant le seuil de 20% mentionné dans
+l'article 6, ou la modification d'une clause du marché (délais, raison sociale, domiciliation bancaire…), ou
+l'introduction de nouveaux articles engendre l'établissement d'un avenant au marché initial.
+        L'avenant avec le marché initial constitueront le marché définitif.
+ARTICLE 7 : RECEPTIONS
+
+    •    Réception provisoire : La réception provisoire sera prononcée après la validation de la totalité des
+         travaux du marché par l’équipe technique de l’INNORPI. Elle fera l’objet un PV signé par les
+         représentants des deux parties.
+  • Réception définitive : Elle sera prononcée sous la forme un PV un an après la Réception provisoire.
+ARTICLE 8 : MODALITES DE PAIEMENT
+Le fournisseur sera payé sur présentation de 03 factures, une copie du bon de livraison et une copie du PV de
+réception provisoire.
+ARTICLE 9: GARANTIE DES ARTICLES
+Pour chaque article proposé, le soumissionnaire devra indiquer la durée pour laquelle il
+est couvert par une garantie.
+ARTICLE 10 : CAUTIONNEMENT PROVISOIRE
+Le soumissionnaire doit fournir un cautionnement provisoire pour chaque lot tel que mentionné dans l’article
+11 du CCAG qui fera partie intégrante de sa proposition.
+Cette caution doit être valable 120 jours à compter du jour suivant la date limite de réception des offres.
+Toute offre non accompagnée du cautionnement provisoire sera rejetée.
+Le cautionnement provisoire du soumissionnaire retenu sera libéré à la suite de dépôt du cautionnement
+définitif.
+ARTICLE 11 : CAUTION DEFINITIVE :
+
+Dans les vingt jours qui suivent la date de réception de la notification du marché, le soumissionnaire retenu doit
+fournir une caution bancaire définitive de garantie de bonne exécution de 10% du montant du marché en toutes
+taxes comprises (TTC).
+La caution définitive sera restituée au titulaire du marché au plus tard 04 mois après la réception définitive
+du marché.
+ARTICLE 12 : PENALITES DE RETARD
+Si les délais prévus par le marché ne sont pas respectés par le titulaire celui-ci sera passible d'une pénalité pour
+chaque jour de retard, les pénalités seront appliquées au taux de 0,1% par jour de retard sur la base du montant
+total du marché en toutes taxes comprises plafonnés à Cinq pour Cent (5%) du montant total du marché.
+
+ARTICLE 13 : FORCE MAJEURE
+
+Il est entendu par cas de force majeure, toute circonstance étrangère aux volontés des deux parties et qui a une
+incidence sur la réalisation de la mission et qui ne pourrait être prévisible et contre laquelle il est impossible de
+se prémunir.
+
+ARTICLE 14 :RESILIATION DU MARCHE
+   La résiliation pourra être engagée de plein droit dans le cas :
+         où le soumissionnaire ne respecterait pas ses engagements,
+
+                                                                                                          Page 13
+Appel d’offres N°03/2025
+
+
+
+
+          de faillite ou de liquidation judiciaire du titulaire du marché.
+   Cependant et en cas de dissolution volontaire ou d’absorption par une autre société, le titulaire du
+   marché est tenu d’exécuter son contrat intégralement. A défaut, le contrat est résilié de plein droit
+   par l’« INNORPI».
+   Le titulaire du marché défaillant sera mis en demeure par lettre recommandée et invité à s’exécuter
+   dans un délai de dix (10) jours à compter de la date de mise en demeure. Passé ce délai, l’« INNORPI»
+   pourra résilier purement et simplement le marché.
+ARTICLE 15 : REGLEMENT DES LITIGES
+
+   Tout litige pouvant survenir entre les deux parties à l'occasion de l'exécution du marché, et qui ne
+   saurait être réglé à l'amiable, sera de la compétence exclusive des tribunaux de Tunis.
+ARTICLE 16 : STOCKAGE DU MATERIEL :
+    Le soumissionnaire choisi est appelé à assurer par ses propres moyens le stockage et la fourniture des
+équipements avant leur installation.
+ARTICLE 17 : APPROBATION DU MARCHE
+   Le présent marché entre en vigueur à compter de la date de notification de la commande.
+ARTICLE 18: FRAIS D’ENREGISTREMENT
+ Les frais d'enregistrement sont à la charge du titulaire du marché.
+
+
+                                 Fait à                  le
+
+
+                                                 Le Soumissionnaire
+                                                    lu et approuvé
+                                                 Signature et cachet
+
+
+
+
+                                                                                                    Page 14
+Appel d’offres N°03/2025
+
+
+
+
+        CAHIER DES CLAUSES TECHNIQUES PARTICULIERES
+                                                    (CCTP)
+
+
+    ARTICLE 1 : OBJET DE L’APPEL D’OFFRE
+
+l’INNORPI se propose d’acquérir du matériel informatique comme suit :
+
+    •   Lot N° 1         : Composé d’un seul article: 25 Ordinateurs ALL in One.
+
+    •   Lot N° 2      : Composé de quatre articles :
+                  - Article 1 : 08 Imprimantes laser 3 en 1
+                  - Article 2 : 04 Photocopieurs multifonctions
+                  - Article 3 : 03 Imprimantes matricielles
+               - Article 4 : 01 Vidéoprojecteur
+
+    ARTICLE 2 : CONSISTANCE DE L’APPEL D’OFFRE
+
+Les prestations demandées dans cet appel d’offres sont les suivantes :
+
+    •   Livraison, installation, configuration et mise en exploitation …………..
+    •
+    ARTICLE 3 : SPECIFICATIONS TECHNIQUES DES EQUIPEMENTS MATERIELS
+
+
+
+
+    1. Lot 1: Vingt-cinq (25) Ordinateurs All in One
+        Caractéristiques                Valeurs minimales exigées                  Valeurs proposées
+Identification du PC              A préciser
+Marque/Modèle                     A préciser
+Sécurité                          Module TPM 2.0
+Processeur
+Marque/Modèle                     A préciser
+                                  64 bits, 12ème         génération      ou
+Architecture                      supérieure
+
+Nombre de Cœurs                   6 cœurs ou plus
+
+Fréquence turbo maxi              4.4 GHz ou plus
+
+Mémoire cache                     12 Mo ou plus
+
+Mémoire vive
+ Type de mémoire                  DDR4 ou DDR5
+
+                                                                                                       Page 15
+Appel d’offres N°03/2025
+
+
+
+
+ Capacité demandée (installée) 16 Go (extensible)
+Stockage
+Emplacements disques            1 SATA + 1 SSD
+Type Disque fourni              SSD NVMe PCIe
+
+Capacité                        1 To ou plus
+
+Port de communication
+Port USB                        oui
+Port USB 3                      3
+Port Audio                      1
+Port HDMI                       2
+Carte réseau
+Ethernet RJ-45                  Oui
+Débit                           1 Gb/s
+Wifi                            Oui (Wi‑Fi 5 ou Wi‑Fi 6)
+
+Bluetooth                       Oui (Bluetooth 5.0 ou supérieur)
+
+MultiMedia
+Ecran                           23.8'' Full HD
+
+Résolution                      1920x1080 pixels
+Webcam                          Oui
+Microphone                      Oui
+Haut-parleurs                   Intégrés
+
+Clavier                         Sans fil de même marque que l’UC,
+                                Azerty arabisé
+Souris                          Sans fil de même marque que l’UC
+Système d’exploitation
+
+Système d’exploitation fourni   64 bits Professionnel propriétaire
+                                préinstallé avec licence d’exploitation
+Autre
+
+Certificats                  Copies des certificats de conformité
+                             Energy star et RoHS
+1 an minimum (2 ans recommandé)
+Garantie                        1 an minimum
+
+Services à la livraison
+Mise en marche                  Oui
+
+
+
+
+                                                                          Page 16
+     Appel d’offres N°03/2025
+
+
+
+
+     Lot 2: Imprimantes et Vidéoprojecteur
+     Article N° 1 : Huit (08) Imprimantes Laser 3 en 1.
+           Caractéristiques              Valeurs minimales exigées           Valeurs proposées
+Type Equipement                     Imprimante Laser 3 en 1, couleur A4
+Fonctionnalités                     Impression, copie, numérisation
+Marque/Modèle                       A préciser
+Généralités
+Vitesse d'impression Noir/Couleur   ≥ 33 ppm
+Vitesse du processeur               ≥ 800 MHz
+Mémoire RAM                         ≥ 1 Go
+                                    Automatique (impression et
+Recto-verso
+                                    numérisation)
+Format papier                       Jusqu’à A4
+Alimentation en papier              250 feuilles (standard)
+Technologie d’impression            Laser couleur
+Langages d’impression               PCL 6, PostScript 3, PDF Direct
+Résolution d’impression             1200 x 1200 ppp (optimisée)
+Vitesse de numérisation             ≥ 20 ppm (Noir&Blanc et couleur)
+ADF (Chargeur automatique de        30 feuilles minimum
+documents)
+Cycle mensuel recommandé            ≥ 5 000 pages/mois
+Interfaces et connexions
+Interfaces                          USB 2.0 / 3.0, Gigabit Ethernet, Wi-Fi
+                                    Direct
+Écran de commande                   oui
+Compatibilité & Environnement
+Systèmes supportés                  Windows, macOS, Linux
+
+Capacité toner
+Toner noir (5% taux d’encrage)      ≥ 6000 pages
+Toner cyan / magenta / jaune        ≥ 6000 pages chacun
+Autres Composants
+Jeu complet de toners               À fournir à la livraison
+Cable réseau                        À fournir à la livraison
+Certificats
+                                    Copies des certificats de conformité
+Certificats
+                                    Energy star et RoHS
+Garantie
+Durée                               1 année ou plus
+Services à la livraison
+Mise en place Physique              Oui
+Mise en marche                      Oui
+Assistance à l’utilisation          Oui
+
+                                                                                                 Page 17
+     Appel d’offres N°03/2025
+
+
+
+
+     Article N°2 : Quatre (04) Photocopieurs Multifonctions.
+             Caractéristiques             Valeurs minimales exigées        Valeurs proposées
+                                     Photocopieur multifonction couleur
+Type Equipement
+                                     A3
+Marque/Modèle                        A préciser
+Généralités
+Temps de préchauffage                25 secondes maximum
+
+Vitesse de sortie                    N/B et couleur : 25 ppm (A4)
+Ecran tactile                        oui
+Mémoire RAM                          4 GB
+Recto-verso                          STD
+Format papier                        Jusqu’à A3
+Grammage papier (g/m2)               60 – 256 g/m2
+Capacité papier : std (feuilles)     350 feuilles minimum
+
+Copieur
+Copies multiples                     Jusqu'à 999 copies
+Résolution                           600 dpi
+Plage de zoom (%)                    De 25 % à 400 %
+Imprimante
+Langage                              PCL 6 ; PCL 5c; PostScript 3; XPS
+Résolution de l'impression           600 dpi
+Interfaces                           USB , Gigabit Ethernet
+Environnements supportés             Windows 8.1, 10, 11
+
+Scanner
+Résolution                           100, 150, 200, 300, 400 dpi
+Formats de fichier                   TIFF, JPEG, PDF compressé, PDF-A,
+Destination scan                     E-mail, PC, USB
+Chargeur Automatique
+Capacité chargeur (feuilles)         100 feuilles
+Capacité toner
+Noir (pages à 5% de taux d'encrage) 20000
+Cyan (pages à 5% de taux d'encrage) 15000
+Magenta (pages à 5% de taux
+                                     15000
+d'encrage)
+Jaune (pages à 5% de taux d'encrage) 15000
+Autres Composants
+Jeu complet des toners               A fournir
+Socle pour photocopieur              A fournir
+Cable réseau                         Cable RJ 45 catégorie 6 de 3 mètres
+Certificats
+
+
+                                                                                               Page 18
+     Appel d’offres N°03/2025
+
+
+
+
+                                Copies des certificats de conformité
+Certificats
+                                Energy star et RoHS
+Garantie
+Durée                           1 an minimum (2 ans recommandé)
+
+Services à la livraison
+Mise en place Physique          Oui
+Mise en marche                  Oui
+Assistance à l’utilisation      Oui
+
+
+
+
+                                                                       Page 19
+   Appel d’offres N°03/2025
+
+
+
+
+   Article N°3 : Trois (03) Imprimantes matricielles.
+        Caractéristiques              Valeurs minimales exigées            Valeurs proposées
+Type Equipement                 Imprimante Matricielle
+Marque/Modèle                   A préciser
+Généralités
+Mémoire tampon                  128 Kb
+Couleurs                        Monochrome
+Type de papier                  Papier en continu, papier multicopie
+                                en continu, feuille à feuille,
+MultiCopie                      Jusqu’à original+4 Copies
+Alimentation en papier          Feuille individuelle, Papier en continu,
+                                Sortie papier derrière
+Nombre d'aiguilles              24 aiguilles
+Connectivité                    Parallèle, USB
+Dimensions (LxPxH, mm)          80 colonnes 438x 375 x 172 mm
+Vitesse d'impression maximale   HighSpeed-Draft: 10 cpi: 440 car/sec,
+                                12 cpi: 529 car/sec, Draft: 10 cpi: 330
+                                car/sec, LQ: 10 cpi: 110 car/sec
+Système d'exploitation          Microsoft® Windows® 11/10/8.1/8/7
+Câbles                          USB et Parallèle à fournir
+Garantie
+Durée                           1 an
+Services à la livraison
+Mise en marche                  Oui
+Assistance à l’utilisation      Oui
+
+
+
+
+                                                                                               Page 20
+   Appel d’offres N°03/2025
+
+
+
+
+   Article N°4 : Un (01) Vidéoprojecteur pour salle de réunion.
+
+           Caractéristiques          Valeurs minimales exigées            Valeurs proposées
+                              Vidéoprojecteur professionnel pour
+Type d’équipement             installation fixe au plafond – usage
+                              bureautique et présentation.
+Marque / Modèle               À préciser
+Technologie                   DLP ou 3LCD
+Résolution native             Full HD (1920 × 1080)
+Luminosité                    ≥ 4500 lumens
+Durée de vie de la lampe      ≥ 20 000 h
+Niveau sonore                 ≤ 36 dB
+Fréquence d’entrée AC         50 / 60 Hz
+                              Verticale et horizontale automatique
+Correction trapézoïdale
+                              ±30°
+Zoom optique                  1.2x minimum
+Distance de projection        1.0 m à 12 m
+Taille d’écran projeté        30" – 300"
+Connectivité filaire          HDMI , VGA, USB, RS-232, RJ45 (LAN)
+Connectivité sans fil         Wi-Fi
+                              1 an minimum (projecteur), 1 an
+Garantie
+                              (lampe ou s)
+                              Télécommande, câble d’alimentation,
+Accessoires fournis           câble HDMI/VGA, support de fixation
+                              plafond, manuel d’utilisation
+                              Installation plafonnier, réglage, test de
+Services à la livraison
+                              projection, mise en service
+
+
+
+
+                                                                                              Page 21
+Appel d’offres N°03/2025
+
+
+
+
+                      ANNEXES
+
+
+
+
+                                Page 22
+Appel d’offres N°03/2025
+
+
+
+
+  Annexe 01
+
+
+
+
+                       TABLEAU DE SOUMISSION TECHNIQUE
+
+                                  Lot N° 01
+
+
+Soumissionnaire : …………………………………………………………………………………………
+
+
+
+
+                                                         Page 23
+Appel d’offres N°03/2025
+
+
+
+
+                     TABLEAU DE SOUMISSION TECHNIQUE
+
+                                 Lot N° 02
+
+
+Soumissionnaire : …………………………………………………………………………………………
+
+
+
+
+                                                       Page 24
+Appel d’offres N°03/2025
+
+
+
+
+   Annexe 02
+
+
+
+                    BORDEREAU DES PRIX ET DETAIL ESTIMATIF
+
+                                           Lot N° 01
+
+
+    DESIGNATION            Quantité   P.U (DT) HT     TVA     P.U (DT) TTC    PT(DT) TTC
+
+
+ Ordinateur ALL in One        25
+
+
+
+                                                                      Total
+
+
+
+
+Montant total (en toutes lettres) …………………………..………..………………………………….
+
+
+Remise accordée ……………………………………………………………….………………………..
+
+
+Montant total (en toutes lettres après remise) ………………………….…..……………………….
+
+
+                                                    Fait à ……………. le … /…. /….
+                                                     LE SOUMISSIONNAIRE
+                                                      "LU ET APPROUVE"
+                                                     SIGNATURE ET CACHET
+
+
+
+
+                                                                                    Page 25
+Appel d’offres N°03/2025
+
+
+
+
+                    BORDEREAU DES PRIX ET DETAIL ESTIMATIF
+
+                                                 Lot N° 02
+
+
+                               P.U        (DT)
+      DESIGNATION                                    TVA       P.U (DT) TTC       PT(DT) TTC
+                               HT
+
+
+   Imprimante laser 3 en 1           08
+
+
+  Photocopieur multifonction         04
+
+
+  Imprimante matricielle             3
+
+
+  Vidéoprojecteur                    1
+
+
+                                                                       Total
+
+
+
+
+Montant total (en toutes lettres) …………………………..………..………………………………….
+
+
+Remise accordée ……………………………………………………………….………………………..
+
+
+Montant total (en toutes lettres après remise) ………………………….…..……………………….
+
+
+                                                     Fait à ……………. le … /…. /….
+
+
+                                                       LE SOUMISSIONNAIRE
+                                                       "LU ET APPROUVE"
+                                                      SIGNATURE ET CACHET
+
+
+
+
+                                                                                       Page 26
+Appel d’offres N°03/2025
+
+
+
+
+  Annexe 03
+
+
+
+
+                                                SOUMISSION
+                                                  Lot N° …….
+
+
+Je Soussigné…………………………………………………………………………………………
+(Nom, prénom, nationalité, qualité)
+
+
+Faisant élection au ………………………………………………………………............................
+
+
+Agissant pour le compte de la Société……………………………………………………...............
+(indiquer la forme de la société, son capital et son objet social)
+
+
+Dont le siège social est au ……………………………………………………………………….....
+
+
+Inscrite au registre national des entreprises (RNE) le………………….sous le n°……………
+
+
+Adhérant à la Caisse Nationale de Sécurité Sociale sous le n° ……………………………………...
+
+
+Déclare être habilité et avoir pouvoir légal pour agir au nom et pour le compte de cette société, contracter tous
+engagements, présenter toutes offres, signer toutes soumissions, cahiers des charges et contrats.
+
+
+Et, notamment, pour m'engager pour la présente soumission portant                                       sur     :
+"………………………………………………………………………………………………………"
+
+
+Ainsi et après avoir pris connaissance de toutes les pièces du dossier de l'appel d'offres de la INNORPI N°
+……………….. relatif à ………………………………..…………..…………………….………….. Lot N°
+………… et après avoir apprécié à mon point de vue toutes leurs clauses, j'engage ladite Société à :
+      * exécuter le marché conformément aux dispositions du cahier des Conditions d'Appel d'Offres, du
+        Cahier de Clauses Administratives Particulières, et du Cahier des Clauses Techniques Particulières.
+
+
+        aux prix proposés ci-après : Lot N° ……
+            Montant en HT         :…………………………………………………………………..………..
+
+
+                                                                                                        Page 27
+Appel d’offres N°03/2025
+
+
+
+
+            TVA                 :……………………………………………………………………..……..
+            Montant en TTC      :………………………………………………………………..…………..
+        et avec un délai de livraison de : …………………………………………………………………
+      * rester liée par la présente offre pour une période de 120 jours à partir du jour suivant la date limite de
+        réception des plis.
+      * reconnaître que l’INNORPI n'est pas tenue de retenir le moins disant et qu'elle garde, par ailleurs, la
+        possibilité de déclarer l'appel d'offres non concluant.
+Aussi je déclare que, sous peine de résiliation de plein droit à mes torts exclusifs et ceux de la société pour le
+compte de laquelle j'agis, notre responsabilité étant solidaire, que je ne tombe pas ainsi que ladite société sous
+le coup des interdictions édictées par la législation en vigueur.
+
+
+
+
+                                                         Fait à ………….……. le ..… /….. /……..
+
+
+                                                                   LE SOUMISSIONNAIRE
+                                                                     "LU ET APPROUVE"
+
+
+                                                                 SIGNATURE ET CACHET
+
+
+
+
+                                                                                                         Page 28
+Appel d’offres N°03/2025
+
+
+
+
+       Annexe 04
+
+                                           MODELE DE CAUTION PROVISOIRE
+Je       soussigné                –         nous            soussignés                  (1)         …………………………agissant                                            en qualité de
+(2)..............................................................................................................................................................
+             1- Certifié- certifions que (3) ……………………………………………………………….a été agrée
+par le Ministre de Finances en application de l'article 113dudécret n°2014-1039du13/03/2014 portant
+réglementation des marchés publics, que cet agrément n'a pas été révoqué, que (3)
+…………………………………………….………… à constituer entre les mains du trésorier général de
+Tunisie suivant récépissé n°……………………………….……en date du…………….………………. le
+cautionnement fixe de cinq mille dinars (5.000 DT) prévu par l'article 113du décret susvisé et que ce
+cautionnement n'a pas été restitué.
+
+     2- Déclare - nous Déclarons, nous portons caution personnel et                                                                                              solidaire
+(4)……………………………………………………………………………………………………
+
+Domicile à (5) ……………………………………………………………………………………….
+
+Au titre du montant du cautionnement provisoire auquel ce dernier est assujetti en qualité de soumissionnaire
+pour participer à (6) …………………………………………………..………………… en date du
+…………………………..……… Lancé par (7) ………………………………………….et relatif à
+……………………………….…………….………………………………………… Lot N°……
+
+Le montant du cautionnement provisoire s'élève à : ………………………………………………………
+
+        3- M'engage –nous nous engageons solidairement à effectuer le versement du montant de garantie
+susvisé et dont le soumissionnaire serait débiteur au titre de (6) …………………..………………. et ce, à la
+première demande écrite de la INNORPI sans une mise en demeure ou une quelconque démarche
+administrative ou judiciaire préalable.
+
+        4- Le présent cautionnement est valable pour une durée de 120 jours à compter du jour suivant la date
+limite de réception des offres
+                                                               Fait à …………………..le………………
+1-Noms et prénoms du ou des signataires
+2- Raison sociale et adresse de l'établissement garant
+3- Raison sociale de l'établissement garant
+4- Nom du soumissionnaire (personne physique) ou raison sociale du soumissionnaire (personne morale)
+5-Adresse du soumissionnaire
+6- Appel d'offres ou consultation
+7- Acheteur public
+
+
+
+                                                                                                                                                                 Page 29
+Appel d’offres N°03/2025
+
+
+    Annexe 05
+
+
+                                             MODELE DE CAUTION DEFINITIVE
+                                                                      (A joindre à l'offre)
+Je       soussigné                –         nous            soussignés                  (1)         …………………………agissant                                            en  qualité     de
+(2)..............................................................................................................................................................
+             1- Certifié- certifions que (3) ……………………………………………………………….a été agrée
+par le Ministre de Finances en application de l'article 113dudécretn°2014-1039du13/03/2014portant
+réglementation des marchés publics, que cet agrément n'a pas été révoqué, que (3)
+……………………………………………………………….………… à constituer entre les mains du trésorier
+général de Tunisie suivant récépissé n°……………………………….……en date du…………….
+………………. le cautionnement de ………. prévu par l'article 113 du décret susvisé et que ce cautionnement
+n'a pas été restitué.
+             2-         Déclare               -       nous             Déclarons,                 nous            porter            caution              personnel   et    solidaire
+(4)……………………………………………………Domicilié à (5) …………………………….
+Au titre du montant du cautionnement définitif auquel ce dernier est assujetti en qualité de titulaire du marché
+N° ………………….. passé avec (6) …………….…….….…….en date du ………….………… enregistré à la
+recette des finances (7) …………………………………………en date du …….………. Relatif à (8)
+……………………………………………………………………………..………..
+Le montant du cautionnement définitif s'élève à 10% du montant du marché, ce qui correspond à
+……………………………………….…… Dinars (en toutes lettres) et à ………………………… (en chiffres).
+
+        3- M'engage –nous nous engageons solidairement à effectuer le versement du montant de garantie
+susvisé et dont le titulaire du marché serait débiteur au titre du marché susvisé, et ce à la première demande
+écrite de la INNORPI pouvoir différer le paiement ou soulever de contestation pour quelque motif que ce soit
+et sans une mise en demeure ou une quelconque démarche administrative ou judiciaire préalable.
+
+        4- En application de l'article 108dudécretn°2014-1039du13/03/2014, la caution qui remplace le
+cautionnement définitif est libérée si le titulaire du marché s'est acquitté de ses obligations et ce dans un délai
+maximum de quatre mois à compter de la date de réception de la dernière commande.
+
+         5- La caution cesse d'avoir effet à l'expiration du délai maximum de 4 mois visé ci-dessus. Si la
+INNORPI a signalé au titulaire du marché avant l'expiration du délai maximum par lettre justificative
+recommandée ou par tout autre moyen ayant date certaine qu'il n'a pas rempli toutes ses obligations, la caution
+n'est pas libérée que par mainlevée délivrée par la INNORPI.
+                                                                 Fait à …………………..le…………………
+1-Noms et prénoms du ou des signataires
+2- Raison sociale et adresse de l'établissement garant
+3- Raison sociale de l'établissement garant
+4- Nom du titulaire du marché
+5-Adresse du titulaire du marché
+6- Acheteur public
+7- Indication des références d'enregistrement auprès de la recette des finances
+8- Objet du marché
+
+
+                                                                                                                                                                     Page 30
+Appel d’offres N°03/2025
+
+
+
+
+  Annexe 06
+
+
+
+
+              DECLARATION SUR L'HONNEUR DE NON-INFLUENCE
+                                 (A remplir par les soumissionnaires)
+
+
+       Conformément à l’article 56 du décret n° 2014-1039 du 13/03/2014, portant réglementation des
+marchés publics.
+Je soussigné : (Nom et Prénom et Qualité)……………………………………………………………….
+
+………………………………………………………………………………………………………………
+
+Agissant au nom et pour le compte de l'entreprise …………………………………………….………….
+
+………………………………………………………………………………………………………………
+
+Sise à…………………………………………………………………………………………….…………..
+
+………………………………………………………………………………………………………………
+
+Inscrite au Registre de Commerce de : ……………………………………………………………………
+
+………………………………………………………………………………………………………………
+
+Sous le n°……………………………………………………………………………….………...…………
+
+Déclare sur l'honneur n'avoir pas fait et ne pas faire moi-même ou par personnes interposées des promesses,
+des dons ou des présents en vue d'influer sur les différentes procédures de conclusion du marché, objet de
+l'appel d'offre n° 03/2025 lancé par l’INNORPI et relatif à l’acquisition de matériels informatiques.
+
+Ainsi que sur les étapes de son exécution.
+
+
+
+                                                         Fait à………………….le…………………
+                                                                  LE SOUMISSIONNAIRE
+                                                         (Nom et Prénom, qualité, signature, cachet)
+
+
+
+
+                                                                                                        Page 31
+Appel d’offres N°03/2025
+
+
+
+
+  Annexe 07
+
+
+
+
+         DECLARATION SUR L'HONNEUR DE NON-APPARTENANCE
+                               (A remplir par les soumissionnaires)
+
+       Conformément à l’article 56 du décret n° 2014-1039 du 13/03/2014, portant réglementation des
+marchés publics.
+Je soussigné : (Nom et Prénom et Qualité)………………………………………………………………..
+
+………………………………………………………………………………………...…………………….
+
+Agissant au nom et pour le compte de l'entreprise…………………………………………………...........
+
+……………………………………………………………………………………………...……………….
+
+Sise à :………………………………………………………………………………………...………..……
+
+…………………………………………………………………………………………………....…………
+
+Inscrite au Registre de Commerce de …………………………………………………………………......
+
+………………………………………………………………………………………………………………
+
+Sous le N° …………………………………………………………………………………………………..
+
+………………………………………………………………………………………………………………
+
+Déclare sur l'honneur n'avoir pas été un agent public au sein de l’INNORPI ayant cessé mon activité depuis
+moins de cinq ans.
+
+
+
+
+                                                     Fait à………………….le…………………
+
+
+
+
+                                                              LE SOUMISSIONNAIRE
+                                                     (Nom et Prénom, qualité, signature, cachet)
+
+
+
+
+                                                                                                 Page 32
+Appel d’offres N°03/2025
+
+
+
+
+    Annexe 08
+
+
+
+
+                           FICHE DE RENSEIGNEMENTS GENEREAUX
+                                    SUR LE SOUMISSIONNAIRE
+
+
+Nom et raison sociale……………………………………………………………………………………….
+Pays………….……….……….Ville…………….………………..Code postal…………..………………..
+Adresse……………………..……………………………………………………………………………….
+Téléphone (01)……………………..……………..Fax(01)……………………….………………………
+Téléphone (02) …………………………..……….Fax (02)…………...………………………………….
+Adresse e-mail……………………………………………………………………………………………..
+Inscrit au registre national des entreprises sous le N°…………………………………………………….
+Date d'enregistrement………………………………………………………….………………………….
+Code fiscal………………………………………..……………………..………………………………….
+L'entreprise est une filiale de l'entreprise……………………………..…………………………………..
+Personne bénéficiant de procuration ou représentant dûment mandaté :
+Nom……………………….……..Prénom……….………....………….N° GSM………….…………….
+Nom…………………….………..Prénom…………….……………….N° GSM……………….……….
+
+N.B. Tout changement des données mentionnées ci-dessus, le fournisseur est tenu d'informer
+l’INNORPI dans les meilleurs délais.
+
+
+                                                     Fait à………………….le…………………
+
+
+                                                              LE SOUMISSIONNAIRE
+                                                     (Nom et Prénom, qualité, signature, cachet)
+
+
+
+
+                                                                                              Page 33
+
