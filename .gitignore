@@ -21,3 +21,10 @@ pgadmin/pgpass
 *.sqlite3
 __pycache__/
 *.py[cod]
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
