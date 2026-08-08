@@ -89,6 +89,15 @@ Start it again:
 docker compose start
 ```
 
+Check the database through the collector package:
+
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli status
+```
+
+This command reads the Windows-side connection (`127.0.0.1` and the port from
+`.env`) and never prints the PostgreSQL password.
+
 Remove the container and network while preserving the named volume:
 
 ```powershell

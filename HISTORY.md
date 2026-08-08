@@ -53,7 +53,26 @@ itself happened.
 - Added a transactional smoke test that proves tender and document upserts do
   not create duplicates.
 
-## Next milestone
+## Milestone selected on 2026-07-20
 
 Connect the HAICOP collector to PostgreSQL and prove idempotent upserts across
 two real collection runs.
+
+## 2026-08-08 - HAICOP to PostgreSQL integration
+
+- Added the maintainable `onetech_ao` Python package and JSON CLI.
+- Added verified TLS, HTTP timeouts/retries, DataTables pagination, Unicode and
+  date normalization, DOM parsing for public detail pages, and strict public
+  document URL validation.
+- Connected collection-run journaling, tender UPSERTs, document UPSERTs and
+  raw JSONB payload preservation to the existing PostgreSQL schema.
+- Added unit tests and a self-cleaning PostgreSQL integration test.
+- Ran two real identical collections with details: 20 tenders and 30 public
+  document references remained unique after the second run.
+- Updated the OpenClaw `collecte-haicop-ao` workflow to call the new CLI.
+
+## Next milestone after validation
+
+Build the local digest and relevance-analysis layer on top of the validated
+`HAICOP -> PostgreSQL` data. Odoo, MCP, n8n and automatic notifications remain
+out of scope until that slice is approved.

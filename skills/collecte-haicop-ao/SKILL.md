@@ -1,152 +1,78 @@
 ---
 name: "collecte-haicop-ao"
-description: "Collecte rapide AO via API publique HAICOP"
+description: "Collecte HAICOP vers PostgreSQL et shortlist OneTech"
 ---
 
-# Skill : Collecte HAICOP AO
+# Collecte HAICOP AO
 
-## Quand utiliser
+Utiliser pour rechercher, lister ou surveiller les appels d'offres tunisiens publiés sur HAICOP/marchespublics.gov.tn, puis pour présélectionner les AO pertinents pour OneTech.
 
-Utiliser cette skill dès que l'utilisateur demande :
+Après la collecte d'un AO précis et de ses documents publics, utiliser `analyse-ao` pour l'analyse complète.
 
-- de chercher des appels d'offres publics en Tunisie ;
-- de lister ou scorer des AO HAICOP / marchespublics.gov.tn ;
-- de trouver les AO IT pertinents pour One Tech ;
-- d'analyser un lien `https://www.marchespublics.gov.tn/fr/appels-doffres/...` ;
-- de faire une veille des AO publiés récemment.
+## Source de vérité
 
-Après la collecte, utiliser `analyse-ao` pour produire la fiche d'analyse complète.
-
-## Source publique principale
-
-- Base : `https://www.marchespublics.gov.tn`
-- Liste AO : `https://www.marchespublics.gov.tn/fr/appels-doffres`
-- Détail AO : `https://www.marchespublics.gov.tn/fr/appels-doffres/Tender-XXXXX`
-- Documents publics : souvent sous `https://www.marchespublics.gov.tn/storage/tender/...`
-
-## Workflow rapide
-
-### 1. Appeler la liste JSON DataTables
-
-Le tableau public des appels d'offres est alimenté par un endpoint JSON de type DataTables sur la même URL `/fr/appels-doffres`. Ne pas explorer manuellement la page si l'objectif est de collecter vite.
-
-Requête type :
+Workspace entreprise :
 
 ```text
-GET https://www.marchespublics.gov.tn/fr/appels-doffres?draw=1&start=0&length=50&order[0][column]=0&order[0][dir]=desc&search[value]=&search[regex]=false&columns[0][data]=id&columns[0][name]=&columns[0][searchable]=true&columns[0][orderable]=true&columns[0][search][value]=&columns[0][search][regex]=false&columns[1][data]=organization.name_fr&columns[1][name]=organization.name_fr&columns[1][searchable]=true&columns[1][orderable]=true&columns[1][search][value]=&columns[1][search][regex]=false&columns[2][data]=title_fr&columns[2][name]=title_fr&columns[2][searchable]=true&columns[2][orderable]=true&columns[2][search][value]=&columns[2][search][regex]=false&columns[3][data]=tenderPeriod_endDate&columns[3][name]=&columns[3][searchable]=true&columns[3][orderable]=true&columns[3][search][value]=&columns[3][search][regex]=false&columns[4][data]=publication_date&columns[4][name]=&columns[4][searchable]=true&columns[4][orderable]=true&columns[4][search][value]=&columns[4][search][regex]=false&columns[5][data]=reservedSME&columns[5][name]=&columns[5][searchable]=true&columns[5][orderable]=true&columns[5][search][value]=&columns[5][search][regex]=false
+C:\Users\khaye\.openclaw-company\workspace
 ```
 
-Headers utiles :
+Le package `onetech_ao` encapsule l'endpoint DataTables public, la normalisation, le parsing des pages détail et les UPSERT PostgreSQL. L'utiliser au lieu de redécouvrir ou reconstruire manuellement la requête HAICOP.
 
-```text
-User-Agent: Mozilla/5.0 TenderAgent/1.0
-Referer: https://www.marchespublics.gov.tn/fr/appels-doffres
-X-Requested-With: XMLHttpRequest
-Accept: application/json, text/javascript, */*; q=0.01
+Ne jamais lire à voix haute, afficher ou journaliser les valeurs de `.env`.
+
+## Workflow
+
+1. Se placer dans le workspace entreprise.
+2. Vérifier PostgreSQL et l'intégrité :
+
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli status
 ```
 
-### 2. Extraire les champs utiles
+3. Collecter les AO récents :
 
-Depuis `data[]`, récupérer au minimum :
-
-- `id` : identifiant AO, ex. `Tender-102830`
-- `organization.name_fr` : acheteur / organisme
-- `title_fr` : titre / objet
-- `publication_date` : date de publication
-- `tenderPeriod_endDate` : date limite
-- `planID` : identifiant plan si présent
-- `plan.reservedSME` ou `reservedSME` : réservé PME si présent
-
-Construire ensuite l'URL détail :
-
-```text
-https://www.marchespublics.gov.tn/fr/appels-doffres/{id}
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli collect --limit 50
 ```
 
-### 3. Enrichir avec la page détail
+Ajouter `--with-details` pour enrichir les pages détail et enregistrer les liens documentaires publics. Utiliser `--since-days N` si l'utilisateur fixe une période. Utiliser `--dry-run` seulement si l'utilisateur demande explicitement une simulation sans stockage.
 
-Pour chaque AO pertinent :
+4. Vérifier après collecte :
 
-1. Télécharger la page détail publique.
-2. Extraire les champs visibles, notamment les blocs de type `<strong>Libellé:</strong> valeur`.
-3. Chercher les liens documents publics contenant `/storage/tender/`.
-4. Conserver l'URL, le libellé du document et l'AO associé.
-
-Regex utile pour les liens documents :
-
-```regex
-<a[^>]+href="(?P<url>https://www\.marchespublics\.gov\.tn/storage/tender/[^"]+)"[^>]*>(?P<label>.*?)</a>
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli status
 ```
 
-### 4. Télécharger et préparer l'analyse
+Confirmer que PostgreSQL répond, que les compteurs du dernier run correspondent à la sortie de collecte, et que `doublons_appels_offres`, `doublons_documents` et `payloads_bruts_vides` valent zéro.
 
-Télécharger seulement les documents utiles : avis, cahier des charges, annexes administratives, annexes techniques. Extraire le texte du PDF/DOCX quand possible, puis lancer `analyse-ao`.
+5. Pour relire les AO ouverts déjà stockés :
 
-Si aucun cahier des charges n'est public, produire une analyse partielle à partir de l'avis et signaler clairement que le cahier des charges doit être récupéré depuis TUNEPS.
-
-## Limites connues
-
-- Certains cahiers des charges sont uniquement disponibles sur TUNEPS avec session authentifiée.
-- Des endpoints TUNEPS peuvent répondre `401 Unauthorized` sans session autorisée.
-- Ne jamais contourner une authentification.
-- Ne jamais inventer le contenu d'un cahier des charges non récupéré.
-
-## Shortlist One Tech
-
-Quand l'utilisateur demande les AO pertinents pour One Tech, scorer d'abord grossièrement sur titre + organisme.
-
-Mots-clés positifs :
-
-- informatique
-- logiciel / software
-- système / SI
-- réseau / télécommunication
-- data / données
-- digital / numérique
-- serveur
-- cybersécurité
-- maintenance informatique
-- vidéosurveillance
-- biométrique / pointage
-- plateforme
-- ERP / GED
-- cloud
-- IA
-
-Mots-clés négatifs :
-
-- travaux / construction / bâtiment / route
-- alimentaire
-- médical pur
-- fournitures non IT
-- nettoyage
-- gardiennage
-- mobilier
-
-## Sortie attendue pour une recherche
-
-Produire une shortlist concise :
-
-```markdown
-# Shortlist AO HAICOP - [date]
-
-| AO | Organisme | Objet | Publication | Deadline | Pertinence | Documents publics | URL |
-|---|---|---|---|---|---|---|---|
-| Tender-XXXXX | ... | ... | ... | ... | GO / À discuter / Non prioritaire | Oui/Non | ... |
-
-## Recommandation
-1. Priorité 1 : ...
-2. Priorité 2 : ...
-
-## Limites
-- Cahiers des charges TUNEPS non récupérés si authentification requise.
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli list-open --limit 20
 ```
 
-## Sortie attendue pour une analyse
+## Réponse attendue
 
-Après collecte d'un AO précis :
+Retourner :
 
-1. Donner les sources récupérées.
-2. Indiquer si l'analyse est complète ou partielle.
-3. Appeler le workflow `analyse-ao` sur les documents/textes récupérés.
-4. Sauvegarder la fiche en markdown si l'environnement le permet.
+- statut de la collecte ;
+- identifiant de collecte ;
+- nombre reçu, inséré et mis à jour ;
+- nombre de documents insérés et mis à jour ;
+- erreurs ou avertissements concis ;
+- shortlist OneTech issue de la sortie JSON ;
+- limite explicite si un cahier des charges exige TUNEPS.
+
+Ne jamais transformer la shortlist lexicale en décision Go/No-Go définitive. Pour cela, lancer `analyse-ao` sur les documents disponibles.
+
+## Sécurité et limites
+
+- Utiliser uniquement l'API et les pages publiques HAICOP gérées par le package.
+- Ne jamais désactiver la vérification TLS.
+- Ne jamais contourner TUNEPS, une session ou une authentification.
+- Ne jamais inventer un document non public.
+- Ne jamais afficher les secrets PostgreSQL.
+- Si Docker/PostgreSQL est arrêté, démarrer uniquement les services du workspace avec `docker compose up -d`, puis réappliquer les migrations idempotentes avec `.\scripts\apply-database.ps1`.
+- Si l'environnement virtuel manque, suivre la section installation de `README.md`.
+- En cas d'échec, rapporter l'erreur concise de la CLI et vérifier la dernière ligne de `collectes_haicop`; ne pas appeler directement un endpoint privé en contournement.
