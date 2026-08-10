@@ -128,7 +128,14 @@ def _validate_docx_archive(path: Path, max_uncompressed_bytes: int) -> None:
 
 
 def _clean_text(parts: list[str], max_chars: int) -> str:
-    lines = [" ".join(part.split()) for part in parts if part and part.strip()]
+    lines: list[str] = []
+    for part in parts:
+        if not part or not part.strip():
+            continue
+        for line in part.splitlines():
+            normalized = " ".join(line.split())
+            if normalized:
+                lines.append(normalized)
     return "\n".join(lines)[:max_chars]
 
 
@@ -140,7 +147,12 @@ def extract_text(path: Path, document_type: str, settings: Settings) -> str | No
                 raise DocumentProcessingError("PDF chiffré sans mot de passe public")
             if len(reader.pages) > settings.document_max_pdf_pages:
                 raise DocumentProcessingError("PDF refusé: trop de pages")
-            parts = [page.extract_text() or "" for page in reader.pages]
+            parts: list[str] = []
+            for page_number, page in enumerate(reader.pages, start=1):
+                page_text = page.extract_text() or ""
+                if page_text.strip():
+                    parts.append(f"--- PAGE {page_number} ---")
+                    parts.append(page_text)
         except DocumentProcessingError:
             raise
         except Exception as exc:
@@ -272,13 +284,24 @@ class DocumentProcessor:
             detected_type=detected,
         )
 
-    def process(self, limit: int = 50, retry_errors: bool = False) -> DocumentProcessingResult:
+    def process(
+        self,
+        limit: int = 50,
+        retry_errors: bool = False,
+        reprocess_extracted: bool = False,
+        tender_id: str | None = None,
+    ) -> DocumentProcessingResult:
         if limit < 1:
             raise ValueError("limit doit être supérieur à zéro")
         self.database.check_connection()
         tasks = [
             DocumentTask.from_row(row)
-            for row in self.database.documents_to_process(limit, retry_errors)
+            for row in self.database.documents_to_process(
+                limit,
+                retry_errors,
+                reprocess_extracted,
+                tender_id,
+            )
         ]
         result = DocumentProcessingResult(demandes=len(tasks))
 

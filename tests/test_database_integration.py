@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -71,6 +71,64 @@ def test_connection_and_idempotent_upserts_leave_no_test_data() -> None:
 
         database.finish_collection(collection_id, received=2, inserted=1, updated=1)
 
+        targeted_documents = database.documents_to_process(
+            limit=10,
+            tender_id=TEST_TENDER_ID,
+        )
+        assert len(targeted_documents) == 1
+        assert targeted_documents[0]["tender_id"] == TEST_TENDER_ID
+        assert database.documents_to_process(
+            limit=10,
+            tender_id="Tender-DOES-NOT-EXIST",
+        ) == []
+
+        first_analysis = database.save_analysis(
+            tender_id=TEST_TENDER_ID,
+            status="complete",
+            scores={
+                "adequation": 20,
+                "delai": 20,
+                "administratif": 15,
+                "risque": 15,
+            },
+            decision="GO",
+            engine="pytest",
+            model="fake-model",
+            fiche_path="fiches/pytest.md",
+            fiche_markdown="# fiche pytest",
+            fiche_sha256="a" * 64,
+            context_sha256="b" * 64,
+            profile_sha256="c" * 64,
+            sources={"test": True},
+            context_snapshot={"test": True},
+            rubric_version="pytest-v1",
+            evaluation_date=date(2026, 8, 10),
+        )
+        second_analysis = database.save_analysis(
+            tender_id=TEST_TENDER_ID,
+            status="complete",
+            scores={
+                "adequation": 20,
+                "delai": 20,
+                "administratif": 15,
+                "risque": 15,
+            },
+            decision="GO",
+            engine="pytest",
+            model="fake-model",
+            fiche_path="fiches/pytest.md",
+            fiche_markdown="# fiche pytest",
+            fiche_sha256="a" * 64,
+            context_sha256="b" * 64,
+            profile_sha256="c" * 64,
+            sources={"test": True},
+            context_snapshot={"test": True},
+            rubric_version="pytest-v1",
+            evaluation_date=date(2026, 8, 10),
+        )
+        assert first_analysis["id"] == second_analysis["id"]
+        assert first_analysis["score_total"] == 70
+
         with database.connect() as connection, connection.cursor() as cursor:
             cursor.execute(
                 """
@@ -111,6 +169,12 @@ def test_connection_and_idempotent_upserts_leave_no_test_data() -> None:
                 "nb_inseres": 1,
                 "nb_mis_a_jour": 1,
             }
+
+            cursor.execute(
+                "SELECT count(*) AS total FROM analyses_ao WHERE tender_id = %s",
+                (TEST_TENDER_ID,),
+            )
+            assert cursor.fetchone() == {"total": 1}
     finally:
         with database.connect() as connection, connection.cursor() as cursor:
             cursor.execute("DELETE FROM appels_offres WHERE tender_id = %s", (TEST_TENDER_ID,))

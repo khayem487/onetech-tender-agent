@@ -57,7 +57,11 @@ class FakeDatabase:
         return {"database": "test"}
 
     def documents_to_process(
-        self, limit: int, retry_errors: bool
+        self,
+        limit: int,
+        retry_errors: bool,
+        reprocess_extracted: bool = False,
+        tender_id: str | None = None,
     ) -> list[dict[str, Any]]:
         return [self.task]
 

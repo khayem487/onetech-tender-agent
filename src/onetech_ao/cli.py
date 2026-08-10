@@ -6,8 +6,16 @@ import argparse
 import json
 import sys
 from datetime import date, datetime, timedelta
+from pathlib import Path
 from typing import Any, Sequence
 
+from .analysis import (
+    AnalysisContextError,
+    build_analysis_context,
+    export_analysis_context,
+    normalize_tender_id,
+    record_analysis,
+)
 from .collector import Collector
 from .config import ConfigurationError, Settings
 from .database import Database
@@ -56,12 +64,70 @@ def build_parser() -> argparse.ArgumentParser:
     )
     documents_parser.add_argument("--limit", type=int, default=50)
     documents_parser.add_argument("--retry-errors", action="store_true")
+    documents_parser.add_argument("--reprocess-extracted", action="store_true")
+    documents_parser.add_argument(
+        "--tender-id",
+        help="traiter uniquement les documents d'un Tender-ID précis",
+    )
 
     status_parser = subparsers.add_parser("status", help="vérifier PostgreSQL et le journal")
     status_parser.add_argument("--history-limit", type=int, default=5)
 
     list_parser = subparsers.add_parser("list-open", help="lister les AO encore ouverts")
     list_parser.add_argument("--limit", type=int, default=20)
+
+    context_parser = subparsers.add_parser(
+        "analysis-context",
+        help="exporter depuis PostgreSQL le contexte complet d'un AO pour analyse",
+    )
+    context_parser.add_argument("tender_id", help="Tender-123 ou URL HAICOP publique")
+    context_parser.add_argument("--output", type=Path)
+    context_parser.add_argument(
+        "--stdout",
+        action="store_true",
+        help="émettre le contexte complet en JSON au lieu d'un manifeste court",
+    )
+
+    record_parser = subparsers.add_parser(
+        "record-analysis",
+        help="valider et enregistrer une fiche produite par analyse-ao",
+    )
+    record_parser.add_argument("tender_id")
+    record_parser.add_argument("--fiche", type=Path, required=True)
+    record_parser.add_argument(
+        "--status",
+        choices=("complete", "partielle"),
+        required=True,
+    )
+    record_parser.add_argument("--score-adequation", type=int, required=True)
+    record_parser.add_argument("--score-delai", type=int, required=True)
+    record_parser.add_argument("--score-administratif", type=int, required=True)
+    record_parser.add_argument("--score-risque", type=int, required=True)
+    record_parser.add_argument(
+        "--context-sha256",
+        required=True,
+        help="empreinte renvoyée par analysis-context; protège contre un contexte obsolète",
+    )
+    record_parser.add_argument(
+        "--decision",
+        choices=("GO", "A_DISCUTER", "NO_GO"),
+        required=True,
+    )
+    record_parser.add_argument("--engine", default="openclaw")
+    record_parser.add_argument("--model")
+
+    show_parser = subparsers.add_parser(
+        "show-analysis",
+        help="afficher les métadonnées de la dernière analyse d'un AO",
+    )
+    show_parser.add_argument("tender_id")
+
+    digest_parser = subparsers.add_parser(
+        "digest",
+        help="lister les dernières analyses classées pour OneTech",
+    )
+    digest_parser.add_argument("--limit", type=int, default=10)
+    digest_parser.add_argument("--include-expired", action="store_true")
 
     return parser
 
@@ -96,9 +162,12 @@ def run(args: argparse.Namespace, settings: Settings) -> dict[str, Any]:
 
     if args.command == "process-documents":
         _validate_positive(args.limit, "--limit")
+        tender_id = normalize_tender_id(args.tender_id) if args.tender_id else None
         return DocumentProcessor(settings=settings, database=database).process(
             limit=args.limit,
             retry_errors=args.retry_errors,
+            reprocess_extracted=args.reprocess_extracted,
+            tender_id=tender_id,
         ).to_dict()
 
     if args.command == "status":
@@ -118,6 +187,59 @@ def run(args: argparse.Namespace, settings: Settings) -> dict[str, Any]:
         rows = database.list_open(args.limit)
         return {"statut": "ok", "nb_resultats": len(rows), "appels_offres": rows}
 
+    if args.command == "analysis-context":
+        database.check_connection()
+        if args.stdout:
+            return build_analysis_context(settings, database, args.tender_id)
+        result, _ = export_analysis_context(
+            settings,
+            database,
+            args.tender_id,
+            output=args.output,
+        )
+        return result.to_dict()
+
+    if args.command == "record-analysis":
+        database.check_connection()
+        return record_analysis(
+            settings,
+            database,
+            reference=args.tender_id,
+            fiche=args.fiche,
+            status=args.status,
+            adequation=args.score_adequation,
+            deadline=args.score_delai,
+            administrative=args.score_administratif,
+            risk=args.score_risque,
+            decision=args.decision,
+            context_sha256=args.context_sha256,
+            engine=args.engine,
+            model=args.model,
+        )
+
+    if args.command == "show-analysis":
+        database.check_connection()
+        tender_id = normalize_tender_id(args.tender_id)
+        analysis = database.latest_analysis(tender_id)
+        if analysis is None:
+            raise AnalysisContextError(f"Aucune analyse enregistrée pour {tender_id}")
+        return {"statut": "ok", "analyse": analysis}
+
+    if args.command == "digest":
+        _validate_positive(args.limit, "--limit")
+        database.check_connection()
+        analyses = database.analysis_digest(args.limit, args.include_expired)
+        return {
+            "statut": "ok",
+            "nb_resultats": len(analyses),
+            "analyses": analyses,
+            "avertissement": (
+                None
+                if analyses
+                else "Aucune fiche enregistrée: lancer analyse-ao sur les AO retenus."
+            ),
+        }
+
     raise ValueError("commande inconnue")
 
 
@@ -130,7 +252,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         settings = Settings.load()
         emit(run(args, settings))
         return 0
-    except (ConfigurationError, ValueError) as exc:
+    except (AnalysisContextError, ConfigurationError, ValueError) as exc:
         emit({"statut": "echec", "erreur": str(exc)}, stream=sys.stderr)
         return 2
     except Exception as exc:

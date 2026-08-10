@@ -84,6 +84,27 @@ two real collection runs.
 
 ## Next milestone after validation
 
-Connect the extracted document text to the structured `analyse-ao` workflow
-and generate a business-facing digest. OCR, legacy DOC conversion, Odoo, MCP,
-n8n and automatic notifications remain later roadmap items.
+Calibrate the One Tech company profile with Makram, then add OCR, legacy DOC
+conversion and daily notifications. Odoo, MCP and Phi remain later exploration
+items.
+
+## 2026-08-10 - PostgreSQL-backed OpenClaw analysis
+
+- Added a fingerprinted `analysis-context` export joining official tender facts,
+  detail fields, document statuses and every extracted text from PostgreSQL.
+- Preserved PDF page boundaries during extraction and reprocessed all five
+  text-readable PDFs without re-downloading them.
+- Added `analyses_ao` and `v_dernieres_analyses_ao` so generated reasoning stays
+  separate from official HAICOP data.
+- Added strict, idempotent `record-analysis`, plus `show-analysis` and `digest`.
+- Added a tracked One Tech profile v0 with explicit unknown fields rather than
+  invented company facts.
+- Expanded SQL and Python tests for context export, partial-document reporting,
+  fiche validation, score/decision consistency and analysis persistence.
+- Proved the complete path on `Tender-103283`: OpenClaw read both extracted
+  documents, generated a nine-section fiche, saved analysis ID 23 and verified
+  it through `show-analysis` and `digest`.
+- Replayed the identical fiche and context: PostgreSQL reused analysis ID 23
+  instead of creating a duplicate.
+- Recollected HAICOP data and confirmed the semantic context fingerprint stayed
+  unchanged when only operational collection timestamps changed.

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "onetech-ao"
-version = "0.1.0"
-description = "Collecteur HAICOP vers PostgreSQL pour OneTech Tender Agent"
+version = "0.2.0"
+description = "Pipeline HAICOP, PostgreSQL et analyse OpenClaw pour OneTech Tender Agent"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

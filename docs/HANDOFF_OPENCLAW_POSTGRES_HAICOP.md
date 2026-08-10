@@ -1,5 +1,10 @@
 # Passation complète — OpenClaw entreprise + PostgreSQL + HAICOP
 
+> **Archive de mise en œuvre.** Le collecteur, PostgreSQL, le traitement des
+> documents et le pont d'analyse sont maintenant implémentés. Ne plus exécuter
+> la section « travail à faire » comme une nouvelle mission. Utiliser le
+> `README.md` et `database/README.md` pour l'état actuel et les commandes.
+
 Ce fichier remplace le long message du TUI qui a été affiché partiellement.
 Il ne contient aucun mot de passe. Les secrets doivent être lus depuis le
 fichier local `.env`, qui est ignoré par Git.
