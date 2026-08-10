@@ -210,11 +210,11 @@ fiche de neuf sections dans `fiches/`, validation avec `record-analysis`, puis
 contrôle avec `show-analysis`. Le contexte documentaire volumineux ne doit jamais
 être recopié dans le TUI.
 
-La version PostgreSQL de la skill `analyse-ao` est actuellement une proposition
-Skill Workshop en attente d'application. Le backend et le parcours OpenClaw
-ponctuel sont validés, mais la proposition doit être explicitement appliquée
-avant que ce comportement remplace la skill historique pour toutes les nouvelles
-sessions naturelles.
+La version PostgreSQL de la skill `analyse-ao` est appliquée et active depuis
+`skills/analyse-ao/SKILL.md`. Une nouvelle session de l'interface OpenClaw
+entreprise l'a validée en langage naturel sur `Tender-103307` : deux documents
+sur deux lus, fiche en neuf sections, analyse PostgreSQL ID 53 et replay
+anti-doublon réutilisant le même ID.
 
 ## Tests
 
@@ -249,9 +249,8 @@ pour l'historique du projet.
 
 ## Prochaine étape
 
-Après application de la skill `analyse-ao` PostgreSQL, valider la démonstration
-en langage naturel dans une nouvelle session entreprise. Compléter ensuite le
-profil réel de One Tech avec Makram pour calibrer le score Go/No-Go, puis
-automatiser le digest quotidien avec n8n et email/Telegram. L'OCR des quatre PDF
-scannés et la conversion contrôlée des douze anciens fichiers DOC restent des
-améliorations documentaires secondaires.
+Présenter la démonstration validée, puis compléter le profil réel de One Tech
+avec Makram pour calibrer le score Go/No-Go. La prochaine fonctionnalité est
+l'automatisation du digest quotidien avec n8n et email/Telegram. L'OCR des
+quatre PDF scannés et la conversion contrôlée des douze anciens fichiers DOC
+restent des améliorations documentaires secondaires.
