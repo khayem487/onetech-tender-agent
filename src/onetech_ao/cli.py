@@ -11,6 +11,7 @@ from typing import Any, Sequence
 from .collector import Collector
 from .config import ConfigurationError, Settings
 from .database import Database
+from .documents import DocumentProcessor
 
 
 def configure_stdio() -> None:
@@ -46,6 +47,15 @@ def build_parser() -> argparse.ArgumentParser:
     collect_parser.add_argument("--with-details", action="store_true")
     collect_parser.add_argument("--dry-run", action="store_true")
     collect_parser.add_argument("--since-days", type=int)
+    collect_parser.add_argument("--process-documents", action="store_true")
+    collect_parser.add_argument("--document-limit", type=int, default=50)
+
+    documents_parser = subparsers.add_parser(
+        "process-documents",
+        help="télécharger et extraire les documents HAICOP en attente",
+    )
+    documents_parser.add_argument("--limit", type=int, default=50)
+    documents_parser.add_argument("--retry-errors", action="store_true")
 
     status_parser = subparsers.add_parser("status", help="vérifier PostgreSQL et le journal")
     status_parser.add_argument("--history-limit", type=int, default=5)
@@ -68,11 +78,27 @@ def run(args: argparse.Namespace, settings: Settings) -> dict[str, Any]:
         if args.since_days is not None and args.since_days < 0:
             raise ValueError("--since-days ne peut pas être négatif")
         collector = Collector(settings=settings, database=database)
-        return collector.collect(
+        collection = collector.collect(
             limit=args.limit,
             with_details=args.with_details,
             since_days=args.since_days,
             dry_run=args.dry_run,
+        ).to_dict()
+        if args.process_documents:
+            if args.dry_run:
+                raise ValueError("--process-documents est incompatible avec --dry-run")
+            _validate_positive(args.document_limit, "--document-limit")
+            collection["traitement_documents"] = DocumentProcessor(
+                settings=settings,
+                database=database,
+            ).process(limit=args.document_limit).to_dict()
+        return collection
+
+    if args.command == "process-documents":
+        _validate_positive(args.limit, "--limit")
+        return DocumentProcessor(settings=settings, database=database).process(
+            limit=args.limit,
+            retry_errors=args.retry_errors,
         ).to_dict()
 
     if args.command == "status":
@@ -82,6 +108,7 @@ def run(args: argparse.Namespace, settings: Settings) -> dict[str, Any]:
             "postgresql": database.check_connection(),
             "compteurs": database.counts(),
             "integrite": database.integrity_report(),
+            "traitement_documents": database.document_processing_counts(),
             "dernieres_collectes": database.recent_collections(args.history_limit),
         }
 

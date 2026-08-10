@@ -220,6 +220,129 @@ class Database:
             )
             return list(cursor.fetchall())
 
+    def documents_to_process(
+        self,
+        limit: int = 50,
+        retry_errors: bool = False,
+    ) -> list[dict[str, Any]]:
+        statuses = ["a_traiter"]
+        if retry_errors:
+            statuses.append("echec")
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    id,
+                    tender_id,
+                    url,
+                    type_document,
+                    chemin_local,
+                    empreinte_sha256
+                FROM documents_ao
+                WHERE statut_traitement = ANY(%s)
+                ORDER BY id
+                LIMIT %s
+                """,
+                (statuses, limit),
+            )
+            return list(cursor.fetchall())
+
+    def save_document_processing(
+        self,
+        document_id: int,
+        relative_path: str,
+        sha256: str,
+        size_bytes: int,
+        mime_type: str | None,
+        detected_type: str,
+        extracted_text: str | None,
+        status: str,
+    ) -> None:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE documents_ao
+                SET chemin_local = %s,
+                    empreinte_sha256 = %s,
+                    taille_octets = %s,
+                    mime_type = %s,
+                    type_document = %s,
+                    texte_extrait = %s,
+                    statut_traitement = %s,
+                    erreur_traitement = NULL,
+                    traite_le = clock_timestamp()
+                WHERE id = %s
+                """,
+                (
+                    relative_path,
+                    sha256,
+                    size_bytes,
+                    mime_type,
+                    detected_type,
+                    extracted_text,
+                    status,
+                    document_id,
+                ),
+            )
+            if cursor.rowcount != 1:
+                raise RuntimeError("Document introuvable pendant la sauvegarde")
+
+    def fail_document_processing(
+        self,
+        document_id: int,
+        error: str,
+        relative_path: str | None = None,
+        sha256: str | None = None,
+        size_bytes: int | None = None,
+        mime_type: str | None = None,
+        detected_type: str | None = None,
+    ) -> None:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE documents_ao
+                SET chemin_local = COALESCE(%s, chemin_local),
+                    empreinte_sha256 = COALESCE(%s, empreinte_sha256),
+                    taille_octets = COALESCE(%s, taille_octets),
+                    mime_type = COALESCE(%s, mime_type),
+                    type_document = COALESCE(%s, type_document),
+                    statut_traitement = 'echec',
+                    erreur_traitement = %s,
+                    traite_le = clock_timestamp()
+                WHERE id = %s
+                """,
+                (
+                    relative_path,
+                    sha256,
+                    size_bytes,
+                    mime_type,
+                    detected_type,
+                    error,
+                    document_id,
+                ),
+            )
+
+    def document_processing_counts(self) -> dict[str, int]:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    count(*)::integer AS total,
+                    count(*) FILTER (WHERE statut_traitement = 'a_traiter')::integer
+                        AS a_traiter,
+                    count(*) FILTER (WHERE statut_traitement = 'extrait')::integer
+                        AS extraits,
+                    count(*) FILTER (WHERE statut_traitement = 'sans_texte')::integer
+                        AS sans_texte,
+                    count(*) FILTER (WHERE statut_traitement = 'non_supporte')::integer
+                        AS non_supportes,
+                    count(*) FILTER (WHERE statut_traitement = 'echec')::integer
+                        AS echecs
+                FROM documents_ao
+                """
+            )
+            return dict(cursor.fetchone() or {})
+
     def list_open(self, limit: int = 20) -> list[dict[str, Any]]:
         with self.connect() as connection, connection.cursor() as cursor:
             cursor.execute(

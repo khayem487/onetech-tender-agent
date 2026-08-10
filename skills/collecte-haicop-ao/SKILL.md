@@ -38,6 +38,20 @@ Ne jamais lire à voix haute, afficher ou journaliser les valeurs de `.env`.
 
 Ajouter `--with-details` pour enrichir les pages détail et enregistrer les liens documentaires publics. Utiliser `--since-days N` si l'utilisateur fixe une période. Utiliser `--dry-run` seulement si l'utilisateur demande explicitement une simulation sans stockage.
 
+Pour une collecte complète avec téléchargement, hash et extraction PDF/DOCX :
+
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli collect --limit 50 --with-details --process-documents
+```
+
+Pour reprendre uniquement les documents déjà découverts :
+
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli process-documents --limit 50
+```
+
+Ajouter `--retry-errors` à `process-documents` uniquement après avoir vérifié la cause des erreurs précédentes.
+
 4. Vérifier après collecte :
 
 ```powershell
@@ -45,6 +59,7 @@ Ajouter `--with-details` pour enrichir les pages détail et enregistrer les lien
 ```
 
 Confirmer que PostgreSQL répond, que les compteurs du dernier run correspondent à la sortie de collecte, et que `doublons_appels_offres`, `doublons_documents` et `payloads_bruts_vides` valent zéro.
+Vérifier aussi `traitement_documents` : `a_traiter` et `echecs` doivent être explicitement signalés. `sans_texte` indique un PDF probablement scanné ; `non_supporte` indique actuellement un ancien format DOC.
 
 5. Pour relire les AO ouverts déjà stockés :
 
@@ -60,6 +75,7 @@ Retourner :
 - identifiant de collecte ;
 - nombre reçu, inséré et mis à jour ;
 - nombre de documents insérés et mis à jour ;
+- nombre de documents extraits, sans texte, non supportés et en échec ;
 - erreurs ou avertissements concis ;
 - shortlist OneTech issue de la sortie JSON ;
 - limite explicite si un cahier des charges exige TUNEPS.
@@ -73,6 +89,8 @@ Ne jamais transformer la shortlist lexicale en décision Go/No-Go définitive. P
 - Ne jamais contourner TUNEPS, une session ou une authentification.
 - Ne jamais inventer un document non public.
 - Ne jamais afficher les secrets PostgreSQL.
+- Ne télécharger que les URLs HTTPS publiques HAICOP autorisées par le package.
+- Ne jamais présenter `sans_texte` ou `non_supporte` comme un document analysé.
 - Si Docker/PostgreSQL est arrêté, démarrer uniquement les services du workspace avec `docker compose up -d`, puis réappliquer les migrations idempotentes avec `.\scripts\apply-database.ps1`.
 - Si l'environnement virtuel manque, suivre la section installation de `README.md`.
 - En cas d'échec, rapporter l'erreur concise de la CLI et vérifier la dernière ligne de `collectes_haicop`; ne pas appeler directement un endpoint privé en contournement.

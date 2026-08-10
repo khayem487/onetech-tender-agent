@@ -35,6 +35,11 @@ class Settings:
     http_read_timeout: float = 30.0
     user_agent: str = "OneTechTenderAgent/0.1 (+public HAICOP collector)"
     project_root: Path = PROJECT_ROOT
+    document_root: Path = PROJECT_ROOT / "data" / "documents"
+    document_max_bytes: int = 25 * 1024 * 1024
+    document_max_uncompressed_bytes: int = 100 * 1024 * 1024
+    document_max_text_chars: int = 5_000_000
+    document_max_pdf_pages: int = 500
 
     @classmethod
     def load(cls, env_file: Path | None = None) -> "Settings":
@@ -59,12 +64,39 @@ class Settings:
         if not 1 <= port <= 65535:
             raise ConfigurationError("POSTGRES_PORT doit être compris entre 1 et 65535")
 
+        document_root_raw = os.getenv("DOCUMENT_ROOT", "data/documents").strip()
+        document_root = Path(document_root_raw)
+        if not document_root.is_absolute():
+            document_root = target.resolve().parent / document_root
+        document_root = document_root.resolve()
+        project_root = target.resolve().parent
+        if not document_root.is_relative_to(project_root):
+            raise ConfigurationError("DOCUMENT_ROOT doit rester dans le workspace")
+
+        def positive_int(name: str, default: int) -> int:
+            try:
+                value = int(os.getenv(name, str(default)))
+            except ValueError as exc:
+                raise ConfigurationError(f"{name} doit être un entier") from exc
+            if value < 1:
+                raise ConfigurationError(f"{name} doit être supérieur à zéro")
+            return value
+
         return cls(
             postgres_db=required["POSTGRES_DB"],
             postgres_user=required["POSTGRES_USER"],
             postgres_password=required["POSTGRES_PASSWORD"],
             postgres_port=port,
-            project_root=target.resolve().parent,
+            project_root=project_root,
+            document_root=document_root,
+            document_max_bytes=positive_int("DOCUMENT_MAX_BYTES", 25 * 1024 * 1024),
+            document_max_uncompressed_bytes=positive_int(
+                "DOCUMENT_MAX_UNCOMPRESSED_BYTES", 100 * 1024 * 1024
+            ),
+            document_max_text_chars=positive_int(
+                "DOCUMENT_MAX_TEXT_CHARS", 5_000_000
+            ),
+            document_max_pdf_pages=positive_int("DOCUMENT_MAX_PDF_PAGES", 500),
         )
 
     @property

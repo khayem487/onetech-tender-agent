@@ -71,8 +71,19 @@ two real collection runs.
   document references remained unique after the second run.
 - Updated the OpenClaw `collecte-haicop-ao` workflow to call the new CLI.
 
+## 2026-08-10 - Automated document processing
+
+- Added a resumable document-processing CLI and PostgreSQL migration.
+- Restricted downloads to public HTTPS HAICOP document URLs, with redirect,
+  size and archive-safety checks.
+- Added local storage, SHA-256 hashes, PDF/DOCX text extraction, processing
+  statuses and concise failure recording.
+- Processed all 30 discovered documents: 25 extracted, 2 scanned PDFs without
+  a text layer, 3 legacy DOC files retained as unsupported, and 0 failures.
+- Proved idempotence by rerunning the processor with 0 pending documents.
+
 ## Next milestone after validation
 
-Build the local digest and relevance-analysis layer on top of the validated
-`HAICOP -> PostgreSQL` data. Odoo, MCP, n8n and automatic notifications remain
-out of scope until that slice is approved.
+Connect the extracted document text to the structured `analyse-ao` workflow
+and generate a business-facing digest. OCR, legacy DOC conversion, Odoo, MCP,
+n8n and automatic notifications remain later roadmap items.

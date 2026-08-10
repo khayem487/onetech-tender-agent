@@ -16,6 +16,7 @@ OpenClaw entreprise
         -> package Python onetech_ao
         -> API et pages publiques HAICOP
         -> PostgreSQL 16
+        -> téléchargement + SHA-256 + extraction PDF/DOCX
         -> résultat JSON + shortlist locale
 ```
 
@@ -33,10 +34,11 @@ Au 10 août 2026, le flux HAICOP vers PostgreSQL est opérationnel :
 - première exécution : 20 insertions ;
 - deuxième exécution identique : 20 mises à jour et aucune nouvelle ligne ;
 - aucun doublon sur les appels d'offres ou les documents.
-
-Les documents sont pour le moment référencés par leur URL. Leur téléchargement,
-leur empreinte SHA-256 et l'extraction de leur texte constituent la prochaine
-étape.
+- 30 fichiers publics téléchargés et hashés (environ 6,1 Mo) ;
+- 25 documents PDF/DOCX avec texte extrait dans PostgreSQL ;
+- 2 PDF sans couche texte, à traiter plus tard par OCR ;
+- 3 anciens fichiers DOC conservés mais marqués `non_supporte` ;
+- 0 échec de traitement et 0 document restant à traiter.
 
 ## Accès local aux services
 
@@ -104,11 +106,25 @@ Collecter les pages détail et les liens documentaires publics :
 .\.venv\Scripts\python.exe -m onetech_ao.cli collect --limit 20 --with-details
 ```
 
+Télécharger, hasher et extraire les documents en attente :
+
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli process-documents --limit 50
+```
+
+Collecter puis traiter les documents dans la même commande :
+
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli collect --limit 20 --with-details --process-documents
+```
+
 Options utiles :
 
 - `--since-days N` : ne retenir que les publications récentes ;
 - `--dry-run` : interroger HAICOP sans écrire en base ;
 - `--with-details` : enrichir les AO et stocker les documents publics.
+- `--process-documents` : télécharger et extraire les documents après collecte ;
+- `process-documents --retry-errors` : relancer uniquement les erreurs précédentes.
 
 Lister les AO ouverts stockés :
 
@@ -141,6 +157,9 @@ et zéro payload brut vide.
 - Erreur HAICOP temporaire : conserver la ligne `collectes_haicop` en échec et
   relancer plus tard ; ne pas utiliser un endpoint privé en contournement.
 - Cahier des charges absent : il peut nécessiter une session TUNEPS autorisée.
+- `sans_texte` : le PDF est probablement scanné et nécessitera un OCR.
+- `non_supporte` : le format DOC binaire est conservé mais pas extrait ; préférer
+  une conversion contrôlée en DOCX/PDF.
 
 Voir [`database/README.md`](database/README.md) pour le schéma,
 [`DOCKER_SETUP.md`](DOCKER_SETUP.md) pour Docker et [`HISTORY.md`](HISTORY.md)
@@ -148,12 +167,7 @@ pour l'historique du projet.
 
 ## Prochaine étape
 
-Implémenter le pipeline documentaire :
-
-1. sélectionner les lignes de `documents_ao` sans `chemin_local` ;
-2. télécharger uniquement les URLs HAICOP publiques autorisées ;
-3. valider le type et la taille des fichiers ;
-4. calculer une empreinte SHA-256 et empêcher les téléchargements en double ;
-5. enregistrer le chemin local et l'empreinte dans PostgreSQL ;
-6. extraire le texte des PDF et DOCX vers `texte_extrait` ;
-7. ajouter les tests, puis utiliser ce texte pour l'analyse et le digest.
+Brancher `texte_extrait` sur l'analyse structurée `analyse-ao` afin de produire
+automatiquement une fiche, un score Go/No-Go provisoire et un digest OneTech.
+Ajouter ensuite l'OCR des deux PDF scannés et, si nécessaire, une conversion
+contrôlée des trois anciens fichiers DOC.

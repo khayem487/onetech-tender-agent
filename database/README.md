@@ -7,7 +7,8 @@ analysis.
 
 - `collectes_haicop`: one audit row per collector execution.
 - `appels_offres`: one row per HAICOP tender, keyed by `tender_id`.
-- `documents_ao`: public documents, unique by tender and URL.
+- `documents_ao`: public documents, unique by tender and URL, with local path,
+  SHA-256, processing status and extracted text.
 - `v_appels_offres_ouverts`: tenders that are not expired or have no known
   deadline.
 
@@ -62,6 +63,27 @@ checks both UPSERT paths and their JSONB payloads, then deletes all test rows:
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -m integration
 ```
+
+## Document processing
+
+Migration `002_document_processing.sql` adds observable processing metadata:
+
+- `statut_traitement`: `a_traiter`, `extrait`, `sans_texte`, `non_supporte` or
+  `echec`;
+- `mime_type` and `taille_octets`;
+- `traite_le` and `erreur_traitement`;
+- existing `chemin_local`, `empreinte_sha256` and `texte_extrait` fields.
+
+Process pending public documents with:
+
+```powershell
+.\.venv\Scripts\python.exe -m onetech_ao.cli process-documents --limit 50
+```
+
+Only HTTPS files under the public HAICOP `/storage/tender/` path are accepted.
+Files are size-limited, hashed, stored under ignored `data/documents/`, and
+PDF/DOCX text is written to PostgreSQL. Re-running the command leaves completed
+documents untouched.
 
 ## New Docker volumes
 
