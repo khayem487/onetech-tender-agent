@@ -23,6 +23,48 @@ Le collecteur ne contourne aucune authentification TUNEPS. Il conserve le
 payload HAICOP original dans PostgreSQL et utilise des UPSERT pour empêcher
 les doublons.
 
+## État du projet
+
+Au 10 août 2026, le flux HAICOP vers PostgreSQL est opérationnel :
+
+- 20 appels d'offres publics stockés ;
+- 30 liens vers des documents publics stockés ;
+- 2 collectes réelles terminées ;
+- première exécution : 20 insertions ;
+- deuxième exécution identique : 20 mises à jour et aucune nouvelle ligne ;
+- aucun doublon sur les appels d'offres ou les documents.
+
+Les documents sont pour le moment référencés par leur URL. Leur téléchargement,
+leur empreinte SHA-256 et l'extraction de leur texte constituent la prochaine
+étape.
+
+## Accès local aux services
+
+| Service | Adresse | Identité/configuration |
+| --- | --- | --- |
+| PostgreSQL | `127.0.0.1:5432` | base `onetech_ao`, utilisateur `onetech` |
+| pgAdmin | <http://localhost:5050> | variables `PGADMIN_DEFAULT_*` dans `.env` |
+| Gateway OpenClaw entreprise | `127.0.0.1:18790` | configuration dans `C:\Users\khaye\.openclaw-company\openclaw.json` |
+
+### Secrets locaux
+
+Les vraies valeurs de `POSTGRES_PASSWORD`, `PGADMIN_DEFAULT_EMAIL` et
+`PGADMIN_DEFAULT_PASSWORD` sont conservées uniquement dans :
+
+```text
+C:\Users\khaye\.openclaw-company\workspace\.env
+```
+
+Pour les consulter localement dans PowerShell :
+
+```powershell
+Get-Content C:\Users\khaye\.openclaw-company\workspace\.env
+```
+
+Le fichier `.env` et `pgadmin/pgpass` sont ignorés par Git. Ne jamais copier
+leurs valeurs dans un commit, un ticket ou un log, même si le dépôt distant est
+privé. Utiliser `.env.example` pour documenter les variables attendues.
+
 ## Installation locale
 
 Prérequis : Docker Desktop et Python 3.11 ou plus récent.
@@ -103,3 +145,15 @@ et zéro payload brut vide.
 Voir [`database/README.md`](database/README.md) pour le schéma,
 [`DOCKER_SETUP.md`](DOCKER_SETUP.md) pour Docker et [`HISTORY.md`](HISTORY.md)
 pour l'historique du projet.
+
+## Prochaine étape
+
+Implémenter le pipeline documentaire :
+
+1. sélectionner les lignes de `documents_ao` sans `chemin_local` ;
+2. télécharger uniquement les URLs HAICOP publiques autorisées ;
+3. valider le type et la taille des fichiers ;
+4. calculer une empreinte SHA-256 et empêcher les téléchargements en double ;
+5. enregistrer le chemin local et l'empreinte dans PostgreSQL ;
+6. extraire le texte des PDF et DOCX vers `texte_extrait` ;
+7. ajouter les tests, puis utiliser ce texte pour l'analyse et le digest.
