@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from uuid import uuid4
 from zoneinfo import ZoneInfo
 
 import pytest
@@ -10,6 +11,67 @@ from onetech_ao.haicop import DocumentRecord, TenderRecord
 
 TEST_TENDER_ID = "Tender-999999999"
 TEST_DOCUMENT_URL = "https://www.marchespublics.gov.tn/storage/tender/test-python-upsert.pdf"
+
+
+@pytest.mark.integration
+def test_terminal_daily_run_keeps_its_first_completion_timestamp() -> None:
+    settings = Settings.load()
+    database = Database(settings)
+    run = database.start_daily_run(
+        run_key=f"pytest:terminal-daily-run:{uuid4().hex}",
+        trigger="test",
+        parameters={"test": "completion_timestamp"},
+    )
+    run_id = int(run["id"])
+
+    try:
+        first = database.update_daily_run(run_id, status="terminee", terminal=True)
+        second = database.update_daily_run(run_id, status="terminee", terminal=True)
+
+        assert first["terminee_le"] is not None
+        assert second["terminee_le"] == first["terminee_le"]
+    finally:
+        with database.connect() as connection, connection.cursor() as cursor:
+            cursor.execute("DELETE FROM executions_quotidiennes WHERE id = %s", (run_id,))
+
+
+@pytest.mark.integration
+def test_daily_delivery_reservation_allows_one_send_per_recipient() -> None:
+    settings = Settings.load()
+    database = Database(settings)
+    run = database.start_daily_run(
+        run_key=f"pytest:daily-delivery:{uuid4().hex}",
+        trigger="test",
+        parameters={"test": "delivery_reservation"},
+    )
+    run_id = int(run["id"])
+    recipient_hash = "a" * 64
+    first_digest = "b" * 64
+    changed_digest = "c" * 64
+
+    try:
+        first = database.reserve_delivery(
+            run_id=run_id,
+            channel="mailpit",
+            recipient_hash=recipient_hash,
+            digest_sha256=first_digest,
+        )
+        assert first["claimed"] is True
+        sent = database.finish_delivery(int(first["id"]), status="envoyee")
+
+        retried = database.reserve_delivery(
+            run_id=run_id,
+            channel="mailpit",
+            recipient_hash=recipient_hash,
+            digest_sha256=changed_digest,
+        )
+        assert retried["claimed"] is False
+        assert retried["id"] == sent["id"]
+        assert retried["statut"] == "envoyee"
+        assert retried["digest_sha256"] == first_digest
+    finally:
+        with database.connect() as connection, connection.cursor() as cursor:
+            cursor.execute("DELETE FROM executions_quotidiennes WHERE id = %s", (run_id,))
 
 
 @pytest.mark.integration

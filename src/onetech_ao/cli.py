@@ -16,6 +16,7 @@ from .analysis import (
     normalize_tender_id,
     record_analysis,
 )
+from .automation import DailyAutomation
 from .collector import Collector
 from .config import ConfigurationError, Settings
 from .database import Database
@@ -129,6 +130,31 @@ def build_parser() -> argparse.ArgumentParser:
     digest_parser.add_argument("--limit", type=int, default=10)
     digest_parser.add_argument("--include-expired", action="store_true")
 
+    daily_start_parser = subparsers.add_parser(
+        "daily-start",
+        help="collecter, traiter et préparer les AO à analyser pour le digest quotidien",
+    )
+    daily_start_parser.add_argument(
+        "--trigger",
+        choices=("n8n", "manuel", "test"),
+        default="manuel",
+    )
+    daily_start_parser.add_argument("--run-key")
+    daily_start_parser.add_argument("--force", action="store_true")
+    daily_start_parser.add_argument("--max-candidates", type=int)
+    daily_start_parser.add_argument("--since-days", type=int)
+    daily_start_parser.add_argument("--collection-limit", type=int)
+    daily_start_parser.add_argument("--document-limit", type=int)
+
+    daily_finish_parser = subparsers.add_parser(
+        "daily-finish",
+        help="réconcilier les analyses, écrire le digest et notifier",
+    )
+    daily_finish_parser.add_argument("--run-id", type=int, required=True)
+    daily_finish_parser.add_argument("--email", action="store_true")
+    daily_finish_parser.add_argument("--telegram", action="store_true")
+    daily_finish_parser.add_argument("--mailpit", action="store_true")
+
     return parser
 
 
@@ -239,6 +265,26 @@ def run(args: argparse.Namespace, settings: Settings) -> dict[str, Any]:
                 else "Aucune fiche enregistrée: lancer analyse-ao sur les AO retenus."
             ),
         }
+
+    if args.command == "daily-start":
+        return DailyAutomation(settings, database).start(
+            trigger=args.trigger,
+            run_key=args.run_key,
+            force=args.force,
+            max_candidates=args.max_candidates,
+            since_days=args.since_days,
+            collection_limit=args.collection_limit,
+            document_limit=args.document_limit,
+        )
+
+    if args.command == "daily-finish":
+        _validate_positive(args.run_id, "--run-id")
+        return DailyAutomation(settings, database).finish(
+            args.run_id,
+            email=args.email,
+            telegram=args.telegram,
+            mailpit=args.mailpit,
+        )
 
     raise ValueError("commande inconnue")
 

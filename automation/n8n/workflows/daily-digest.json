@@ -1,0 +1,105 @@
+{
+  "name": "OneTech AO - Daily Digest",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "2ab7c364-b87a-4d14-96c1-99574de41aa9",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "6435ddaf-7fd7-40c7-b5be-5c62098eb9d9",
+      "name": "Weekdays 08:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.AUTOMATION_WORKER_URL + '/runs/daily' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Automation-Token",
+              "value": "={{ $env.AUTOMATION_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ JSON.stringify({ run_date: $now.setZone('Europe/Paris').toFormat('yyyy-MM-dd'), max_candidates: 5 }) }}",
+        "options": {
+          "timeout": 3600000
+        }
+      },
+      "id": "53834854-3196-490b-bd8d-62690064e554",
+      "name": "Run Daily AO Pipeline",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        20
+      ],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 10000
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Run Daily AO Pipeline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekdays 08:00": {
+      "main": [
+        [
+          {
+            "node": "Run Daily AO Pipeline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "saveManualExecutions": true
+  },
+  "versionId": "b91c1d8e-53d5-4b29-a6a5-530c3cb3afba",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

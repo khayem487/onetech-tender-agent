@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init:/docker-entrypoint-initdb.d:ro
@@ -24,15 +24,86 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - "${PGADMIN_PORT:-5050}:80"
+      - "127.0.0.1:${PGADMIN_PORT:-5050}:80"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     depends_on:
       postgres:
         condition: service_healthy
 
+  mailpit:
+    image: axllent/mailpit:v1.27.8
+    container_name: onetech-mailpit
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${MAILPIT_UI_PORT:-8025}:8025"
+      - "127.0.0.1:${MAILPIT_SMTP_PORT:-1025}:1025"
+    volumes:
+      - mailpit_data:/data
+    environment:
+      MP_DATABASE: /data/mailpit.db
+
+  ao-worker:
+    build:
+      context: .
+      dockerfile: automation/Dockerfile.worker
+    container_name: onetech-ao-worker
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      OPENCLAW_GATEWAY_URL: ${OPENCLAW_GATEWAY_URL:-http://host.docker.internal:18790/v1/chat/completions}
+      AUTOMATION_TOKEN: ${AUTOMATION_API_TOKEN}
+      AUTOMATION_TIMEZONE: ${AUTOMATION_TIMEZONE:-Europe/Paris}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  n8n:
+    image: n8nio/n8n:1.106.3
+    container_name: onetech-n8n
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${N8N_PORT:-5678}:5678"
+    environment:
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY}
+      N8N_HOST: localhost
+      N8N_PORT: 5678
+      N8N_PROTOCOL: http
+      WEBHOOK_URL: http://localhost:${N8N_PORT:-5678}/
+      GENERIC_TIMEZONE: ${AUTOMATION_TIMEZONE:-Europe/Paris}
+      TZ: ${AUTOMATION_TIMEZONE:-Europe/Paris}
+      AUTOMATION_API_TOKEN: ${AUTOMATION_API_TOKEN}
+      AUTOMATION_TOKEN: ${AUTOMATION_API_TOKEN}
+      AUTOMATION_WORKER_URL: http://ao-worker:8080
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+      N8N_RUNNERS_ENABLED: "true"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_TEMPLATES_ENABLED: "false"
+      EXECUTIONS_DATA_PRUNE: "true"
+      EXECUTIONS_DATA_MAX_AGE: 168
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./automation/n8n/workflows:/workflows:ro
+    depends_on:
+      ao-worker:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+
 volumes:
   postgres_data:
     name: onetech_postgres_data
   pgadmin_data:
     name: onetech_pgadmin_data
+  n8n_data:
+    name: onetech_n8n_data
+  mailpit_data:
+    name: onetech_mailpit_data

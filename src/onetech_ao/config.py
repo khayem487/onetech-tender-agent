@@ -86,6 +86,7 @@ class Settings:
             postgres_db=required["POSTGRES_DB"],
             postgres_user=required["POSTGRES_USER"],
             postgres_password=required["POSTGRES_PASSWORD"],
+            postgres_host=os.getenv("POSTGRES_HOST", "127.0.0.1").strip() or "127.0.0.1",
             postgres_port=port,
             project_root=project_root,
             document_root=document_root,
@@ -117,6 +118,14 @@ class Settings:
 
     def redact(self, message: object, max_length: int = 500) -> str:
         text = " ".join(str(message).split())
-        if self.postgres_password:
-            text = text.replace(self.postgres_password, "[SECRET MASQUÉ]")
+        secrets = [
+            self.postgres_password,
+            os.getenv("OPENCLAW_GATEWAY_TOKEN", ""),
+            os.getenv("AUTOMATION_API_TOKEN", ""),
+            os.getenv("N8N_ENCRYPTION_KEY", ""),
+            os.getenv("TELEGRAM_BOT_TOKEN", ""),
+        ]
+        for secret in secrets:
+            if secret:
+                text = text.replace(secret, "[SECRET MASQUÉ]")
         return text[:max_length]

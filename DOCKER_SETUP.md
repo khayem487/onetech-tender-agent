@@ -2,7 +2,8 @@
 
 ## What this runs
 
-`compose.yaml` describes two services: `postgres` and `pgadmin`.
+`compose.yaml` describes five local services: `postgres`, `pgadmin`, `mailpit`,
+`ao-worker` and `n8n`.
 
 - Docker downloads the PostgreSQL 16 image.
 - The container runs the PostgreSQL server.
@@ -11,9 +12,14 @@
   `onetech_postgres_data`.
 - `.env` supplies the initial database name, user, password, and host port.
 - pgAdmin provides a browser interface at `http://localhost:5050`.
+- Mailpit captures test emails locally at `http://localhost:8025`; it does not
+  deliver them to the Internet.
+- `ao-worker` is an internal, authenticated bridge from n8n to the company
+  OpenClaw gateway.
+- n8n schedules the daily digest at `http://localhost:5678`.
 
-The volume is separate from the container. Recreating the container therefore
-does not erase the database.
+The volumes are separate from their containers. Recreating a container therefore
+does not erase the database, n8n workflow state, or Mailpit test inbox.
 
 The `database/init` directory is mounted read-only into PostgreSQL's standard
 initialization directory. It is applied automatically for a new empty volume.
@@ -23,6 +29,53 @@ For the existing database, apply migrations explicitly:
 .\scripts\apply-database.ps1
 .\scripts\test-database.ps1
 ```
+
+## Daily automation topology
+
+```text
+n8n -> ao-worker -> OpenClaw company gateway -> HAICOP/PostgreSQL/analysis
+                                                 -> digest -> Mailpit by default
+```
+
+`ao-worker` can only call the narrow daily-digest endpoint and requires an
+automation token. It reaches the separately started company gateway through
+`host.docker.internal:18790`; Docker cannot start that gateway itself. Start it
+before a manual or scheduled run:
+
+```powershell
+C:\Users\khaye\.openclaw-company\start-company-gateway.cmd
+```
+
+The named volumes are:
+
+```text
+onetech_postgres_data
+onetech_pgadmin_data
+onetech_n8n_data
+onetech_mailpit_data
+```
+
+## n8n activation and safe test
+
+The versioned workflow definition lives in:
+
+```text
+automation/n8n/workflows/daily-digest.json
+```
+
+Mounting this file does not import it into n8n. Run the helper once from the
+workspace root; it imports only when missing, activates the existing workflow,
+and restarts n8n so the scheduler is loaded:
+
+```powershell
+.\scripts\activate-daily-automation.ps1
+```
+
+The schedule is weekdays at 08:00 Europe/Paris. For a safe verification, open
+`http://localhost:5678`, create the local n8n owner account if prompted, run
+the Manual Trigger once, then inspect the email at `http://localhost:8025`.
+The default delivery is Mailpit only. Gmail/Telegram remain opt-in through the
+ignored `.env` file and must be tested independently.
 
 ## pgAdmin
 
@@ -104,5 +157,6 @@ Remove the container and network while preserving the named volume:
 docker compose down
 ```
 
-Do not run `docker compose down -v` unless the database is intentionally being
-reset: `-v` deletes the persistent database volume.
+Do not run `docker compose down -v` unless all local state is intentionally
+reset: `-v` deletes the persistent PostgreSQL, pgAdmin, n8n, and Mailpit
+volumes.

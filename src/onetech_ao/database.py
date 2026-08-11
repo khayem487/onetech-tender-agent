@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 from typing import Any
 
 import psycopg
@@ -593,6 +593,327 @@ class Database:
                 (include_expired, limit),
             )
             return list(cursor.fetchall())
+
+    def start_daily_run(
+        self,
+        *,
+        run_key: str,
+        trigger: str,
+        parameters: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Crée une exécution quotidienne ou retourne l'exécution existante."""
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO executions_quotidiennes (
+                    cle_execution, declencheur, statut, parametres
+                ) VALUES (%s, %s, 'en_cours', %s)
+                ON CONFLICT (cle_execution) DO NOTHING
+                RETURNING *, true AS creee
+                """,
+                (run_key, trigger, Jsonb(parameters)),
+            )
+            row = cursor.fetchone()
+            if row is not None:
+                return dict(row)
+            cursor.execute(
+                """
+                SELECT *, false AS creee
+                FROM executions_quotidiennes
+                WHERE cle_execution = %s
+                """,
+                (run_key,),
+            )
+            existing = cursor.fetchone()
+            if existing is None:
+                raise RuntimeError("Exécution quotidienne introuvable après conflit")
+            return dict(existing)
+
+    def update_daily_run(
+        self,
+        run_id: int,
+        *,
+        status: str,
+        collection_id: int | None = None,
+        candidate_count: int | None = None,
+        analysis_count: int | None = None,
+        digest_path: str | None = None,
+        digest_sha256: str | None = None,
+        error: str | None = None,
+        terminal: bool = False,
+    ) -> dict[str, Any]:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE executions_quotidiennes
+                SET statut = %s,
+                    collecte_id = COALESCE(%s, collecte_id),
+                    nb_candidats = COALESCE(%s, nb_candidats),
+                    nb_analyses = COALESCE(%s, nb_analyses),
+                    digest_chemin = COALESCE(%s, digest_chemin),
+                    digest_sha256 = COALESCE(%s, digest_sha256),
+                    erreur = %s,
+                    -- A terminal run must retain its original completion time.
+                    -- The timestamp is part of the digest content, so rewriting it
+                    -- on a retry would produce a new digest hash and bypass the
+                    -- delivery ledger's anti-duplicate constraint.
+                    terminee_le = CASE
+                        WHEN %s THEN COALESCE(terminee_le, clock_timestamp())
+                        ELSE terminee_le
+                    END
+                WHERE id = %s
+                RETURNING *
+                """,
+                (
+                    status,
+                    collection_id,
+                    candidate_count,
+                    analysis_count,
+                    digest_path,
+                    digest_sha256,
+                    error,
+                    terminal,
+                    run_id,
+                ),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise RuntimeError(f"Exécution quotidienne {run_id} introuvable")
+            return dict(row)
+
+    def get_daily_run(self, run_id: int) -> dict[str, Any] | None:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT * FROM executions_quotidiennes WHERE id = %s",
+                (run_id,),
+            )
+            row = cursor.fetchone()
+            return dict(row) if row else None
+
+    def open_tenders_for_automation(self, limit: int = 200) -> list[dict[str, Any]]:
+        """Retourne les faits utiles au classement, sans exposer tout le corpus."""
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    ao.tender_id,
+                    ao.organisme,
+                    ao.titre,
+                    ao.date_publication,
+                    ao.date_limite,
+                    ao.url_detail,
+                    ao.champs_details,
+                    left(COALESCE(string_agg(d.texte_extrait, ' '), ''), 30000)
+                        AS extrait_documents,
+                    latest.id AS derniere_analyse_id,
+                    latest.contexte_sha256 AS dernier_contexte_sha256,
+                    latest.decision AS derniere_decision,
+                    latest.score_total AS dernier_score
+                FROM appels_offres ao
+                LEFT JOIN documents_ao d ON d.tender_id = ao.tender_id
+                LEFT JOIN LATERAL (
+                    SELECT id, contexte_sha256, decision, score_total
+                    FROM analyses_ao a
+                    WHERE a.tender_id = ao.tender_id
+                    ORDER BY a.generee_le DESC, a.id DESC
+                    LIMIT 1
+                ) latest ON true
+                WHERE ao.date_limite IS NULL OR ao.date_limite >= clock_timestamp()
+                GROUP BY
+                    ao.tender_id,
+                    ao.organisme,
+                    ao.titre,
+                    ao.date_publication,
+                    ao.date_limite,
+                    ao.url_detail,
+                    ao.champs_details,
+                    latest.id,
+                    latest.contexte_sha256,
+                    latest.decision,
+                    latest.score_total
+                ORDER BY ao.date_publication DESC NULLS LAST, ao.tender_id DESC
+                LIMIT %s
+                """,
+                (limit,),
+            )
+            return list(cursor.fetchall())
+
+    def upsert_daily_candidate(
+        self,
+        *,
+        run_id: int,
+        tender_id: str,
+        context_sha256: str,
+        relevance_score: int,
+        reasons: list[str],
+    ) -> dict[str, Any]:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO candidats_execution (
+                    execution_id,
+                    tender_id,
+                    contexte_sha256,
+                    score_pertinence,
+                    raisons,
+                    statut
+                ) VALUES (%s, %s, %s, %s, %s, 'a_analyser')
+                ON CONFLICT (execution_id, tender_id) DO UPDATE SET
+                    contexte_sha256 = EXCLUDED.contexte_sha256,
+                    score_pertinence = EXCLUDED.score_pertinence,
+                    raisons = EXCLUDED.raisons
+                RETURNING *
+                """,
+                (run_id, tender_id, context_sha256, relevance_score, Jsonb(reasons)),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise RuntimeError("Candidat d'automatisation non enregistré")
+            return dict(row)
+
+    def daily_candidates(self, run_id: int) -> list[dict[str, Any]]:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    c.*,
+                    ao.organisme,
+                    ao.titre,
+                    ao.date_limite,
+                    ao.url_detail,
+                    a.decision,
+                    a.score_total,
+                    a.fiche_chemin
+                FROM candidats_execution c
+                JOIN appels_offres ao ON ao.tender_id = c.tender_id
+                LEFT JOIN analyses_ao a ON a.id = c.analyse_id
+                WHERE c.execution_id = %s
+                ORDER BY c.score_pertinence DESC, ao.date_limite ASC NULLS LAST
+                """,
+                (run_id,),
+            )
+            return list(cursor.fetchall())
+
+    def reconcile_daily_candidates(self, run_id: int) -> list[dict[str, Any]]:
+        """Associe les analyses produites au contexte exact attendu."""
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE candidats_execution c
+                SET statut = 'termine',
+                    analyse_id = a.id,
+                    erreur = NULL
+                FROM (
+                    SELECT DISTINCT ON (x.tender_id, x.contexte_sha256)
+                        x.id,
+                        x.tender_id,
+                        x.contexte_sha256
+                    FROM analyses_ao x
+                    ORDER BY
+                        x.tender_id,
+                        x.contexte_sha256,
+                        x.generee_le DESC,
+                        x.id DESC
+                ) a
+                WHERE c.execution_id = %s
+                  AND a.tender_id = c.tender_id
+                  AND a.contexte_sha256 = c.contexte_sha256
+                """,
+                (run_id,),
+            )
+            cursor.execute(
+                """
+                UPDATE candidats_execution c
+                SET statut = 'echec',
+                    erreur = 'Aucune analyse pour le contexte attendu'
+                WHERE c.execution_id = %s
+                  AND c.statut IN ('a_analyser', 'analyse')
+                  AND NOT EXISTS (
+                      SELECT 1 FROM analyses_ao a
+                      WHERE a.tender_id = c.tender_id
+                        AND a.contexte_sha256 = c.contexte_sha256
+                  )
+                """,
+                (run_id,),
+            )
+        return self.daily_candidates(run_id)
+
+    def reserve_delivery(
+        self,
+        *,
+        run_id: int,
+        channel: str,
+        recipient_hash: str,
+        digest_sha256: str,
+    ) -> dict[str, Any]:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                WITH reserved AS (
+                    INSERT INTO diffusions_digest (
+                        execution_id, canal, destinataire_hash, digest_sha256, statut
+                    ) VALUES (%s, %s, %s, %s, 'en_cours')
+                    ON CONFLICT (execution_id, canal, destinataire_hash) DO UPDATE SET
+                        digest_sha256 = EXCLUDED.digest_sha256,
+                        statut = 'en_cours',
+                        tentatives = diffusions_digest.tentatives + 1,
+                        identifiant_externe = NULL,
+                        erreur = NULL,
+                        envoyee_le = NULL
+                    WHERE diffusions_digest.statut = 'echec'
+                    RETURNING *, true AS claimed
+                ), existing AS (
+                    SELECT d.*, false AS claimed
+                    FROM diffusions_digest d
+                    WHERE d.execution_id = %s
+                      AND d.canal = %s
+                      AND d.destinataire_hash = %s
+                      AND NOT EXISTS (SELECT 1 FROM reserved)
+                )
+                SELECT * FROM reserved
+                UNION ALL
+                SELECT * FROM existing
+                """,
+                (
+                    run_id,
+                    channel,
+                    recipient_hash,
+                    digest_sha256,
+                    run_id,
+                    channel,
+                    recipient_hash,
+                ),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise RuntimeError("Diffusion non réservée")
+            return dict(row)
+
+    def finish_delivery(
+        self,
+        delivery_id: int,
+        *,
+        status: str,
+        external_id: str | None = None,
+        error: str | None = None,
+    ) -> dict[str, Any]:
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE diffusions_digest
+                SET statut = %s,
+                    identifiant_externe = %s,
+                    erreur = %s,
+                    envoyee_le = CASE WHEN %s = 'envoyee' THEN clock_timestamp() ELSE NULL END
+                WHERE id = %s
+                RETURNING *
+                """,
+                (status, external_id, error, status, delivery_id),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise RuntimeError(f"Diffusion {delivery_id} introuvable")
+            return dict(row)
 
     def integrity_report(self) -> dict[str, int]:
         with self.connect() as connection, connection.cursor() as cursor:

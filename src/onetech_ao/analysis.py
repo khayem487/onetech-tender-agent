@@ -87,13 +87,19 @@ def _profile(settings: Settings) -> dict[str, Any]:
             "avertissement": "Profil entreprise non renseigné — score non calibré.",
         }
     content = profile_path.read_text(encoding="utf-8")
+    explicitly_validated = "ONETECH_PROFILE_STATUS: VALIDATED_V1" in content
     incomplete = bool(re.search(r"\[à compléter[^\]]*\]", content, re.IGNORECASE))
     return {
         "fichier": _relative_to_project(profile_path, settings.project_root),
         "contenu": content,
         "empreinte_sha256": hashlib.sha256(content.encode("utf-8")).hexdigest(),
-        "complet": not incomplete,
+        "complet": explicitly_validated or not incomplete,
+        "validation": "VALIDATED_V1" if explicitly_validated else None,
         "avertissement": (
+            "Profil v1 validé pour le PoC; les faits marqués Non renseigné "
+            "restent à vérifier avant une soumission réelle."
+            if explicitly_validated
+            else
             "Le profil contient encore des champs à valider avec l'encadrant; "
             "le score Go/No-Go reste indicatif."
             if incomplete

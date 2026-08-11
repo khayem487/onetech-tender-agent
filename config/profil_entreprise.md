@@ -1,14 +1,17 @@
 # Profil entreprise — One Tech Business Solutions
 
-> Profil de travail v0 à valider avec Makram. Les champs inconnus ne doivent
-> jamais être inventés; ils rendent le score Go/No-Go provisoire.
+<!-- ONETECH_PROFILE_STATUS: VALIDATED_V1 -->
+
+> Profil v1 validé par Khayem pour le PoC le 10 août 2026. Les informations
+> non renseignées restent explicitement inconnues et doivent être vérifiées
+> avant une soumission réelle; elles ne doivent jamais être inventées.
 
 ## Identité
 
 - Nom : One Tech Business Solutions (One Tech Group)
-- Effectif : [à compléter avec Makram]
-- Implantations : Tunisie [à préciser]
-- Ancienneté : [à compléter avec Makram]
+- Effectif : Non renseigné
+- Implantations : Tunisie (détail non renseigné)
+- Ancienneté : Non renseignée
 
 ## Domaines d'expertise connus
 
@@ -20,7 +23,7 @@
 
 ## Technologies maîtrisées
 
-- [à compléter avec Makram : langages, frameworks, cloud et bases de données]
+- Non renseignées dans le profil v1; vérifier au cas par cas avant soumission
 
 ## AO à favoriser
 
@@ -38,14 +41,14 @@
 
 ## Références, certifications et capacité
 
-- Références projets : [à compléter avec Makram]
-- Certifications et agréments : [à compléter avec Makram]
-- Équipes mobilisables : [à compléter avec Makram]
-- Chiffre d'affaires utilisable comme seuil : [à compléter avec Makram]
+- Références projets : Non renseignées
+- Certifications et agréments : Non renseignés
+- Équipes mobilisables : Non renseignées
+- Chiffre d'affaires utilisable comme seuil : Non renseigné
 
 ## Cibles et exclusions
 
-- Zone géographique connue : Tunisie [international à préciser]
-- Budget cible : [à compléter avec Makram]
+- Zone géographique connue : Tunisie; international non renseigné
+- Budget cible : Non renseigné
 - No-Go automatique connu : hors périmètre logiciel / IT
-- Autres seuils de caution ou délai : [à compléter avec Makram]
+- Autres seuils de caution ou délai : Non renseignés

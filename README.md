@@ -216,6 +216,70 @@ entreprise l'a validée en langage naturel sur `Tender-103307` : deux documents
 sur deux lus, fiche en neuf sections, analyse PostgreSQL ID 53 et replay
 anti-doublon réutilisant le même ID.
 
+## Automatisation quotidienne
+
+Le pipeline quotidien est maintenant en place :
+
+```text
+n8n (jours ouvrés, 08:00 Europe/Paris)
+        -> ao-worker authentifié
+        -> gateway OpenClaw entreprise
+        -> collecte HAICOP + PostgreSQL + documents + analyse-ao
+        -> digest Markdown persistant
+        -> registre anti-doublon de diffusion
+        -> Mailpit local par défaut, puis Gmail/Telegram sur opt-in explicite
+```
+
+Services supplémentaires :
+
+| Service | Adresse | Usage |
+| --- | --- | --- |
+| n8n | <http://localhost:5678> | orchestration et déclenchement manuel/planifié |
+| Mailpit | <http://localhost:8025> | boîte email locale de test, sans envoi Internet |
+| ao-worker | réseau Docker interne, port `8080` | passerelle limitée entre n8n et OpenClaw |
+
+Avant une exécution, le gateway entreprise doit être lancé sur `127.0.0.1:18790` :
+
+```powershell
+C:\Users\khaye\.openclaw-company\start-company-gateway.cmd
+```
+
+Pour importer une première fois le workflow n8n, l'activer et redémarrer
+seulement n8n si nécessaire :
+
+```powershell
+.\scripts\activate-daily-automation.ps1
+```
+
+Le script est idempotent : il ne crée pas un second workflow s'il existe déjà.
+Le workflow planifié reste dans la base persistante de n8n ; le fichier JSON
+monté dans `automation/n8n/workflows/` est sa définition versionnée et ne
+s'importe pas automatiquement.
+
+Pour un test visuel sûr, ouvrir n8n, sélectionner `OneTech AO - Daily Digest`,
+puis utiliser **Execute workflow** depuis le déclencheur manuel. Vérifier le
+digest dans `data/digests/`, les journaux dans `executions_quotidiennes` et le
+message dans Mailpit. Le mode local est volontairement :
+
+```text
+AUTOMATION_DELIVERY_ARGS=--mailpit
+```
+
+Gmail et Telegram sont implémentés mais restent désactivés tant que leur premier
+envoi n'a pas été validé. Pour les activer plus tard, changer cette valeur dans
+le `.env` local, puis refaire un test contrôlé ; ne jamais ajouter un secret au
+dépôt.
+
+Le tri initial respecte le profil OneTech : une AO doit atteindre le seuil
+`minimum_relevance_score` (actuellement `6`) et les achats matériels sans
+composante numérique explicite sont pénalisés. Le digest peut donc signaler
+qu'aucune opportunité pertinente n'est disponible, plutôt que forcer un faux
+positif hors périmètre IT.
+
+Les secrets d'automatisation `AUTOMATION_API_TOKEN`, `N8N_ENCRYPTION_KEY` et
+`OPENCLAW_GATEWAY_TOKEN` existent seulement dans `.env` ou la configuration
+locale du gateway ; ils ne doivent jamais être affichés ni commités.
+
 ## Tests
 
 ```powershell
@@ -230,6 +294,17 @@ et zéro payload brut vide.
 
 ## Dépannage
 
+- Gateway entreprise indisponible : lancer
+  `C:\Users\khaye\.openclaw-company\start-company-gateway.cmd`, puis vérifier
+  que `127.0.0.1:18790` écoute avant de lancer le digest.
+- Worker indisponible : vérifier `docker compose ps`, puis ouvrir
+  `http://localhost:8025` uniquement pour Mailpit ; le worker est interne et
+  son contrôle `/health` se fait depuis Docker.
+- Workflow n8n absent ou inactif : lancer
+  `.\scripts\activate-daily-automation.ps1`, puis vérifier le workflow dans
+  n8n. Le JSON monté seul ne suffit pas.
+- Aucun email visible pendant le test : contrôler Mailpit à
+  `http://localhost:8025`; le mode par défaut n'envoie rien sur Gmail.
 - PostgreSQL indisponible : lancer `docker compose up -d`, attendre l'état
   `healthy`, puis réessayer `status`.
 - Tables absentes : lancer `.\scripts\apply-database.ps1`. Les migrations sont
@@ -247,10 +322,12 @@ Voir [`database/README.md`](database/README.md) pour le schéma,
 [`DOCKER_SETUP.md`](DOCKER_SETUP.md) pour Docker et [`HISTORY.md`](HISTORY.md)
 pour l'historique du projet.
 
-## Prochaine étape
+## Etat actuel et suites
 
-Présenter la démonstration validée, puis compléter le profil réel de One Tech
-avec Makram pour calibrer le score Go/No-Go. La prochaine fonctionnalité est
-l'automatisation du digest quotidien avec n8n et email/Telegram. L'OCR des
-quatre PDF scannés et la conversion contrôlée des douze anciens fichiers DOC
-restent des améliorations documentaires secondaires.
+Le flux complet est prêt pour une démonstration locale : collecte, stockage,
+documents, analyse, digest et orchestration n8n. Le profil OneTech marqué
+`VALIDATED_V1` est utilisé comme source de scoring.
+
+Les améliorations suivantes sont séparées du MVP : activer Gmail/Telegram après
+un test de destinataire explicite, OCR des PDF scannés, conversion contrôlée des
+anciens fichiers DOC, puis éventuellement MCP et Odoo.
