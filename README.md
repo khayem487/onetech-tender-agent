@@ -89,6 +89,23 @@ Le premier mot de passe ouvre l'interface pgAdmin. Le second authentifie
 pgAdmin, Python ou `psql` auprès du serveur PostgreSQL. Ce sont deux comptes
 différents.
 
+Connexion à l'interface n8n :
+
+```text
+URL      : http://localhost:5678
+Email    : admin@onetech.com
+Password : OneTech_n8n#2026!9n8
+Rôle     : global:owner
+```
+
+Ce compte est enregistré dans le volume persistant `onetech_n8n_data`. La
+variable `N8N_ENCRYPTION_KEY` n'est pas son mot de passe : elle sert à chiffrer
+les credentials techniques conservés par n8n.
+
+Mailpit ne demande aucun compte : son interface est accessible localement sur
+`http://localhost:8025`, et son serveur SMTP local écoute sur
+`127.0.0.1:1025` sans utilisateur ni mot de passe.
+
 ### Configuration locale et autres secrets
 
 La source de configuration locale reste :
