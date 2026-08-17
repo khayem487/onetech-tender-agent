@@ -306,19 +306,21 @@ Le workflow planifié reste dans la base persistante de n8n ; le fichier JSON
 monté dans `automation/n8n/workflows/` est sa définition versionnée et ne
 s'importe pas automatiquement.
 
-Pour un test visuel sûr, ouvrir n8n, sélectionner `OneTech AO - Daily Digest`,
-puis utiliser **Execute workflow** depuis le déclencheur manuel. Vérifier le
-digest dans `data/digests/`, les journaux dans `executions_quotidiennes` et le
-message dans Mailpit. Le mode local est volontairement :
+Pour un test visuel, ouvrir n8n, sélectionner `OneTech AO - Daily Digest`, puis
+utiliser **Execute workflow** depuis le déclencheur manuel. Vérifier le digest
+dans `data/digests/`, les journaux dans `executions_quotidiennes`, le message de
+secours dans Mailpit et le message réel dans Gmail. Le mode local validé est :
 
 ```text
-AUTOMATION_DELIVERY_ARGS=--mailpit
+AUTOMATION_DELIVERY_ARGS=--mailpit --email
 ```
 
-Gmail et Telegram sont implémentés mais restent désactivés tant que leur premier
-envoi n'a pas été validé. Pour les activer plus tard, changer cette valeur dans
-le `.env` local, puis refaire un test contrôlé ; ne jamais ajouter un secret au
-dépôt.
+Gmail est actif via le compte OAuth défini par `GOG_ACCOUNT` et le destinataire
+local `DIGEST_EMAIL_TO`. L'envoi réel et le retry idempotent ont été validés le
+17 août 2026 : une relance retourne `deja_envoyee` sans créer de second message.
+Mailpit reste activé comme preuve locale et canal de secours. Telegram est
+implémenté mais reste désactivé. Ne jamais ajouter le jeton OAuth ou un autre
+secret au dépôt.
 
 Le tri initial respecte le profil OneTech : une AO doit atteindre le seuil
 `minimum_relevance_score` (actuellement `6`) et les achats matériels sans
