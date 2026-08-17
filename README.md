@@ -28,8 +28,8 @@ les doublons.
 
 ## État du projet
 
-Au 10 août 2026, le flux HAICOP vers PostgreSQL et la persistance des analyses
-sont opérationnels. Le snapshot de validation contient :
+Au 11 août 2026, le flux HAICOP vers PostgreSQL, la persistance des analyses et
+l'automatisation n8n sont opérationnels. Le snapshot de validation contient :
 
 - 31 appels d'offres publics stockés ;
 - 50 liens vers des documents publics stockés ;
@@ -53,13 +53,45 @@ sont opérationnels. Le snapshot de validation contient :
 | Service | Adresse | Identité/configuration |
 | --- | --- | --- |
 | PostgreSQL | `127.0.0.1:5432` | base `onetech_ao`, utilisateur `onetech` |
-| pgAdmin | <http://localhost:5050> | variables `PGADMIN_DEFAULT_*` dans `.env` |
+| pgAdmin | <http://localhost:5050> | administration graphique PostgreSQL |
+| n8n | <http://localhost:5678> | orchestration du digest quotidien |
+| Mailpit | <http://localhost:8025> | boîte email locale de test |
+| ao-worker | réseau Docker interne, port `8080` | exécution contrôlée du pipeline Python |
 | Gateway OpenClaw entreprise | `127.0.0.1:18790` | configuration dans `C:\Users\khaye\.openclaw-company\openclaw.json` |
 
-### Secrets locaux
+### Identifiants locaux pgAdmin et PostgreSQL
 
-Les vraies valeurs de `POSTGRES_PASSWORD`, `PGADMIN_DEFAULT_EMAIL` et
-`PGADMIN_DEFAULT_PASSWORD` sont conservées uniquement dans :
+Ces identifiants sont ceux de l'environnement de développement local actuel.
+Les services sont liés à `127.0.0.1` et ne sont pas exposés directement sur le
+réseau. Ils doivent être remplacés avant tout déploiement partagé ou public.
+
+Connexion à l'interface pgAdmin :
+
+```text
+URL      : http://localhost:5050
+Email    : admin@onetech.com
+Password : OneTech_Admin#2026!9pG
+```
+
+Connexion de pgAdmin au serveur PostgreSQL :
+
+```text
+Nom du serveur       : OneTech PostgreSQL
+Host depuis Windows  : 127.0.0.1
+Host depuis Docker   : postgres
+Port                 : 5432
+Maintenance database : onetech_ao
+Username             : onetech
+Password             : OneTech_AO#2026_Postgres!7qM
+```
+
+Le premier mot de passe ouvre l'interface pgAdmin. Le second authentifie
+pgAdmin, Python ou `psql` auprès du serveur PostgreSQL. Ce sont deux comptes
+différents.
+
+### Configuration locale et autres secrets
+
+La source de configuration locale reste :
 
 ```text
 C:\Users\khaye\.openclaw-company\workspace\.env
@@ -71,9 +103,10 @@ Pour les consulter localement dans PowerShell :
 Get-Content C:\Users\khaye\.openclaw-company\workspace\.env
 ```
 
-Le fichier `.env` et `pgadmin/pgpass` sont ignorés par Git. Ne jamais copier
-leurs valeurs dans un commit, un ticket ou un log, même si le dépôt distant est
-privé. Utiliser `.env.example` pour documenter les variables attendues.
+Le fichier `.env` et `pgadmin/pgpass` sont ignorés par Git. Les autres secrets,
+notamment `AUTOMATION_API_TOKEN`, `N8N_ENCRYPTION_KEY`, les identifiants Gmail,
+Telegram et le token du gateway OpenClaw, ne doivent pas être ajoutés au README
+ou aux commits. Utiliser `.env.example` pour documenter les variables attendues.
 
 ## Installation locale
 
@@ -319,8 +352,10 @@ et zéro payload brut vide.
   une conversion contrôlée en DOCX/PDF.
 
 Voir [`database/README.md`](database/README.md) pour le schéma,
-[`DOCKER_SETUP.md`](DOCKER_SETUP.md) pour Docker et [`HISTORY.md`](HISTORY.md)
-pour l'historique du projet.
+[`DOCKER_SETUP.md`](DOCKER_SETUP.md) pour Docker,
+[`docs/COURS_POSTGRES_TABLES.md`](docs/COURS_POSTGRES_TABLES.md) pour le cours
+détaillé sur les tables et [`HISTORY.md`](HISTORY.md) pour l'historique du
+projet.
 
 ## Etat actuel et suites
 
