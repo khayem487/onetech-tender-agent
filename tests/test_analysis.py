@@ -290,6 +290,27 @@ def test_record_analysis_blocks_go_with_uncalibrated_profile(tmp_path: Path) -> 
         )
 
 
+def test_record_analysis_blocks_go_when_analysis_is_partial(tmp_path: Path) -> None:
+    settings = _settings(tmp_path, incomplete_profile=False)
+    database = FakeDatabase(_bundle())
+    context_hash = context_fingerprint(build_analysis_context(settings, database, "Tender-42"))
+
+    with pytest.raises(AnalysisContextError, match="analyse partielle.*GO définitif"):
+        record_analysis(
+            settings,
+            database,  # type: ignore[arg-type]
+            reference="Tender-42",
+            fiche=_fiche(tmp_path, partial_header=True),
+            status="partielle",
+            adequation=20,
+            deadline=20,
+            administrative=15,
+            risk=15,
+            decision="GO",
+            context_sha256=context_hash,
+        )
+
+
 def test_record_analysis_rejects_incomplete_fiche_and_wrong_decision(
     tmp_path: Path,
 ) -> None:

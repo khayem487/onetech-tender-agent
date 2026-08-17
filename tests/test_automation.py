@@ -4,7 +4,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from onetech_ao.analysis import _profile
-from onetech_ao.automation import DailyAutomation, relevance, render_digest
+from onetech_ao.automation import (
+    AutomationError,
+    DailyAutomation,
+    _email_recipients,
+    relevance,
+    render_digest,
+)
 from onetech_ao.config import Settings
 
 
@@ -77,6 +83,26 @@ def test_relevance_rejects_pure_equipment_without_digital_evidence() -> None:
 
     assert score < 0
     assert "- fourniture/matériel sans composante numérique explicite" in reasons
+
+
+def test_email_recipients_accepts_a_deduplicated_list(monkeypatch) -> None:
+    monkeypatch.setenv(
+        "DIGEST_EMAIL_TO",
+        "first@example.com, second@example.com; FIRST@example.com\n",
+    )
+
+    assert _email_recipients() == ["first@example.com", "second@example.com"]
+
+
+def test_email_recipients_rejects_invalid_values(monkeypatch) -> None:
+    monkeypatch.setenv("DIGEST_EMAIL_TO", "first@example.com, not-an-email")
+
+    try:
+        _email_recipients()
+    except AutomationError as exc:
+        assert "invalide" in str(exc)
+    else:
+        raise AssertionError("Une adresse invalide aurait dû être rejetée")
 
 
 def test_render_digest_is_stable_when_the_run_is_terminal() -> None:

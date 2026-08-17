@@ -26,6 +26,8 @@ from .documents import DocumentProcessor
 
 
 PARIS = ZoneInfo("Europe/Paris")
+DEFAULT_DIGEST_EMAIL = "khayembg07@gmail.com"
+EMAIL_RE = re.compile(r"^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$")
 
 # A bare mention of a "network" is not enough: HAICOP also contains gas,
 # water, road, and training networks. These terms implement the validated
@@ -94,6 +96,27 @@ def _contains_term(haystack: str, keyword: object) -> bool:
 
 def _relative(path: Path, root: Path) -> str:
     return path.resolve().relative_to(root.resolve()).as_posix()
+
+
+def _email_recipients() -> list[str]:
+    """Return a validated, ordered and deduplicated digest recipient list."""
+
+    raw = os.getenv("DIGEST_EMAIL_TO", DEFAULT_DIGEST_EMAIL)
+    recipients: list[str] = []
+    seen: set[str] = set()
+    for item in re.split(r"[,;\n]", raw):
+        recipient = item.strip()
+        if not recipient:
+            continue
+        normalized = recipient.casefold()
+        if not EMAIL_RE.fullmatch(recipient):
+            raise AutomationError(f"Adresse DIGEST_EMAIL_TO invalide: {recipient}")
+        if normalized not in seen:
+            recipients.append(recipient)
+            seen.add(normalized)
+    if not recipients:
+        raise AutomationError("DIGEST_EMAIL_TO ne contient aucun destinataire")
+    return recipients
 
 
 def _automation_config(settings: Settings) -> dict[str, Any]:
@@ -345,9 +368,17 @@ class DailyAutomation:
 
         deliveries: list[dict[str, Any]] = []
         if mailpit:
-            deliveries.append(self._deliver_mailpit(run_id, digest_hash, digest_path, markdown))
+            for recipient in _email_recipients():
+                deliveries.append(
+                    self._deliver_mailpit(
+                        run_id, digest_hash, digest_path, markdown, recipient
+                    )
+                )
         if email:
-            deliveries.append(self._deliver_gmail(run_id, digest_hash, digest_path))
+            for recipient in _email_recipients():
+                deliveries.append(
+                    self._deliver_gmail(run_id, digest_hash, digest_path, recipient)
+                )
         if telegram:
             deliveries.append(self._deliver_telegram(run_id, digest_hash, markdown))
 
@@ -390,8 +421,8 @@ class DailyAutomation:
         digest_hash: str,
         digest_path: Path,
         markdown: str,
+        recipient: str,
     ) -> dict[str, Any]:
-        recipient = os.getenv("DIGEST_EMAIL_TO", "khayembg07@gmail.com")
         delivery = self._reserve(run_id, "mailpit", recipient, digest_hash)
         if not delivery.get("claimed", False):
             state = "deja_envoyee" if delivery["statut"] == "envoyee" else "en_cours"
@@ -419,9 +450,14 @@ class DailyAutomation:
             )
             return {"canal": "mailpit", "statut": "echec", "id": saved["id"], "erreur": error}
 
-    def _deliver_gmail(self, run_id: int, digest_hash: str, digest_path: Path) -> dict[str, Any]:
-        recipient = os.getenv("DIGEST_EMAIL_TO", "khayembg07@gmail.com")
-        account = os.getenv("GOG_ACCOUNT", recipient)
+    def _deliver_gmail(
+        self,
+        run_id: int,
+        digest_hash: str,
+        digest_path: Path,
+        recipient: str,
+    ) -> dict[str, Any]:
+        account = os.getenv("GOG_ACCOUNT", _email_recipients()[0])
         delivery = self._reserve(run_id, "email", recipient, digest_hash)
         if not delivery.get("claimed", False):
             state = "deja_envoyee" if delivery["statut"] == "envoyee" else "en_cours"

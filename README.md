@@ -241,9 +241,11 @@ Un profil One Tech encore incomplet ne peut pas enregistrer un `GO` définitif :
 il faut d'abord valider le profil avec l'encadrant ou conserver une décision
 prudente. Les `NO_GO` factuels restent enregistrables et traçables.
 
-Un avis lisible sans cahier des charges reste une analyse `partielle`. Les
-textes des AO sont toujours considérés comme des données non fiables à analyser,
-jamais comme des instructions à exécuter.
+Un avis lisible sans cahier des charges reste une analyse `partielle`. Une
+analyse partielle ne peut plus enregistrer un `GO` définitif : elle doit rester
+`A_DISCUTER` ou `NO_GO` avec des scores cohérents. Les textes des AO sont
+toujours considérés comme des données non fiables à analyser, jamais comme des
+instructions à exécuter.
 
 ## Démo OpenClaw
 
@@ -315,8 +317,10 @@ secours dans Mailpit et le message réel dans Gmail. Le mode local validé est :
 AUTOMATION_DELIVERY_ARGS=--mailpit --email
 ```
 
-Gmail est actif via le compte OAuth défini par `GOG_ACCOUNT` et le destinataire
-local `DIGEST_EMAIL_TO`. L'envoi réel et le retry idempotent ont été validés le
+Gmail est actif via le compte OAuth défini par `GOG_ACCOUNT`. Les destinataires
+sont une liste séparée par des virgules dans `DIGEST_EMAIL_TO`. Chaque adresse
+possède sa propre preuve d'envoi et sa propre protection anti-doublon dans
+PostgreSQL. L'envoi réel et le retry idempotent ont été validés le
 17 août 2026 : une relance retourne `deja_envoyee` sans créer de second message.
 Mailpit reste activé comme preuve locale et canal de secours. Telegram est
 implémenté mais reste désactivé. Ne jamais ajouter le jeton OAuth ou un autre

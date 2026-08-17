@@ -515,6 +515,11 @@ def record_analysis(
         raise AnalysisContextError(
             "Une fiche partielle doit l'indiquer explicitement dans son en-tête"
         )
+    if normalized_status == "partielle" and normalized_decision == "GO":
+        raise AnalysisContextError(
+            "Une analyse partielle ne peut pas produire un GO définitif; "
+            "utiliser A_DISCUTER ou NO_GO avec des scores cohérents"
+        )
     profile = context["profil_entreprise"]
     if not bool(profile.get("complet")) and normalized_decision == "GO":
         raise AnalysisContextError(
