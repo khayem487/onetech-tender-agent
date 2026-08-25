@@ -82,7 +82,7 @@ two real collection runs.
   a text layer, 3 legacy DOC files retained as unsupported, and 0 failures.
 - Proved idempotence by rerunning the processor with 0 pending documents.
 
-## Next milestone after validation
+## Milestone planned after the 2026-08-10 validation
 
 Calibrate the One Tech company profile with Makram, then add OCR, legacy DOC
 conversion and daily notifications. Odoo, MCP and Phi remain later exploration
@@ -108,3 +108,36 @@ items.
   instead of creating a duplicate.
 - Recollected HAICOP data and confirmed the semantic context fingerprint stayed
   unchanged when only operational collection timestamps changed.
+
+## 2026-08-11 to 2026-08-17 - Daily automation and real email
+
+- Added the authenticated `ao-worker` bridge between n8n and the company
+  OpenClaw gateway.
+- Scheduled the end-to-end digest for weekdays at 08:00 Europe/Paris.
+- Added Mailpit as a local proof channel and Gmail delivery through OAuth.
+- Added a per-channel and per-recipient delivery ledger so retries do not send
+  duplicate messages.
+- Extended Gmail delivery to a comma-separated recipient list.
+
+## 2026-08-18 to 2026-08-25 - Project completion hardening
+
+- Added Tesseract OCR for scanned PDF/image documents and bounded LibreOffice
+  conversion for legacy DOC files. All 152 stored documents now have a local
+  file, SHA-256 and extracted text.
+- Added a Telegram digest/reply implementation with database idempotence. Its
+  workflow remains disabled until a dedicated OneTech bot and group ID are
+  configured; the personal bot token is explicitly rejected.
+- Registered `phi4-mini:latest` through Ollama in the company OpenClaw. The
+  benchmark classifies the test tenders correctly but remains slow and is used
+  only as an experimental second opinion.
+- Added the `onetech-tender` MCP server with exactly five bounded tools:
+  collection, open-tender listing, tender retrieval, analysis-context reading
+  and digest generation.
+- Added complete, checksummed backups and explicit component restoration.
+  Restored a real backup into an isolated temporary PostgreSQL database and
+  verified all table counts before deleting the drill database.
+- Added Windows logon startup, a five-minute watchdog, health checks and
+  persistent operational logs without touching the personal OpenClaw gateway.
+- Final validation: 100 tenders, 152 extracted documents, no tender/document
+  duplicates, 67 Python tests and 6 SQL tests passing.
+- Odoo was intentionally excluded from the final scope.

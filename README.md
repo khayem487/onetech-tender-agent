@@ -11,15 +11,20 @@ contexte complet à OpenClaw pour une fiche Go/No-Go traçable.
 ## Architecture actuelle
 
 ```text
-OpenClaw entreprise
-        -> skill collecte-haicop-ao
+n8n (08:00 Europe/Paris, jours ouvrés)
+        -> ao-worker authentifié
+        -> OpenClaw entreprise
         -> package Python onetech_ao
         -> API et pages publiques HAICOP
         -> PostgreSQL 16
-        -> téléchargement + SHA-256 + extraction PDF/DOCX
-        -> contexte d'analyse avec repères de pages
-        -> skill analyse-ao
-        -> fiche Markdown + score persisté dans PostgreSQL
+        -> téléchargement + SHA-256
+        -> extraction PDF/DOCX + OCR + conversion DOC
+        -> analyse Go/No-Go traçable
+        -> digest Mailpit + Gmail
+
+OpenClaw / Claude / client MCP
+        -> serveur MCP onetech-tender (5 outils)
+        -> mêmes données et fonctions PostgreSQL
 ```
 
 Le collecteur ne contourne aucune authentification TUNEPS. Il conserve le
@@ -28,25 +33,25 @@ les doublons.
 
 ## État du projet
 
-Au 11 août 2026, le flux HAICOP vers PostgreSQL, la persistance des analyses et
-l'automatisation n8n sont opérationnels. Le snapshot de validation contient :
+Au 25 août 2026, le pipeline local est opérationnel et reproductible :
 
-- 31 appels d'offres publics stockés ;
-- 50 liens vers des documents publics stockés ;
-- 3 collectes réelles terminées ;
-- deux premières exécutions identiques ayant prouvé les UPSERT sans doublon ;
-- aucun doublon sur les appels d'offres ou les documents.
-- 50 fichiers publics téléchargés et hashés ;
-- 34 documents PDF/DOCX avec texte extrait dans PostgreSQL ;
-- 4 PDF sans couche texte, à traiter plus tard par OCR ;
-- 12 anciens fichiers DOC conservés mais marqués `non_supporte` ;
-- 0 échec de traitement et 0 document restant à traiter.
-- export de contexte PostgreSQL par AO, sans longue sortie tronquée dans le TUI ;
-- table `analyses_ao` séparée des données officielles ;
-- validation stricte des neuf sections, quatre scores et décision avant stockage ;
-- une vraie fiche `Tender-103283` persistée et vérifiée sous l'ID 23 ;
-- second enregistrement du même contexte réutilisant l'ID 23 sans doublon ;
-- digest des dernières analyses disponible par la CLI.
+- 100 appels d'offres publics et 152 documents stockés sans doublon ;
+- 152/152 fichiers téléchargés, hashés et extraits dans PostgreSQL ;
+- formats traités : 41 PDF, 35 DOC, 74 DOCX, 1 PNG et 1 JPEG ;
+- OCR Tesseract réel validé sur les documents scannés ;
+- conversion contrôlée des anciens DOC par LibreOffice validée ;
+- analyse et scoring conservés séparément des faits officiels ;
+- digest n8n quotidien actif, avec Mailpit local et Gmail multi-destinataires ;
+- registre de diffusion idempotent par canal et destinataire ;
+- serveur MCP enregistré et testé avec cinq outils ;
+- `phi4-mini` installé dans Ollama et sélectionnable dans l'OpenClaw entreprise ;
+- démarrage Windows automatique et watchdog toutes les cinq minutes ;
+- sauvegarde complète avec checksums et restauration PostgreSQL testée en base isolée ;
+- 67 tests Python et 6 tests SQL réussis.
+
+Telegram est implémenté mais reste volontairement désactivé tant qu'un bot
+OneTech distinct du bot personnel et l'identifiant négatif du groupe ne sont
+pas configurés. Odoo est volontairement hors périmètre.
 
 ## Accès local aux services
 
@@ -58,6 +63,8 @@ l'automatisation n8n sont opérationnels. Le snapshot de validation contient :
 | Mailpit | <http://localhost:8025> | boîte email locale de test |
 | ao-worker | réseau Docker interne, port `8080` | exécution contrôlée du pipeline Python |
 | Gateway OpenClaw entreprise | `127.0.0.1:18790` | configuration dans `C:\Users\khaye\.openclaw-company\openclaw.json` |
+| Ollama | `127.0.0.1:11434` | modèle local `phi4-mini:latest` |
+| MCP `onetech-tender` | stdio local | cinq outils de collecte, lecture, analyse et digest |
 
 ### Identifiants locaux pgAdmin et PostgreSQL
 
@@ -129,7 +136,13 @@ ou aux commits. Utiliser `.env.example` pour documenter les variables attendues.
 
 Prérequis : Docker Desktop et Python 3.11 ou plus récent.
 
-Depuis PowerShell, à la racine du workspace entreprise :
+Le démarrage recommandé, à la racine du workspace entreprise :
+
+```powershell
+.\scripts\start-onetech-stack.ps1 -StartGateway -StartOllama
+```
+
+Pour une installation manuelle :
 
 ```powershell
 docker compose up -d
@@ -167,20 +180,20 @@ Collecter les pages détail et les liens documentaires publics :
 Télécharger, hasher et extraire les documents en attente :
 
 ```powershell
-.\.venv\Scripts\python.exe -m onetech_ao.cli process-documents --limit 50
+docker compose exec -T ao-worker python -m onetech_ao.cli process-documents --limit 50
 ```
 
 Pour ne traiter qu'un dossier précis :
 
 ```powershell
-.\.venv\Scripts\python.exe -m onetech_ao.cli process-documents `
+docker compose exec -T ao-worker python -m onetech_ao.cli process-documents `
   --tender-id Tender-103283 --limit 50
 ```
 
 Collecter puis traiter les documents dans la même commande :
 
 ```powershell
-.\.venv\Scripts\python.exe -m onetech_ao.cli collect --limit 20 --with-details --process-documents
+docker compose exec -T ao-worker python -m onetech_ao.cli collect --limit 20 --with-details --process-documents
 ```
 
 Options utiles :
@@ -323,8 +336,35 @@ possède sa propre preuve d'envoi et sa propre protection anti-doublon dans
 PostgreSQL. L'envoi réel et le retry idempotent ont été validés le
 17 août 2026 : une relance retourne `deja_envoyee` sans créer de second message.
 Mailpit reste activé comme preuve locale et canal de secours. Telegram est
-implémenté mais reste désactivé. Ne jamais ajouter le jeton OAuth ou un autre
-secret au dépôt.
+implémenté mais reste désactivé par défaut. Son activation exige explicitement
+`TELEGRAM_ENABLED=true`, un token de bot OneTech distinct du bot personnel et
+un `TELEGRAM_CHAT_ID` négatif correspondant à un groupe. Le script de démarrage
+et le script d'activation manuelle refusent une configuration privée ou
+partagée et maintiennent alors le workflow Telegram inactif. Ne jamais ajouter
+le jeton OAuth ou un autre secret au dépôt.
+
+## Serveur MCP et modèle local Phi
+
+Le serveur MCP `onetech-tender` expose exactement :
+
+```text
+collect_tenders
+list_open_tenders
+get_tender
+analyze_tender
+generate_digest
+```
+
+`analyze_tender` reste honnête et borné : il lit une analyse persistée ou
+prépare un contexte factuel ; il ne prétend pas avoir enregistré une nouvelle
+décision. Les réponses sont déterministes, limitées en taille et expurgent les
+secrets des erreurs internes.
+
+Le modèle `ollama/phi4-mini:latest` est autorisé dans l'OpenClaw entreprise. Il
+fonctionne localement sur CPU et sert uniquement de second avis expérimental :
+le benchmark a correctement rejeté deux AO hors périmètre, mais il reste lent
+et peut inventer certaines justifications. Le modèle OpenAI reste le modèle de
+production pour l'analyse quotidienne.
 
 Le tri initial respecte le profil OneTech : une AO doit atteindre le seuil
 `minimum_relevance_score` (actuellement `6`) et les achats matériels sans
@@ -340,13 +380,15 @@ locale du gateway ; ils ne doivent jamais être affichés ni commités.
 
 ```powershell
 .\scripts\test-database.ps1
+.\.venv\Scripts\python.exe -m pytest -q
 .\.venv\Scripts\python.exe -m pytest -m 'not integration and not network'
 .\.venv\Scripts\python.exe -m pytest -m integration
 ```
 
-Le test d'intégration vérifie la connexion et deux UPSERT identiques, puis
-supprime ses données factices. Le contrôle `status` doit signaler zéro doublon
-et zéro payload brut vide.
+Le snapshot final exécute 67 tests Python et 6 scripts SQL. Les tests
+d'intégration vérifient les UPSERT, l'idempotence, l'automatisation, Telegram et
+le protocole MCP, puis suppriment leurs données factices. Le contrôle `status`
+doit signaler zéro doublon, zéro payload brut vide et 0 document restant.
 
 ## Dépannage
 
@@ -370,22 +412,25 @@ et zéro payload brut vide.
 - Erreur HAICOP temporaire : conserver la ligne `collectes_haicop` en échec et
   relancer plus tard ; ne pas utiliser un endpoint privé en contournement.
 - Cahier des charges absent : il peut nécessiter une session TUNEPS autorisée.
-- `sans_texte` : le PDF est probablement scanné et nécessitera un OCR.
-- `non_supporte` : le format DOC binaire est conservé mais pas extrait ; préférer
-  une conversion contrôlée en DOCX/PDF.
+- OCR indisponible : vérifier `tesseract --version` et `pdftoppm -v` dans
+  `onetech-ao-worker`, puis reconstruire l'image.
+- Conversion DOC indisponible : vérifier `libreoffice --headless --version`
+  dans `onetech-ao-worker`, puis relancer avec `--retry-errors`.
+- Contrôle global : lancer
+  `.\scripts\healthcheck-onetech-stack.ps1 -RequireGateway -RequireOllama -RequireWorkflows -RequireMcp`.
 
 Voir [`database/README.md`](database/README.md) pour le schéma,
 [`DOCKER_SETUP.md`](DOCKER_SETUP.md) pour Docker,
-[`docs/COURS_POSTGRES_TABLES.md`](docs/COURS_POSTGRES_TABLES.md) pour le cours
-détaillé sur les tables et [`HISTORY.md`](HISTORY.md) pour l'historique du
-projet.
+[`docs/OPERATIONS.md`](docs/OPERATIONS.md) pour les sauvegardes et la
+supervision, et [`HISTORY.md`](HISTORY.md) pour l'historique du projet.
 
 ## Etat actuel et suites
 
 Le flux complet est prêt pour une démonstration locale : collecte, stockage,
-documents, analyse, digest et orchestration n8n. Le profil OneTech marqué
-`VALIDATED_V1` est utilisé comme source de scoring.
+documents, OCR/DOC, analyse, digest Gmail, orchestration n8n, MCP, modèle Phi de
+comparaison, sauvegarde/restauration et supervision. Le profil OneTech marqué
+`VALIDATED_V1` reste la source de scoring.
 
-Les améliorations suivantes sont séparées du MVP : activer Gmail/Telegram après
-un test de destinataire explicite, OCR des PDF scannés, conversion contrôlée des
-anciens fichiers DOC, puis éventuellement MCP et Odoo.
+Le seul branchement externe restant est l'association d'un bot Telegram
+OneTech dédié au groupe déjà créé. Odoo n'est pas réalisé, conformément au
+périmètre décidé.
