@@ -3,9 +3,21 @@ FROM python:3.12.11-slim-bookworm
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_NO_CACHE_DIR=1
+    PIP_NO_CACHE_DIR=1 \
+    ONETECH_AO_PROJECT_ROOT=/app \
+    ONETECH_AO_ALLOW_ENV_ONLY=true
 
 WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libreoffice-writer \
+        poppler-utils \
+        tesseract-ocr \
+        tesseract-ocr-ara \
+        tesseract-ocr-eng \
+        tesseract-ocr-fra \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml README.md ./
 COPY src ./src
@@ -15,7 +27,8 @@ RUN python -m pip install --no-cache-dir . \
     "uvicorn==0.35.0" \
     && useradd --create-home --uid 10001 worker
 
-COPY automation/prompts/daily_digest.md ./automation/prompts/daily_digest.md
+COPY automation/prompts/ ./automation/prompts/
+COPY config/ ./config/
 
 USER worker
 EXPOSE 8080

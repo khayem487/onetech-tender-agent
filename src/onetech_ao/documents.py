@@ -6,6 +6,9 @@ import hashlib
 import logging
 import os
 import re
+import shutil
+import subprocess
+import tempfile
 import zipfile
 from dataclasses import asdict, dataclass, field
 from pathlib import Path, PurePosixPath
@@ -28,6 +31,9 @@ ALLOWED_DOCUMENT_HOSTS = {"marchespublics.gov.tn", "www.marchespublics.gov.tn"}
 SAFE_FILENAME_RE = re.compile(r"[^A-Za-z0-9._-]+")
 PDF_SIGNATURE = b"%PDF-"
 OLE_SIGNATURE = bytes.fromhex("D0CF11E0A1B11AE1")
+PNG_SIGNATURE = bytes.fromhex("89504E470D0A1A0A")
+JPEG_SIGNATURE = bytes.fromhex("FFD8FF")
+SUPPORTED_DOCUMENT_TYPES = frozenset({"pdf", "docx", "doc", "png", "jpeg"})
 
 
 class DocumentProcessingError(RuntimeError):
@@ -102,7 +108,16 @@ def _detect_document_type(path: Path) -> str:
     if signature.startswith(PDF_SIGNATURE):
         return "pdf"
     if signature.startswith(OLE_SIGNATURE):
-        return "doc"
+        # OLE is also used by old Excel/PowerPoint files.  Only send an
+        # explicitly named legacy Word document to LibreOffice conversion.
+        suffix = path.suffix.casefold()
+        if suffix == ".part":
+            suffix = path.with_suffix("").suffix.casefold()
+        return "doc" if suffix == ".doc" else "ole"
+    if signature.startswith(PNG_SIGNATURE):
+        return "png"
+    if signature.startswith(JPEG_SIGNATURE):
+        return "jpeg"
     if zipfile.is_zipfile(path):
         try:
             with zipfile.ZipFile(path) as archive:
@@ -139,6 +154,259 @@ def _clean_text(parts: list[str], max_chars: int) -> str:
     return "\n".join(lines)[:max_chars]
 
 
+def _find_executable(configured: str, fallbacks: tuple[str, ...]) -> str | None:
+    """Resolve an explicitly configured command without invoking a shell."""
+
+    candidate = Path(configured).expanduser()
+    if candidate.is_absolute():
+        return str(candidate) if candidate.is_file() else None
+    for name in (configured, *fallbacks):
+        resolved = shutil.which(name)
+        if resolved:
+            return resolved
+    return None
+
+
+def _run_command(
+    command: list[str],
+    *,
+    timeout_seconds: int,
+    error_label: str,
+) -> subprocess.CompletedProcess[str]:
+    """Run a bounded local converter and return UTF-8-safe output."""
+
+    try:
+        completed = subprocess.run(
+            command,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            check=False,
+            shell=False,
+            timeout=timeout_seconds,
+        )
+    except subprocess.TimeoutExpired as exc:
+        raise DocumentProcessingError(f"{error_label}: delai depasse") from exc
+    except OSError as exc:
+        raise DocumentProcessingError(
+            f"{error_label}: executable indisponible"
+        ) from exc
+    if completed.returncode != 0:
+        detail = " ".join((completed.stderr or completed.stdout or "").split())[:180]
+        suffix = f" ({detail})" if detail else ""
+        raise DocumentProcessingError(f"{error_label}: code {completed.returncode}{suffix}")
+    return completed
+
+
+def _available_tesseract_languages(
+    executable: str, settings: Settings
+) -> str:
+    """Use available OCR languages rather than failing on one missing pack."""
+
+    completed = _run_command(
+        [executable, "--list-langs"],
+        timeout_seconds=settings.document_ocr_timeout_seconds,
+        error_label="verification OCR impossible",
+    )
+    available = {
+        line.strip()
+        for line in completed.stdout.splitlines()
+        if re.fullmatch(r"[A-Za-z0-9_]+", line.strip())
+    }
+    requested = [
+        language
+        for language in settings.document_ocr_languages.split("+")
+        if language in available
+    ]
+    if not requested:
+        raise DocumentProcessingError(
+            "OCR indisponible: aucune langue configuree n'est installee"
+        )
+    return "+".join(requested)
+
+
+def _validate_rendered_image(
+    image: Path,
+    rendered_bytes: int,
+    settings: Settings,
+) -> int:
+    """Bound temporary OCR disk usage before handing a bitmap to Tesseract."""
+
+    try:
+        size = image.stat().st_size
+    except OSError as exc:
+        raise DocumentProcessingError("rendu OCR impossible: image inaccessible") from exc
+    total = rendered_bytes + size
+    if total > settings.document_ocr_max_render_bytes:
+        raise DocumentProcessingError("OCR refuse: rendu temporaire trop volumineux")
+    return total
+
+
+def _extract_docx_text(path: Path, settings: Settings) -> str | None:
+    _validate_docx_archive(path, settings.document_max_uncompressed_bytes)
+    try:
+        document = Document(str(path))
+        parts = [paragraph.text for paragraph in document.paragraphs]
+        for table in document.tables:
+            for row in table.rows:
+                parts.append(" | ".join(cell.text for cell in row.cells))
+    except Exception as exc:
+        raise DocumentProcessingError(
+            f"extraction DOCX impossible: {type(exc).__name__}"
+        ) from exc
+    text = _clean_text(parts, settings.document_max_text_chars)
+    return text or None
+
+
+def _extract_legacy_doc_text(path: Path, settings: Settings) -> str | None:
+    """Convert an OLE Word file in an isolated temporary profile, then parse it."""
+
+    executable = _find_executable(
+        settings.libreoffice_command,
+        ("libreoffice", "soffice", "soffice.exe"),
+    )
+    if executable is None:
+        raise DocumentProcessingError(
+            "conversion DOC indisponible: LibreOffice est introuvable"
+        )
+
+    with tempfile.TemporaryDirectory(prefix="onetech-doc-") as temporary_raw:
+        temporary = Path(temporary_raw)
+        source = temporary / "source.doc"
+        output_dir = temporary / "converted"
+        profile_dir = temporary / "libreoffice-profile"
+        output_dir.mkdir()
+        profile_dir.mkdir()
+        shutil.copyfile(path, source)
+        _run_command(
+            [
+                executable,
+                f"-env:UserInstallation={profile_dir.as_uri()}",
+                "--headless",
+                "--invisible",
+                "--nologo",
+                "--nodefault",
+                "--nolockcheck",
+                "--norestore",
+                "--nofirststartwizard",
+                "--convert-to",
+                "docx:Office Open XML Text",
+                "--outdir",
+                str(output_dir),
+                str(source),
+            ],
+            timeout_seconds=settings.document_conversion_timeout_seconds,
+            error_label="conversion DOC impossible",
+        )
+        converted = output_dir / "source.docx"
+        if not converted.is_file():
+            candidates = list(output_dir.glob("*.docx"))
+            if len(candidates) != 1:
+                raise DocumentProcessingError(
+                    "conversion DOC impossible: aucun DOCX produit"
+                )
+            converted = candidates[0]
+        if converted.stat().st_size > settings.document_max_uncompressed_bytes:
+            raise DocumentProcessingError("DOC converti refuse: fichier trop volumineux")
+        return _extract_docx_text(converted, settings)
+
+
+def _ocr_pdf_pages(
+    path: Path,
+    page_numbers: list[int],
+    settings: Settings,
+) -> dict[int, str]:
+    """Render selected PDF pages and OCR them with bounded subprocesses."""
+
+    pdftoppm = _find_executable(settings.pdftoppm_command, ("pdftoppm", "pdftoppm.exe"))
+    tesseract = _find_executable(
+        settings.tesseract_command,
+        ("tesseract", "tesseract.exe"),
+    )
+    if pdftoppm is None or tesseract is None:
+        missing = "pdftoppm" if pdftoppm is None else "tesseract"
+        raise DocumentProcessingError(f"OCR indisponible: {missing} est introuvable")
+
+    language_spec = _available_tesseract_languages(tesseract, settings)
+    selected = page_numbers[: settings.document_ocr_max_pages]
+    extracted: dict[int, str] = {}
+    rendered_bytes = 0
+    with tempfile.TemporaryDirectory(prefix="onetech-ocr-") as temporary_raw:
+        temporary = Path(temporary_raw)
+        for page_number in selected:
+            prefix = temporary / f"page-{page_number}"
+            _run_command(
+                [
+                    pdftoppm,
+                    "-f",
+                    str(page_number),
+                    "-l",
+                    str(page_number),
+                    "-singlefile",
+                    "-r",
+                    str(settings.document_ocr_dpi),
+                    "-png",
+                    str(path),
+                    str(prefix),
+                ],
+                timeout_seconds=settings.document_ocr_timeout_seconds,
+                error_label=f"rendu OCR page {page_number} impossible",
+            )
+            image = prefix.with_suffix(".png")
+            if not image.is_file():
+                raise DocumentProcessingError(
+                    f"rendu OCR page {page_number} impossible: image absente"
+                )
+            rendered_bytes = _validate_rendered_image(
+                image, rendered_bytes, settings
+            )
+            completed = _run_command(
+                [
+                    tesseract,
+                    str(image),
+                    "stdout",
+                    "-l",
+                    language_spec,
+                    "--psm",
+                    "6",
+                ],
+                timeout_seconds=settings.document_ocr_timeout_seconds,
+                error_label=f"OCR page {page_number} impossible",
+            )
+            page_text = _clean_text([completed.stdout], settings.document_max_text_chars)
+            if page_text:
+                extracted[page_number] = page_text
+    return extracted
+
+
+def _ocr_image_text(path: Path, settings: Settings) -> str | None:
+    """OCR a standalone HAICOP PNG/JPEG under the same process bounds."""
+
+    tesseract = _find_executable(
+        settings.tesseract_command,
+        ("tesseract", "tesseract.exe"),
+    )
+    if tesseract is None:
+        raise DocumentProcessingError("OCR indisponible: tesseract est introuvable")
+    language_spec = _available_tesseract_languages(tesseract, settings)
+    completed = _run_command(
+        [
+            tesseract,
+            str(path),
+            "stdout",
+            "-l",
+            language_spec,
+            "--psm",
+            "6",
+        ],
+        timeout_seconds=settings.document_ocr_timeout_seconds,
+        error_label="OCR image impossible",
+    )
+    text = _clean_text([completed.stdout], settings.document_max_text_chars)
+    return text or None
+
+
 def extract_text(path: Path, document_type: str, settings: Settings) -> str | None:
     if document_type == "pdf":
         try:
@@ -147,31 +415,37 @@ def extract_text(path: Path, document_type: str, settings: Settings) -> str | No
                 raise DocumentProcessingError("PDF chiffré sans mot de passe public")
             if len(reader.pages) > settings.document_max_pdf_pages:
                 raise DocumentProcessingError("PDF refusé: trop de pages")
-            parts: list[str] = []
+            page_texts: dict[int, str] = {}
+            pages_without_text: list[int] = []
             for page_number, page in enumerate(reader.pages, start=1):
                 page_text = page.extract_text() or ""
                 if page_text.strip():
-                    parts.append(f"--- PAGE {page_number} ---")
-                    parts.append(page_text)
+                    page_texts[page_number] = page_text
+                else:
+                    pages_without_text.append(page_number)
         except DocumentProcessingError:
             raise
         except Exception as exc:
             raise DocumentProcessingError(f"extraction PDF impossible: {type(exc).__name__}") from exc
+        if pages_without_text and settings.document_ocr_enabled:
+            page_texts.update(_ocr_pdf_pages(path, pages_without_text, settings))
+        parts: list[str] = []
+        for page_number in sorted(page_texts):
+            parts.append(f"--- PAGE {page_number} ---")
+            parts.append(page_texts[page_number])
         text = _clean_text(parts, settings.document_max_text_chars)
         return text or None
 
     if document_type == "docx":
-        _validate_docx_archive(path, settings.document_max_uncompressed_bytes)
-        try:
-            document = Document(str(path))
-            parts = [paragraph.text for paragraph in document.paragraphs]
-            for table in document.tables:
-                for row in table.rows:
-                    parts.append(" | ".join(cell.text for cell in row.cells))
-        except Exception as exc:
-            raise DocumentProcessingError(f"extraction DOCX impossible: {type(exc).__name__}") from exc
-        text = _clean_text(parts, settings.document_max_text_chars)
-        return text or None
+        return _extract_docx_text(path, settings)
+
+    if document_type == "doc":
+        return _extract_legacy_doc_text(path, settings)
+
+    if document_type in {"png", "jpeg"}:
+        if not settings.document_ocr_enabled:
+            return None
+        return _ocr_image_text(path, settings)
 
     return None
 
@@ -315,7 +589,7 @@ class DocumentProcessor:
                         downloaded.detected_type,
                         self.settings,
                     )
-                    if downloaded.detected_type not in {"pdf", "docx"}:
+                    if downloaded.detected_type not in SUPPORTED_DOCUMENT_TYPES:
                         status = "non_supporte"
                         result.non_supportes += 1
                     elif text:

@@ -33,3 +33,8 @@ dist/
 /data/digests/
 /data/automation/
 /reports/digests/
+/backups/
+/logs/
+/.tmp/
+/data/ocr/
+/data/converted/

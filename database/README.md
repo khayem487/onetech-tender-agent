@@ -80,20 +80,40 @@ Migration `002_document_processing.sql` adds observable processing metadata:
 Process pending public documents with:
 
 ```powershell
-.\.venv\Scripts\python.exe -m onetech_ao.cli process-documents --limit 50
+docker compose exec -T ao-worker python -m onetech_ao.cli process-documents --limit 50
 ```
 
 Only HTTPS files under the public HAICOP `/storage/tender/` path are accepted.
 Files are size-limited, hashed, stored under ignored `data/documents/`, and
-PDF/DOCX text is written to PostgreSQL. Re-running the command leaves completed
-documents untouched.
+PDF/DOCX/DOC text is written to PostgreSQL. A PDF page without an embedded text
+layer is rendered with Poppler and passed to Tesseract (`fra+ara+eng` by
+default). A legacy OLE `.doc` is converted to DOCX by a headless LibreOffice
+process using an isolated temporary profile, a timeout and the same archive
+size checks as a native DOCX. Temporary render/conversion files are always
+removed. The worker image contains these system tools; a host-side CLI run must
+make `pdftoppm`, `tesseract` and `libreoffice` available on `PATH`, or configure
+their explicit paths in `.env`.
+
+Re-running the normal command leaves completed documents untouched. After
+enabling OCR/conversion, retry prior `sans_texte`, `non_supporte` and `echec`
+rows from their already downloaded local files with:
+
+```powershell
+docker compose exec -T ao-worker python -m onetech_ao.cli process-documents --limit 100 --retry-errors
+```
 
 PDF extraction preserves `--- PAGE N ---` markers for source traceability. To
 re-extract already completed local files after a parser improvement:
 
 ```powershell
-.\.venv\Scripts\python.exe -m onetech_ao.cli process-documents --limit 50 --reprocess-extracted
+docker compose exec -T ao-worker python -m onetech_ao.cli process-documents --limit 50 --reprocess-extracted
 ```
+
+OCR limits are configurable with `DOCUMENT_OCR_MAX_PAGES`,
+`DOCUMENT_OCR_DPI`, `DOCUMENT_OCR_MAX_RENDER_BYTES`, `DOCUMENT_OCR_TIMEOUT_SECONDS` and
+`DOCUMENT_OCR_LANGUAGES`. Set `DOCUMENT_OCR_ENABLED=false` only when an
+environment intentionally cannot provide OCR. `DOCUMENT_CONVERSION_TIMEOUT_SECONDS`
+bounds each legacy DOC conversion.
 
 ## Analysis bridge
 

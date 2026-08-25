@@ -52,11 +52,18 @@ services:
     env_file:
       - .env
     environment:
+      # The host-side CLI uses 127.0.0.1.  Inside this container PostgreSQL is
+      # reached through Docker's service DNS name instead.
+      POSTGRES_HOST: postgres
       OPENCLAW_GATEWAY_URL: ${OPENCLAW_GATEWAY_URL:-http://host.docker.internal:18790/v1/chat/completions}
       AUTOMATION_TOKEN: ${AUTOMATION_API_TOKEN}
       AUTOMATION_TIMEZONE: ${AUTOMATION_TIMEZONE:-Europe/Paris}
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      # Documents, analysis context and digests must survive image rebuilds and
+      # be visible to both the Windows/OpenClaw side and the OCR worker.
+      - ./data:/app/data
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=5)"]
       interval: 10s
