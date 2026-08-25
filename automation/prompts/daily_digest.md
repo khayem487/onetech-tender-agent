@@ -13,7 +13,7 @@ N'affiche jamais de mot de passe, token, contenu de `.env` ou autre secret.
 Depuis la racine du workspace entreprise, exécute exactement :
 
 ```powershell
-.\.venv\Scripts\python.exe -m onetech_ao.cli daily-start --trigger n8n --run-key daily:{{RUN_DATE}} --max-candidates {{MAX_CANDIDATES}}
+docker compose exec -T ao-worker python -m onetech_ao.cli daily-start --trigger n8n --run-key daily:{{RUN_DATE}} --max-candidates {{MAX_CANDIDATES}}
 ```
 
 Lis la réponse JSON. Conserve `execution.id` comme identifiant du run. La liste

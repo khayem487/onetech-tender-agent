@@ -75,6 +75,53 @@ def test_daily_delivery_reservation_allows_one_send_per_recipient() -> None:
 
 
 @pytest.mark.integration
+def test_telegram_interaction_claims_one_reply_without_storing_message_body() -> None:
+    settings = Settings.load()
+    database = Database(settings)
+    update_id = 5_000_000_000 + (uuid4().int % 1_000_000_000)
+    consumer = f"pytest-telegram:{uuid4().hex}"
+
+    try:
+        first = database.register_telegram_interaction(
+            update_id=update_id,
+            chat_id="-1001234567890",
+            message_id=41,
+            sender_id="42",
+            text="Question OneTech test",
+            interaction_kind="mention",
+        )
+        assert first["claimed"] is True
+        claimed = database.claim_telegram_interaction(int(first["id"]))
+        assert claimed is not None
+        assert claimed["statut"] == "traitement"
+        answered = database.finish_telegram_interaction(
+            int(first["id"]),
+            status="repondue",
+            response_message_id=99,
+        )
+        assert answered["statut"] == "repondue"
+        assert answered["message_reponse_id"] == 99
+
+        replay = database.register_telegram_interaction(
+            update_id=update_id,
+            chat_id="-1001234567890",
+            message_id=41,
+            sender_id="42",
+            text="Question OneTech test",
+            interaction_kind="mention",
+        )
+        assert replay["claimed"] is False
+        assert replay["id"] == first["id"]
+
+        assert database.advance_telegram_poll_offset(update_id + 1, consumer) == update_id + 1
+        assert database.telegram_poll_offset(consumer) == update_id + 1
+    finally:
+        with database.connect() as connection, connection.cursor() as cursor:
+            cursor.execute("DELETE FROM telegram_interactions WHERE update_id = %s", (update_id,))
+            cursor.execute("DELETE FROM telegram_poll_state WHERE consommateur = %s", (consumer,))
+
+
+@pytest.mark.integration
 def test_connection_and_idempotent_upserts_leave_no_test_data() -> None:
     settings = Settings.load()
     database = Database(settings)
@@ -143,6 +190,24 @@ def test_connection_and_idempotent_upserts_leave_no_test_data() -> None:
             limit=10,
             tender_id="Tender-DOES-NOT-EXIST",
         ) == []
+
+        with database.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                "UPDATE documents_ao SET statut_traitement = 'sans_texte' "
+                "WHERE tender_id = %s",
+                (TEST_TENDER_ID,),
+            )
+        assert database.documents_to_process(
+            limit=10,
+            tender_id=TEST_TENDER_ID,
+        ) == []
+        retryable_documents = database.documents_to_process(
+            limit=10,
+            retry_errors=True,
+            tender_id=TEST_TENDER_ID,
+        )
+        assert len(retryable_documents) == 1
+        assert retryable_documents[0]["tender_id"] == TEST_TENDER_ID
 
         first_analysis = database.save_analysis(
             tender_id=TEST_TENDER_ID,

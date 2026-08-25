@@ -23,6 +23,7 @@ from .collector import Collector, NEGATIVE_KEYWORDS, POSITIVE_KEYWORDS
 from .config import Settings
 from .database import Database
 from .documents import DocumentProcessor
+from .telegram import split_telegram_text
 
 
 PARIS = ZoneInfo("Europe/Paris")
@@ -510,29 +511,59 @@ class DailyAutomation:
                 "statut": "echec",
                 "erreur": "TELEGRAM_BOT_TOKEN ou TELEGRAM_CHAT_ID absent",
             }
-        delivery = self._reserve(run_id, "telegram", chat_id, digest_hash)
-        if not delivery.get("claimed", False):
-            state = "deja_envoyee" if delivery["statut"] == "envoyee" else "en_cours"
-            return {"canal": "telegram", "statut": state, "id": delivery["id"]}
-        try:
-            response = requests.post(
-                f"https://api.telegram.org/bot{token}/sendMessage",
-                json={"chat_id": chat_id, "text": markdown[:3900], "disable_web_page_preview": True},
-                timeout=(5, 20),
-            )
-            response.raise_for_status()
-            payload = response.json()
-            external_id = str(payload.get("result", {}).get("message_id") or "telegram")
-            saved = self.database.finish_delivery(
-                int(delivery["id"]), status="envoyee", external_id=external_id
-            )
-            return {"canal": "telegram", "statut": "envoyee", "id": saved["id"]}
-        except Exception as exc:
-            error = self.settings.redact(exc)
-            saved = self.database.finish_delivery(
-                int(delivery["id"]), status="echec", error=error
-            )
-            return {"canal": "telegram", "statut": "echec", "id": saved["id"], "erreur": error}
+        chunks = split_telegram_text(markdown)
+        if not chunks:
+            return {"canal": "telegram", "statut": "echec", "erreur": "Digest Telegram vide"}
+
+        sent_ids: list[str] = []
+        delivery_ids: list[int] = []
+        pending = False
+        for index, chunk in enumerate(chunks, start=1):
+            # Each chunk has its own ledger reservation.  A failure after a
+            # previous chunk cannot make a retry duplicate that first message.
+            chunk_recipient = f"{chat_id}:chunk:{index}"
+            delivery = self._reserve(run_id, "telegram", chunk_recipient, digest_hash)
+            delivery_ids.append(int(delivery["id"]))
+            if not delivery.get("claimed", False):
+                if delivery["statut"] == "envoyee":
+                    continue
+                pending = True
+                continue
+            try:
+                response = requests.post(
+                    f"https://api.telegram.org/bot{token}/sendMessage",
+                    json={"chat_id": chat_id, "text": chunk, "disable_web_page_preview": True},
+                    timeout=(5, 20),
+                )
+                response.raise_for_status()
+                payload = response.json()
+                if not isinstance(payload, dict) or not payload.get("ok"):
+                    raise AutomationError("Telegram a refuse le message")
+                external_id = str(payload.get("result", {}).get("message_id") or "telegram")
+                saved = self.database.finish_delivery(
+                    int(delivery["id"]), status="envoyee", external_id=external_id
+                )
+                sent_ids.append(str(saved.get("identifiant_externe") or external_id))
+            except Exception as exc:
+                error = self.settings.redact(exc)
+                saved = self.database.finish_delivery(
+                    int(delivery["id"]), status="echec", error=error
+                )
+                return {
+                    "canal": "telegram",
+                    "statut": "echec",
+                    "id": saved["id"],
+                    "erreur": error,
+                }
+
+        if pending:
+            return {"canal": "telegram", "statut": "en_cours", "ids": delivery_ids}
+        return {
+            "canal": "telegram",
+            "statut": "envoyee",
+            "ids": delivery_ids,
+            "messages": sent_ids,
+        }
 
 
 def render_digest(

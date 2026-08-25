@@ -1,0 +1,80 @@
+{
+  "name": "OneTech AO - Telegram Mentions",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d72fd1f0-01f6-4111-b7a0-36bfcad8780d",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 120]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "*/1 * * * *"
+            }
+          ]
+        }
+      },
+      "id": "08d342aa-c62b-4d13-8417-c3fbef1e8dea",
+      "name": "Every Minute",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [0, -80]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.AUTOMATION_WORKER_URL + '/telegram/poll' }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Automation-Token",
+              "value": "={{ $env.AUTOMATION_TOKEN }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={\"max_updates\":50}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "e85ab496-72b2-4ca3-9ec0-acfd6f8bc1a7",
+      "name": "Poll Telegram Mentions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [300, 20],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 10000
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [[{"node": "Poll Telegram Mentions", "type": "main", "index": 0}]]
+    },
+    "Every Minute": {
+      "main": [[{"node": "Poll Telegram Mentions", "type": "main", "index": 0}]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris",
+    "saveManualExecutions": true
+  },
+  "versionId": "a00cd711-69e2-4403-a4dd-50c1f44052cc",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}

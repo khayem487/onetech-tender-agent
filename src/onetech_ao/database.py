@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from datetime import date, datetime
 from typing import Any
 
@@ -231,7 +232,11 @@ class Database:
     ) -> list[dict[str, Any]]:
         statuses = ["a_traiter"]
         if retry_errors:
-            statuses.append("echec")
+            # `sans_texte` and `non_supporte` were terminal only while OCR and
+            # legacy DOC conversion were unavailable. They are deliberately
+            # retried after a parser/tooling upgrade, using the already hashed
+            # local file when it still exists.
+            statuses.extend(("echec", "sans_texte", "non_supporte"))
         if reprocess_extracted:
             statuses.append("extrait")
         with self.connect() as connection, connection.cursor() as cursor:
@@ -913,6 +918,161 @@ class Database:
             row = cursor.fetchone()
             if row is None:
                 raise RuntimeError(f"Diffusion {delivery_id} introuvable")
+            return dict(row)
+
+    def telegram_poll_offset(self, consumer: str = "group_mentions") -> int:
+        """Return the next Telegram update offset, creating an empty state once."""
+
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO telegram_poll_state (consommateur, prochain_update_id)
+                VALUES (%s, 0)
+                ON CONFLICT (consommateur) DO NOTHING
+                """,
+                (consumer,),
+            )
+            cursor.execute(
+                """
+                SELECT prochain_update_id
+                FROM telegram_poll_state
+                WHERE consommateur = %s
+                """,
+                (consumer,),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise RuntimeError("Etat de polling Telegram introuvable")
+            return int(row["prochain_update_id"])
+
+    def advance_telegram_poll_offset(self, next_update_id: int, consumer: str = "group_mentions") -> int:
+        """Durably acknowledge all Telegram updates below ``next_update_id``."""
+
+        if next_update_id < 0:
+            raise ValueError("next_update_id Telegram invalide")
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO telegram_poll_state (consommateur, prochain_update_id)
+                VALUES (%s, %s)
+                ON CONFLICT (consommateur) DO UPDATE SET
+                    prochain_update_id = GREATEST(
+                        telegram_poll_state.prochain_update_id,
+                        EXCLUDED.prochain_update_id
+                    )
+                RETURNING prochain_update_id
+                """,
+                (consumer, next_update_id),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise RuntimeError("Offset Telegram non enregistre")
+            return int(row["prochain_update_id"])
+
+    def register_telegram_interaction(
+        self,
+        *,
+        update_id: int,
+        chat_id: str,
+        message_id: int,
+        sender_id: str | None,
+        text: str,
+        interaction_kind: str,
+    ) -> dict[str, Any]:
+        """Store only hashes for an admissible group interaction.
+
+        Telegram can return an update again after a transient network failure.
+        The unique update/message keys make that retry harmless without keeping
+        the original message body in PostgreSQL.
+        """
+
+        def digest(value: str) -> str:
+            return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                INSERT INTO telegram_interactions (
+                    update_id, chat_hash, message_id, expediteur_hash,
+                    message_sha256, type_interaction, statut
+                ) VALUES (%s, %s, %s, %s, %s, %s, 'recue')
+                ON CONFLICT DO NOTHING
+                RETURNING *, true AS claimed
+                """,
+                (
+                    update_id,
+                    digest(chat_id),
+                    message_id,
+                    digest(sender_id) if sender_id else None,
+                    digest(text),
+                    interaction_kind,
+                ),
+            )
+            row = cursor.fetchone()
+            if row is not None:
+                return dict(row)
+            cursor.execute(
+                """
+                SELECT *, false AS claimed
+                FROM telegram_interactions
+                WHERE update_id = %s
+                   OR (chat_hash = %s AND message_id = %s)
+                """,
+                (update_id, digest(chat_id), message_id),
+            )
+            existing = cursor.fetchone()
+            if existing is None:
+                raise RuntimeError("Interaction Telegram non enregistree")
+            return dict(existing)
+
+    def claim_telegram_interaction(self, interaction_id: int) -> dict[str, Any] | None:
+        """Claim one freshly recorded interaction exactly once for agent routing."""
+
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE telegram_interactions
+                SET statut = 'traitement',
+                    tentatives = tentatives + 1,
+                    traitee_le = clock_timestamp(),
+                    erreur = NULL
+                WHERE id = %s
+                  AND statut = 'recue'
+                RETURNING *
+                """,
+                (interaction_id,),
+            )
+            row = cursor.fetchone()
+            return dict(row) if row else None
+
+    def finish_telegram_interaction(
+        self,
+        interaction_id: int,
+        *,
+        status: str,
+        response_message_id: int | None = None,
+        error: str | None = None,
+    ) -> dict[str, Any]:
+        """Terminally record a Telegram response without storing message text."""
+
+        if status not in {"repondue", "ignoree", "echec"}:
+            raise ValueError("Statut Telegram terminal invalide")
+        with self.connect() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                """
+                UPDATE telegram_interactions
+                SET statut = %s,
+                    message_reponse_id = %s,
+                    erreur = %s,
+                    traitee_le = COALESCE(traitee_le, clock_timestamp())
+                WHERE id = %s
+                RETURNING *
+                """,
+                (status, response_message_id, error, interaction_id),
+            )
+            row = cursor.fetchone()
+            if row is None:
+                raise RuntimeError(f"Interaction Telegram {interaction_id} introuvable")
             return dict(row)
 
     def integrity_report(self) -> dict[str, int]:
