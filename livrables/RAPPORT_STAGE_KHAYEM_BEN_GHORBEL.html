@@ -1,0 +1,1403 @@
+<!doctype html>
+    <html lang="fr"><head><meta charset="utf-8">
+    <title>OneTech Tender Agent — Rapport de stage</title>
+    <style>
+    @page { size: A4; margin: 18mm 17mm 18mm 19mm; }
+    * { box-sizing: border-box; }
+    html { font-family: 'Aptos', 'Segoe UI', Arial, sans-serif; color: #172033; font-size: 10.25pt; }
+    body { margin: 0; line-height: 1.48; background: white; }
+    .cover { page-break-after: always; min-height: 0; display: flex; flex-direction: column; justify-content: flex-start; }
+    .institutions { text-align:center; color: #00A7A5; font-weight: 800; letter-spacing: 1px; margin: 3mm 0 8mm; }
+    .institutions span { color: #FF9F43; padding: 0 7px; }
+    .cover-panel { background: #0B1F3A; color: white; border-radius: 14px; padding: 12mm 12mm; text-align:center; }
+    .cover-panel .eyebrow { color: #30C5FF; font-size: 11pt; font-weight: 800; letter-spacing: 1.4px; }
+    .cover-panel h1 { color:white; font-size: 25pt; line-height:1.16; margin: 8mm 0 5mm; border:0; page-break-before:avoid; }
+    .cover-panel h2 { color: #FF9F43; font-size: 15pt; margin:0; }
+    .metric-row { display:grid; grid-template-columns: repeat(3,1fr); gap: 6mm; margin: 6mm 0; }
+    .metric-row div { background: #F4F7FB; border:1px solid #dce5ee; border-radius:10px; text-align:center; padding:5mm 2mm; }
+    .metric-row strong { display:block; color: #2457A6; font-size:19pt; }
+    .metric-row span { display:block; color: #53657A; font-size:8.5pt; font-weight:700; margin-top:1.5mm; }
+    .cover-info { width:100%; border-collapse:separate; border-spacing:0 1.5mm; }
+    .cover-info th { width:34%; background:#0B1F3A; color:white; text-align:left; padding:1.6mm 3mm; border-radius:6px 0 0 6px; }
+    .cover-info td { background:#eef3f8; padding:1.6mm 3mm; border-radius:0 6px 6px 0; }
+    .cover-date { text-align:center; color:#53657A; font-style:italic; margin-top:2mm; font-size:8pt; }
+    h1 { color:#0B1F3A; font-size:20pt; line-height:1.2; margin:0 0 7mm; padding-bottom:2mm; border-bottom:3px solid #00A7A5; page-break-before:always; page-break-after:avoid; }
+    h2 { color:#2457A6; font-size:15pt; margin:8mm 0 3mm; page-break-after:avoid; }
+    h3 { color:#00A7A5; font-size:12pt; margin:5mm 0 2mm; page-break-after:avoid; }
+    p { margin:0 0 3mm; text-align:justify; orphans:3; widows:3; }
+    ul,ol { margin:2mm 0 4mm 6mm; padding-left:5mm; }
+    li { margin:1mm 0; }
+    blockquote { margin:4mm 0; padding:3mm 5mm; background:#e8f7f6; border-left:4px solid #00A7A5; color:#0B1F3A; }
+    table { width:100%; border-collapse:collapse; margin:4mm 0 6mm; font-size:9pt; page-break-inside:auto; }
+    th { background:#0B1F3A; color:white; text-align:left; padding:2.2mm; }
+    td { border:1px solid #dce5ee; padding:2.1mm; vertical-align:top; }
+    tr:nth-child(even) td { background:#F4F7FB; }
+    tr { page-break-inside:avoid; }
+    pre { white-space:pre-wrap; word-break:break-word; background:#eef3f8; border-left:4px solid #00A7A5; padding:3mm; font:8pt 'Cascadia Mono', Consolas, monospace; page-break-inside:avoid; }
+    code { font-family:'Cascadia Mono', Consolas, monospace; color:#2457A6; font-size:.9em; }
+    img { display:block; max-width:100%; max-height:150mm; object-fit:contain; margin:5mm auto 2mm; page-break-inside:avoid; }
+    em { color:#53657A; }
+    .toc { background:#F4F7FB; border-radius:10px; padding:5mm 8mm; }
+    .toc ul { list-style:none; padding-left:0; }
+    .toc ul ul { padding-left:6mm; }
+    .toc a { color:#0B1F3A; text-decoration:none; }
+    a { color:#2457A6; }
+    </style></head><body>
+    <section class="cover">
+      <div class="institutions">CY TECH <span>×</span> ONE TECH BUSINESS SOLUTIONS</div>
+      <div class="cover-panel">
+        <div class="eyebrow">RAPPORT DE STAGE</div>
+        <h1>Développement d’un système IA agentique<br>pour la gestion des appels d’offres publics</h1>
+        <h2>OneTech Tender Agent</h2>
+      </div>
+      <div class="metric-row">
+        <div><strong>100</strong><span>AO centralisées</span></div>
+        <div><strong>152/152</strong><span>documents traités</span></div>
+        <div><strong>67/67</strong><span>tests Python</span></div>
+      </div>
+      <table class="cover-info">
+        <tr><th>Réalisé par</th><td>Khayem Ben Ghorbel</td></tr>
+        <tr><th>Établissement</th><td>CY Tech — Cycle ingénieur Informatique ING1</td></tr>
+        <tr><th>Entreprise d’accueil</th><td>One Tech Business Solutions</td></tr>
+        <tr><th>Encadrant entreprise</th><td>Makram Ben Hamed</td></tr>
+        <tr><th>Période</th><td>26 juin 2026 – 26 août 2026 · Année 2025–2026</td></tr>
+      </table>
+      <p class="cover-date">Rapport de stage · Année universitaire 2025–2026</p>
+    </section>
+    <main><h2 id="remerciements">Remerciements</h2>
+<p>Je tiens à remercier mon encadrant en entreprise pour son accompagnement, ses
+retours et la confiance accordée tout au long de ce projet.
+Ses orientations ont permis de faire évoluer un premier prototype de collecte
+vers une plateforme complète intégrant persistance, analyse, automatisation et
+interopérabilité.</p>
+<p>Je remercie également les équipes de One Tech Business Solutions pour le cadre
+professionnel offert, les échanges métier et les retours ayant contribué à
+préciser les usages attendus du système.</p>
+<p>Enfin, j’adresse mes remerciements à mon établissement, à mon encadrant
+académique ainsi qu’à toutes les personnes ayant contribué à ma formation et au
+bon déroulement de ce stage.</p>
+<hr>
+<h2 id="resume-executif">Résumé exécutif</h2>
+<p>Ce stage porte sur le développement d’un système d’intelligence artificielle
+agentique destiné à assister la gestion des appels d’offres publics. Le besoin
+initial est de réduire le temps consacré à la veille, au téléchargement des
+documents, au tri des opportunités et à la préparation d’une première décision
+Go/No-Go. La source publique retenue pour le prototype est la plateforme
+HAICOP des marchés publics tunisiens.</p>
+<p>La solution développée, nommée <strong>OneTech Tender Agent</strong>, repose sur une
+architecture modulaire. Un collecteur Python interroge les pages et endpoints
+publics HAICOP, normalise les informations et les enregistre dans PostgreSQL.
+Les documents liés aux appels d’offres sont téléchargés de manière bornée,
+contrôlés par empreinte SHA-256, puis traités selon leur format. L’extraction
+prend en charge PDF, DOCX, anciens DOC, PNG et JPEG ; les documents scannés
+sont soumis à un OCR Tesseract. OpenClaw utilise ensuite le contexte factuel
+conservé dans PostgreSQL pour produire une fiche d’analyse structurée et une
+décision Go/No-Go traçable. Les faits officiels et le raisonnement généré sont
+volontairement stockés dans des tables distinctes.</p>
+<p>L’automatisation quotidienne est orchestrée par n8n. Elle déclenche un worker
+authentifié, lequel confie à l’instance OpenClaw de l’entreprise une mission
+bornée : collecter, traiter, analyser, générer un digest et le diffuser. Les
+notifications sont envoyées par Gmail et Telegram, avec une preuve de diffusion
+par destinataire afin d’empêcher les doublons en cas de relance. Un serveur MCP
+expose également cinq outils contrôlés pour permettre à d’autres clients
+compatibles d’accéder aux mêmes capacités. Enfin, un petit modèle local Phi-4
+Mini a été évalué via Ollama comme second avis expérimental.</p>
+<p>Le snapshot final validé contient <strong>100 appels d’offres</strong> et <strong>152 documents</strong>.
+Les 152 fichiers sont présents, hashés et dotés d’un texte extrait. Aucun
+doublon d’appel d’offres ou de document n’est détecté. La campagne de validation
+comprend <strong>67 tests Python</strong> et <strong>6 scripts SQL</strong>, tous réussis. Une sauvegarde
+complète a par ailleurs été restaurée dans une base PostgreSQL isolée puis
+vérifiée. Le projet fournit ainsi un socle reproductible, auditable et
+extensible pour la veille et l’aide à la décision, tout en maintenant une
+validation humaine sur les décisions engageantes.</p>
+<p><strong>Mots-clés :</strong> IA agentique, appels d’offres, HAICOP, OpenClaw, PostgreSQL,
+Docker, n8n, OCR, MCP, Go/No-Go, automatisation.</p>
+<hr>
+<h2 id="abstract">Abstract</h2>
+<p>This internship project focuses on the development of an agentic artificial
+intelligence system supporting public tender management. The objective is to
+reduce the time spent monitoring opportunities, downloading and reading
+documents, filtering irrelevant tenders and preparing an initial Go/No-Go
+assessment.</p>
+<p>The resulting system, <strong>OneTech Tender Agent</strong>, combines a Python collector,
+PostgreSQL, document processing, OpenClaw-based analysis, n8n orchestration,
+email and Telegram delivery, and a bounded MCP server. Public HAICOP data is
+normalized and persisted with idempotent upserts. Public documents are safely
+downloaded, hashed and processed through native text extraction, OCR or legacy
+DOC conversion. Official facts are kept separate from model-generated
+reasoning, providing traceability and safer re-evaluation.</p>
+<p>The validated snapshot contains 100 tenders and 152 fully processed documents,
+with no tender or document duplicates. Sixty-seven Python tests and six SQL
+test scripts passed. The project demonstrates a reproducible and auditable
+end-to-end workflow while keeping human validation mandatory for business
+decisions.</p>
+<p><strong>Keywords:</strong> agentic AI, public tenders, PostgreSQL, OpenClaw, n8n, OCR, MCP,
+automation, Go/No-Go.</p>
+<hr>
+<h2 id="table-des-matieres">Table des matières</h2>
+<div class="toc">
+<ul>
+<li><a href="#remerciements">Remerciements</a></li>
+<li><a href="#resume-executif">Résumé exécutif</a></li>
+<li><a href="#abstract">Abstract</a></li>
+<li><a href="#table-des-matieres">Table des matières</a></li>
+<li><a href="#1-introduction-generale">1. Introduction générale</a></li>
+<li><a href="#2-presentation-du-contexte-et-problematique">2. Présentation du contexte et problématique</a><ul>
+<li><a href="#21-entreprise-daccueil">2.1 Entreprise d’accueil</a></li>
+<li><a href="#22-contexte-des-appels-doffres-publics">2.2 Contexte des appels d’offres publics</a></li>
+<li><a href="#23-problematique">2.3 Problématique</a></li>
+<li><a href="#24-objectifs-du-projet">2.4 Objectifs du projet</a><ul>
+<li><a href="#objectif-principal">Objectif principal</a></li>
+<li><a href="#objectifs-fonctionnels">Objectifs fonctionnels</a></li>
+<li><a href="#objectifs-non-fonctionnels">Objectifs non fonctionnels</a></li>
+</ul>
+</li>
+<li><a href="#25-livrables-realises">2.5 Livrables réalisés</a></li>
+</ul>
+</li>
+<li><a href="#3-etat-de-lart-et-choix-technologiques">3. État de l’art et choix technologiques</a><ul>
+<li><a href="#31-automatisation-classique-et-approche-agentique">3.1 Automatisation classique et approche agentique</a></li>
+<li><a href="#32-openclaw">3.2 OpenClaw</a></li>
+<li><a href="#33-model-context-protocol">3.3 Model Context Protocol</a></li>
+<li><a href="#34-postgresql">3.4 PostgreSQL</a></li>
+<li><a href="#35-docker-et-docker-compose">3.5 Docker et Docker Compose</a></li>
+<li><a href="#36-n8n">3.6 n8n</a></li>
+<li><a href="#37-ocr-et-traitement-documentaire">3.7 OCR et traitement documentaire</a></li>
+<li><a href="#38-modele-local-phi-4-mini">3.8 Modèle local Phi-4 Mini</a></li>
+</ul>
+</li>
+<li><a href="#4-analyse-des-besoins-et-specifications">4. Analyse des besoins et spécifications</a><ul>
+<li><a href="#41-acteurs">4.1 Acteurs</a></li>
+<li><a href="#42-cas-dutilisation-principaux">4.2 Cas d’utilisation principaux</a><ul>
+<li><a href="#uc1-collecter-les-ao">UC1 — Collecter les AO</a></li>
+<li><a href="#uc2-traiter-les-documents">UC2 — Traiter les documents</a></li>
+<li><a href="#uc3-analyser-une-ao">UC3 — Analyser une AO</a></li>
+<li><a href="#uc4-generer-et-diffuser-le-digest">UC4 — Générer et diffuser le digest</a></li>
+<li><a href="#uc5-repondre-dans-telegram">UC5 — Répondre dans Telegram</a></li>
+</ul>
+</li>
+<li><a href="#43-regles-metier-de-scoring">4.3 Règles métier de scoring</a></li>
+<li><a href="#44-criteres-dacceptation">4.4 Critères d’acceptation</a></li>
+</ul>
+</li>
+<li><a href="#5-conception-et-architecture">5. Conception et architecture</a><ul>
+<li><a href="#51-vue-densemble">5.1 Vue d’ensemble</a></li>
+<li><a href="#52-services-docker">5.2 Services Docker</a></li>
+<li><a href="#53-modele-de-donnees">5.3 Modèle de données</a><ul>
+<li><a href="#tables-principales">Tables principales</a></li>
+<li><a href="#idempotence">Idempotence</a></li>
+</ul>
+</li>
+<li><a href="#54-sequence-quotidienne">5.4 Séquence quotidienne</a></li>
+<li><a href="#55-separation-des-responsabilites">5.5 Séparation des responsabilités</a></li>
+</ul>
+</li>
+<li><a href="#6-realisation">6. Réalisation</a><ul>
+<li><a href="#61-organisation-du-code">6.1 Organisation du code</a></li>
+<li><a href="#62-collecteur-haicop">6.2 Collecteur HAICOP</a></li>
+<li><a href="#63-upsert-et-transactions-postgresql">6.3 UPSERT et transactions PostgreSQL</a></li>
+<li><a href="#64-traitement-des-documents">6.4 Traitement des documents</a></li>
+<li><a href="#65-contexte-et-analyse-gono-go">6.5 Contexte et analyse Go/No-Go</a></li>
+<li><a href="#66-automatisation-n8n-et-worker">6.6 Automatisation n8n et worker</a></li>
+<li><a href="#67-gmail-mailpit-et-multi-destinataires">6.7 Gmail, Mailpit et multi-destinataires</a></li>
+<li><a href="#68-telegram">6.8 Telegram</a></li>
+<li><a href="#69-serveur-mcp">6.9 Serveur MCP</a></li>
+<li><a href="#610-exploitation-sauvegarde-et-controle">6.10 Exploitation, sauvegarde et contrôle</a></li>
+</ul>
+</li>
+<li><a href="#7-validation-tests-et-resultats">7. Validation, tests et résultats</a><ul>
+<li><a href="#71-strategie-de-test">7.1 Stratégie de test</a></li>
+<li><a href="#72-resultats-quantitatifs">7.2 Résultats quantitatifs</a></li>
+<li><a href="#73-validation-de-lidempotence">7.3 Validation de l’idempotence</a></li>
+<li><a href="#74-cas-danalyse-reels">7.4 Cas d’analyse réels</a><ul>
+<li><a href="#tender-103283">Tender-103283</a></li>
+<li><a href="#tender-103307">Tender-103307</a></li>
+</ul>
+</li>
+<li><a href="#75-correction-dun-faux-positif">7.5 Correction d’un faux positif</a></li>
+<li><a href="#76-benchmark-phi-4-mini">7.6 Benchmark Phi-4 Mini</a></li>
+<li><a href="#77-sauvegarde-et-restauration">7.7 Sauvegarde et restauration</a></li>
+<li><a href="#78-resilience-face-aux-dependances-externes">7.8 Résilience face aux dépendances externes</a></li>
+</ul>
+</li>
+<li><a href="#8-gestion-du-projet">8. Gestion du projet</a><ul>
+<li><a href="#81-demarche-incrementale">8.1 Démarche incrémentale</a></li>
+<li><a href="#82-versionnement">8.2 Versionnement</a></li>
+<li><a href="#83-gestion-des-risques">8.3 Gestion des risques</a></li>
+</ul>
+</li>
+<li><a href="#9-qualite-securite-et-responsabilite">9. Qualité, sécurité et responsabilité</a><ul>
+<li><a href="#91-principes-de-securite">9.1 Principes de sécurité</a><ul>
+<li><a href="#moindre-privilege">Moindre privilège</a></li>
+<li><a href="#gestion-des-secrets">Gestion des secrets</a></li>
+<li><a href="#tracabilite">Traçabilité</a></li>
+</ul>
+</li>
+<li><a href="#92-decision-assistee-et-validation-humaine">9.2 Décision assistée et validation humaine</a></li>
+<li><a href="#93-acces-maitrise-aux-donnees-publiques">9.3 Accès maîtrisé aux données publiques</a></li>
+<li><a href="#94-robustesse-operationnelle-mise-en-uvre">9.4 Robustesse opérationnelle mise en œuvre</a></li>
+</ul>
+</li>
+<li><a href="#10-conclusion-et-bilan">10. Conclusion et bilan</a></li>
+<li><a href="#11-glossaire">11. Glossaire</a></li>
+<li><a href="#12-bibliographie-et-sitographie">12. Bibliographie et sitographie</a></li>
+<li><a href="#13-annexes">13. Annexes</a><ul>
+<li><a href="#annexe-a-commandes-principales">Annexe A — Commandes principales</a><ul>
+<li><a href="#demarrage-complet">Démarrage complet</a></li>
+<li><a href="#controle-global">Contrôle global</a></li>
+<li><a href="#collecte">Collecte</a></li>
+<li><a href="#statut">Statut</a></li>
+<li><a href="#tests">Tests</a></li>
+<li><a href="#sauvegarde-et-drill-de-restauration">Sauvegarde et drill de restauration</a></li>
+</ul>
+</li>
+<li><a href="#annexe-b-extraits-sql-representatifs">Annexe B — Extraits SQL représentatifs</a><ul>
+<li><a href="#upsert-dun-ao">UPSERT d’un AO</a></li>
+<li><a href="#recherche-des-ao-ouvertes">Recherche des AO ouvertes</a></li>
+</ul>
+</li>
+<li><a href="#annexe-c-architecture-de-reference">Annexe C — Architecture de référence</a></li>
+<li><a href="#annexe-d-artefacts-de-reference">Annexe D — Artefacts de référence</a></li>
+<li><a href="#annexe-e-matrice-de-validation-finale">Annexe E — Matrice de validation finale</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr>
+<h1 id="1-introduction-generale">1. Introduction générale</h1>
+<p>Les appels d’offres publics constituent une source importante d’opportunités
+pour les entreprises de services numériques. Leur traitement reste néanmoins
+coûteux en temps. Il faut surveiller les publications, interpréter des champs
+hétérogènes, ouvrir les pages détaillées, télécharger plusieurs documents,
+vérifier les dates et conditions, identifier les pièces manquantes et décider
+si l’opportunité correspond réellement aux capacités de l’entreprise.</p>
+<p>Une simple recherche par mots-clés ne suffit pas. Un titre apparemment
+informatique peut masquer un achat essentiellement matériel, tandis qu’un
+dossier pertinent peut employer un vocabulaire différent de celui du profil
+de l’entreprise. De plus, les documents sont publiés dans des formats variés :
+PDF texte, PDF scanné, DOCX, ancien DOC ou image. Enfin, une automatisation
+réelle doit être capable de reprendre après une erreur, éviter les doublons,
+conserver une trace de ce qui a été lu et ne jamais confondre les données d’un
+appel d’offres avec des instructions adressées à l’agent.</p>
+<p>Le sujet du stage a donc été formulé ainsi :</p>
+<blockquote>
+<p><strong>Développement d’un système IA agentique pour la gestion des appels d’offres publics.</strong></p>
+</blockquote>
+<p>Le projet vise moins à construire un unique script qu’à assembler un système
+capable de percevoir des données publiques, de les structurer, de mobiliser des
+outils spécialisés, de produire une analyse explicable et de diffuser un
+résultat utile. La dimension agentique réside dans l’orchestration de plusieurs
+étapes et outils, tandis que les opérations sensibles ou déterministes restent
+implémentées dans des composants Python contrôlés.</p>
+<p>La démarche suivie a été incrémentale. Un premier proof of concept a validé
+l’accès aux données publiques et l’analyse de trois dossiers. La solution a
+ensuite évolué vers PostgreSQL, un traitement documentaire complet, une analyse
+persistée, un digest quotidien, une automatisation n8n, des notifications
+multi-canaux, un serveur MCP et des mécanismes d’exploitation. Cette progression
+a permis de tester chaque couche avant d’ajouter la suivante.</p>
+<p>Le présent rapport expose le contexte, les choix techniques, la conception,
+l’implémentation et les validations du système. Il met en évidence les
+réalisations, les décisions d’ingénierie, les résultats mesurés et les
+compétences développées pendant le stage.</p>
+<hr>
+<h1 id="2-presentation-du-contexte-et-problematique">2. Présentation du contexte et problématique</h1>
+<h2 id="21-entreprise-daccueil">2.1 Entreprise d’accueil</h2>
+<p>Le projet a été réalisé pour <strong>One Tech Business Solutions</strong>, entité rattachée
+à One Tech Group. Le profil métier utilisé dans le prototype, validé en version
+V1 pour le scoring, retient les domaines suivants :</p>
+<ul>
+<li>développement logiciel ;</li>
+<li>intégration de systèmes et de systèmes d’information ;</li>
+<li>intelligence artificielle et Data ;</li>
+<li>automatisation ;</li>
+<li>solutions numériques et transformation digitale.</li>
+</ul>
+<p>Les opportunités favorisées concernent donc les logiciels, les applications
+web, les plateformes numériques, l’intégration SI, l’IA, la Data et
+l’automatisation. À l’inverse, les travaux publics, la construction, les
+fournitures alimentaires, le matériel médical et les achats purement matériels
+sans composante logicielle sont pénalisés.</p>
+<p>Le profil métier V1 utilisé par le moteur de présélection a été validé pour le
+périmètre de ce prototype. Il constitue la référence de scoring et permet de
+rejeter les opportunités manifestement hors domaine sans inventer de capacités
+qui ne figurent pas dans le référentiel.</p>
+<h2 id="22-contexte-des-appels-doffres-publics">2.2 Contexte des appels d’offres publics</h2>
+<p>La source retenue pour le prototype est la plateforme publique tunisienne
+HAICOP, accessible depuis <code>marchespublics.gov.tn</code>. Elle met à disposition une
+liste de marchés, des pages détaillées et des documents publics. Certaines
+actions de soumission ou certains documents peuvent dépendre de TUNEPS et d’une
+authentification. Le projet se limite strictement aux ressources publiques et
+ne contourne aucune authentification.</p>
+<p>Un appel d’offres peut être décrit par un identifiant, un organisme, un titre,
+une date de publication, une date limite, un lien de détail et plusieurs
+documents. Ces informations ne sont pas toujours complètes ni homogènes. Une
+solution utile doit donc conserver la donnée originale, tout en proposant une
+représentation normalisée pour la recherche et le tri.</p>
+<h2 id="23-problematique">2.3 Problématique</h2>
+<p>La problématique peut être formulée de la manière suivante :</p>
+<blockquote>
+<p>Comment concevoir un système agentique capable de collecter de manière
+fiable des appels d’offres publics, d’en traiter les documents hétérogènes,
+d’en évaluer la pertinence pour One Tech, puis de diffuser un résultat
+traçable, sans doublon et sans automatiser abusivement la décision finale ?</p>
+</blockquote>
+<p>Cette problématique se décompose en plusieurs difficultés :</p>
+<ol>
+<li><strong>Collecte fiable :</strong> gérer pagination, délais réseau, réponses
+   hétérogènes, encodage et indisponibilités temporaires.</li>
+<li><strong>Persistance :</strong> conserver les faits officiels et l’historique des
+   collectes sans créer de doublons lors des relances.</li>
+<li><strong>Traitement documentaire :</strong> prendre en charge plusieurs formats,
+   détecter les scans et limiter les risques associés aux téléchargements.</li>
+<li><strong>Analyse :</strong> fournir au modèle un contexte complet et vérifiable, séparer
+   ses conclusions des faits, puis contrôler la cohérence des scores.</li>
+<li><strong>Automatisation :</strong> planifier le pipeline, gérer les reprises et empêcher
+   les doubles envois.</li>
+<li><strong>Interopérabilité :</strong> exposer les capacités à OpenClaw et à des clients
+   compatibles MCP sans ouvrir une interface arbitraire ou dangereuse.</li>
+<li><strong>Exploitation :</strong> sauvegarder, restaurer, contrôler et redémarrer la
+   plateforme sur une machine Windows.</li>
+</ol>
+<h2 id="24-objectifs-du-projet">2.4 Objectifs du projet</h2>
+<h3 id="objectif-principal">Objectif principal</h3>
+<p>Développer un prototype opérationnel d’assistance agentique à la veille et à
+l’analyse d’appels d’offres publics.</p>
+<h3 id="objectifs-fonctionnels">Objectifs fonctionnels</h3>
+<ul>
+<li>collecter les AO publiques récentes de HAICOP ;</li>
+<li>normaliser et enregistrer les données dans PostgreSQL ;</li>
+<li>télécharger et extraire les documents associés ;</li>
+<li>présélectionner les AO cohérentes avec le profil One Tech ;</li>
+<li>produire une fiche structurée et une recommandation Go/No-Go ;</li>
+<li>générer un digest quotidien ;</li>
+<li>diffuser le digest par email et Telegram ;</li>
+<li>permettre aux membres du groupe Telegram d’interroger l’agent ;</li>
+<li>rendre les fonctions principales disponibles via MCP.</li>
+</ul>
+<h3 id="objectifs-non-fonctionnels">Objectifs non fonctionnels</h3>
+<ul>
+<li>idempotence des collectes, traitements et diffusions ;</li>
+<li>traçabilité des sources et des décisions ;</li>
+<li>séparation entre faits officiels et contenu généré ;</li>
+<li>tokens, clés OAuth et secrets d’infrastructure exclus du dépôt et des journaux ;</li>
+<li>identifiants locaux de démonstration explicitement documentés et à renouveler
+  avant tout partage ;</li>
+<li>tolérance aux erreurs et reprise ;</li>
+<li>reproductibilité par Docker Compose ;</li>
+<li>observabilité par journaux, pgAdmin, n8n et tables d’audit ;</li>
+<li>protection contre les documents malveillants et les instructions injectées
+  dans les AO.</li>
+</ul>
+<h2 id="25-livrables-realises">2.5 Livrables réalisés</h2>
+<p>Le périmètre réalisé couvre la collecte HAICOP, la base PostgreSQL, le
+traitement documentaire, l’analyse Go/No-Go, l’automatisation n8n, les
+notifications Gmail et Telegram, les outils MCP, le benchmark local, la
+sauvegarde et le contrôle d’exploitation. Ces capacités sont reliées dans un
+MVP unique et ont été validées sur les données réelles du projet.</p>
+<hr>
+<h1 id="3-etat-de-lart-et-choix-technologiques">3. État de l’art et choix technologiques</h1>
+<h2 id="31-automatisation-classique-et-approche-agentique">3.1 Automatisation classique et approche agentique</h2>
+<p>Une automatisation classique suit un enchaînement entièrement prédéfini : lire
+une source, appliquer des règles et produire un résultat. Cette approche est
+efficace pour les tâches déterministes, mais devient rigide lorsque les
+documents varient fortement ou qu’une analyse sémantique est requise.</p>
+<p>Un système agentique ajoute une couche de raisonnement et d’orchestration. Un
+agent reçoit un objectif, choisit les outils autorisés, lit leurs résultats et
+enchaîne les actions nécessaires. Il faut toutefois distinguer :</p>
+<ul>
+<li><strong>le modèle</strong>, qui génère et interprète du langage ;</li>
+<li><strong>l’agent</strong>, qui encadre le modèle, lui fournit un contexte et des outils ;</li>
+<li><strong>les outils</strong>, qui effectuent les opérations fiables, comme une requête SQL
+  ou un téléchargement ;</li>
+<li><strong>le workflow</strong>, qui limite l’ordre et le périmètre des actions.</li>
+</ul>
+<p>Dans ce projet, OpenClaw représente la couche agentique. Python reste
+responsable des opérations déterministes. Cette séparation réduit le risque de
+laisser le modèle inventer une opération technique ou modifier arbitrairement
+les données.</p>
+<h2 id="32-openclaw">3.2 OpenClaw</h2>
+<p>OpenClaw est utilisé comme environnement agentique local. Une instance dédiée
+à l’entreprise fonctionne séparément de l’instance personnelle, avec son propre
+workspace, sa configuration et son gateway sur <code>127.0.0.1:18790</code>. Les skills
+<code>collecte-haicop-ao</code> et <code>analyse-ao</code> décrivent les procédures métier
+autorisées.</p>
+<p>Le rôle d’OpenClaw est de recevoir une demande en langage naturel, sélectionner
+la skill adaptée, appeler la CLI ou le serveur MCP, lire les résultats et
+produire une réponse synthétique. Les textes des AO sont traités comme des
+données non fiables, jamais comme des instructions adressées à l’agent.</p>
+<h2 id="33-model-context-protocol">3.3 Model Context Protocol</h2>
+<p>Le <strong>Model Context Protocol (MCP)</strong> définit une manière standard d’exposer des
+outils et des ressources à des modèles et agents. Son intérêt est de découpler
+la logique métier du client utilisé. Au lieu de créer une intégration spécifique
+pour chaque interface, le projet expose cinq opérations bornées :</p>
+<ol>
+<li><code>collect_tenders</code> ;</li>
+<li><code>list_open_tenders</code> ;</li>
+<li><code>get_tender</code> ;</li>
+<li><code>analyze_tender</code> ;</li>
+<li><code>generate_digest</code>.</li>
+</ol>
+<p>Les entrées sont validées et les sorties limitées en taille. L’outil
+<code>analyze_tender</code> ne prétend pas enregistrer une nouvelle décision : il lit une
+analyse persistée ou prépare le contexte factuel nécessaire.</p>
+<h2 id="34-postgresql">3.4 PostgreSQL</h2>
+<p>PostgreSQL a été choisi pour sa robustesse transactionnelle, ses contraintes
+d’intégrité, son support JSONB et ses capacités d’indexation. Les payloads
+HAICOP originaux sont conservés en JSONB afin de ne pas perdre des champs qui
+ne sont pas encore modélisés.</p>
+<p>Le modèle relationnel permet en parallèle d’exprimer clairement les liens entre
+collectes, AO, documents, analyses et diffusions. Les contraintes uniques sont
+essentielles à l’idempotence : une relance met à jour la ligne existante au
+lieu d’en créer une seconde.</p>
+<h2 id="35-docker-et-docker-compose">3.5 Docker et Docker Compose</h2>
+<p>Docker isole les services dans des conteneurs reproductibles. Docker Compose
+décrit l’ensemble du stack : PostgreSQL, pgAdmin, Mailpit, worker et n8n. Le
+groupe nommé <code>workspace</code> dans Docker Desktop correspond au nom du projet
+Compose dérivé du dossier ; il ne s’agit pas d’un conteneur supplémentaire.</p>
+<p>Les volumes conservent les données même lorsque les conteneurs sont recréés.
+Un réseau privé permet aux services de se joindre par leur nom, par exemple
+<code>postgres:5432</code> depuis le worker, tandis que les interfaces locales sont liées
+à <code>127.0.0.1</code>.</p>
+<h2 id="36-n8n">3.6 n8n</h2>
+<p>n8n est un orchestrateur visuel de workflows. Il ne remplace pas Python ou
+OpenClaw : il déclenche le pipeline à l’heure configurée, appelle le worker et
+conserve l’historique des exécutions. Le workflow quotidien s’exécute les jours
+ouvrés à 08:00 selon le fuseau <code>Europe/Paris</code>.</p>
+<p>Un second workflow interroge Telegram et route uniquement les commandes,
+mentions du bot ou réponses à ses messages. Les conversations ordinaires du
+groupe sont ignorées.</p>
+<h2 id="37-ocr-et-traitement-documentaire">3.7 OCR et traitement documentaire</h2>
+<p>L’extraction directe convient aux PDF comportant une couche texte et aux DOCX.
+Elle échoue sur les scans. Tesseract a donc été ajouté pour effectuer un OCR
+en français, arabe et anglais. Poppler rend les pages PDF en images avant OCR.
+Les anciens fichiers DOC sont convertis dans un profil LibreOffice temporaire
+et isolé. Des limites de taille, de temps et de nombre de pages empêchent une
+consommation incontrôlée des ressources.</p>
+<h2 id="38-modele-local-phi-4-mini">3.8 Modèle local Phi-4 Mini</h2>
+<p>Phi-4 Mini a été installé via Ollama afin d’évaluer une alternative locale sur
+CPU. Le benchmark a retrouvé les deux décisions attendues et a permis de
+mesurer un temps d’inférence compris entre 79 et 105 secondes par AO. Cette
+expérience a validé l’intégration d’un modèle local comme outil de comparaison
+et a fourni des données concrètes pour attribuer à chaque modèle un rôle adapté.</p>
+<hr>
+<h1 id="4-analyse-des-besoins-et-specifications">4. Analyse des besoins et spécifications</h1>
+<h2 id="41-acteurs">4.1 Acteurs</h2>
+<table>
+<thead>
+<tr>
+<th>Acteur</th>
+<th>Besoin principal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Collaborateur One Tech</td>
+<td>Recevoir une veille concise et consulter les AO pertinentes</td>
+</tr>
+<tr>
+<td>Analyste / responsable</td>
+<td>Comprendre le score, les risques et les documents sources</td>
+</tr>
+<tr>
+<td>Administrateur</td>
+<td>Superviser les services, consulter les journaux et restaurer les données</td>
+</tr>
+<tr>
+<td>OpenClaw entreprise</td>
+<td>Accéder à des outils bornés et à un contexte vérifié</td>
+</tr>
+<tr>
+<td>n8n</td>
+<td>Déclencher des traitements idempotents selon un planning</td>
+</tr>
+<tr>
+<td>Système HAICOP</td>
+<td>Fournir les données et documents publics disponibles</td>
+</tr>
+</tbody>
+</table>
+<h2 id="42-cas-dutilisation-principaux">4.2 Cas d’utilisation principaux</h2>
+<h3 id="uc1-collecter-les-ao">UC1 — Collecter les AO</h3>
+<ol>
+<li>L’utilisateur ou n8n demande une collecte.</li>
+<li>Le collecteur enregistre une exécution <code>en_cours</code>.</li>
+<li>Il interroge HAICOP avec pagination, timeout et reprise.</li>
+<li>Il normalise les AO et effectue des UPSERT.</li>
+<li>Il clôture l’exécution avec les compteurs ou l’erreur.</li>
+</ol>
+<h3 id="uc2-traiter-les-documents">UC2 — Traiter les documents</h3>
+<ol>
+<li>Le système sélectionne les documents <code>a_traiter</code>.</li>
+<li>Il valide le domaine et le chemin publics.</li>
+<li>Il télécharge le fichier dans une limite configurable.</li>
+<li>Il détecte le format réel et calcule le SHA-256.</li>
+<li>Il extrait le texte ou utilise OCR/conversion.</li>
+<li>Il enregistre statut, texte, hash et erreur éventuelle.</li>
+</ol>
+<h3 id="uc3-analyser-une-ao">UC3 — Analyser une AO</h3>
+<ol>
+<li>Le système exporte un contexte complet depuis PostgreSQL.</li>
+<li>Il calcule une empreinte SHA-256 déterministe du contexte canonique.</li>
+<li>OpenClaw lit toutes les sources et produit une fiche en neuf sections.</li>
+<li>La CLI vérifie notes, total, décision, statut documentaire et hash.</li>
+<li>L’analyse est enregistrée ou mise à jour de manière idempotente.</li>
+</ol>
+<h3 id="uc4-generer-et-diffuser-le-digest">UC4 — Générer et diffuser le digest</h3>
+<ol>
+<li>n8n appelle le worker authentifié.</li>
+<li>Le worker charge un prompt métier fixe et appelle l’OpenClaw entreprise.</li>
+<li>Le pipeline collecte, traite et analyse les candidats.</li>
+<li>Un digest Markdown est généré et hashé.</li>
+<li>Chaque canal réserve une preuve de diffusion.</li>
+<li>Gmail, Mailpit et Telegram reçoivent le message une seule fois.</li>
+</ol>
+<h3 id="uc5-repondre-dans-telegram">UC5 — Répondre dans Telegram</h3>
+<ol>
+<li>n8n interroge les mises à jour Telegram depuis un offset durable.</li>
+<li>Seules les mentions, commandes et réponses au bot sont retenues.</li>
+<li>Le contenu est nettoyé puis envoyé au worker.</li>
+<li>OpenClaw prépare une réponse avec le contexte OneTech autorisé.</li>
+<li>Telegram publie la réponse et PostgreSQL marque l’interaction <code>repondue</code>.</li>
+</ol>
+<h2 id="43-regles-metier-de-scoring">4.3 Règles métier de scoring</h2>
+<p>La fiche Go/No-Go utilise quatre axes notés sur 25 :</p>
+<ul>
+<li>adéquation avec le profil One Tech ;</li>
+<li>faisabilité du délai ;</li>
+<li>charge administrative ;</li>
+<li>niveau de risque.</li>
+</ul>
+<p>Le total est sur 100. La décision est contrôlée par la CLI selon les seuils
+configurés. Une analyse partielle ne peut pas produire un <code>GO</code> définitif. Le
+profil V1 pénalise également les achats matériels sans composante numérique
+explicite. Le digest est autorisé à ne sélectionner aucune opportunité, plutôt
+que de forcer un faux positif.</p>
+<h2 id="44-criteres-dacceptation">4.4 Critères d’acceptation</h2>
+<ul>
+<li>deux collectes identiques ne créent aucun doublon ;</li>
+<li>un document terminé n’est pas retéléchargé lors d’une relance normale ;</li>
+<li>une analyse rejouée sur le même contexte réutilise son enregistrement ;</li>
+<li>un digest rejoué n’est pas renvoyé au même destinataire ;</li>
+<li>les erreurs ne révèlent aucun secret ;</li>
+<li>le système refuse une configuration Telegram pointant vers un chat privé ou
+  le bot personnel ;</li>
+<li>les données de test sont annulées ou supprimées ;</li>
+<li>la restauration vérifie les compteurs avant de supprimer la base isolée ;</li>
+<li>le système peut être démarré et contrôlé par des scripts documentés.</li>
+</ul>
+<hr>
+<h1 id="5-conception-et-architecture">5. Conception et architecture</h1>
+<h2 id="51-vue-densemble">5.1 Vue d’ensemble</h2>
+<p><img alt="Architecture fonctionnelle de OneTech Tender Agent" src="visuals/architecture_v2.png"></p>
+<p><em>Figure 1 — Architecture fonctionnelle et flux principaux de la solution.</em></p>
+<p>L’architecture combine deux styles :</p>
+<ul>
+<li>un pipeline déterministe pour collecte, base, fichiers et diffusion ;</li>
+<li>une couche agentique pour interpréter les documents et orchestrer les skills.</li>
+</ul>
+<h2 id="52-services-docker">5.2 Services Docker</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Rôle</th>
+<th>Persistance / exposition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>postgres</code></td>
+<td>Base centrale du projet</td>
+<td>Volume <code>onetech_postgres_data</code>, port local 5432</td>
+</tr>
+<tr>
+<td><code>pgadmin</code></td>
+<td>Administration graphique</td>
+<td>Volume <code>onetech_pgadmin_data</code>, port local 5050</td>
+</tr>
+<tr>
+<td><code>mailpit</code></td>
+<td>Canal email local de test</td>
+<td>Volume <code>onetech_mailpit_data</code>, ports 8025/1025</td>
+</tr>
+<tr>
+<td><code>ao-worker</code></td>
+<td>Passerelle FastAPI bornée vers OpenClaw</td>
+<td>Données projet montées dans <code>/app/data</code>, port interne 8080</td>
+</tr>
+<tr>
+<td><code>n8n</code></td>
+<td>Planification et orchestration</td>
+<td>Volume <code>onetech_n8n_data</code>, port local 5678</td>
+</tr>
+</tbody>
+</table>
+<p>Les ports sont liés à <code>127.0.0.1</code> afin de ne pas exposer directement les
+services au réseau. <code>ao-worker</code> reste accessible uniquement dans le réseau
+Docker.</p>
+<h2 id="53-modele-de-donnees">5.3 Modèle de données</h2>
+<p><img alt="Traçabilité des faits, documents et analyses" src="visuals/traceability_data.png"></p>
+<p><em>Figure 2 — Séparation et liaison des faits officiels, preuves documentaires et analyses.</em></p>
+<h3 id="tables-principales">Tables principales</h3>
+<ul>
+<li><code>collectes_haicop</code> : journal d’exécution du collecteur ;</li>
+<li><code>appels_offres</code> : faits officiels HAICOP, clé <code>tender_id</code> ;</li>
+<li><code>documents_ao</code> : URLs, fichiers locaux, hash, statut et texte extrait ;</li>
+<li><code>analyses_ao</code> : fiches et scores générés, séparés des faits ;</li>
+<li><code>executions_quotidiennes</code> : état de chaque pipeline planifié ;</li>
+<li><code>candidats_execution</code> : AO retenues pour une exécution ;</li>
+<li><code>diffusions_digest</code> : registre d’envoi par canal et destinataire ;</li>
+<li><code>telegram_poll_state</code> : offset durable des updates Telegram ;</li>
+<li><code>telegram_interactions</code> : registre haché des mentions et réponses.</li>
+</ul>
+<h3 id="idempotence">Idempotence</h3>
+<p>L’idempotence signifie qu’une même action rejouée produit le même état sans
+duplication. Elle est assurée par :</p>
+<ul>
+<li>clé primaire <code>tender_id</code> pour les AO ;</li>
+<li>contrainte unique <code>(tender_id, url)</code> pour les documents ;</li>
+<li>empreinte du contexte et de la fiche pour les analyses ;</li>
+<li>contrainte <code>(execution_id, canal, destinataire_hash)</code> pour les diffusions ;</li>
+<li>unicité de <code>update_id</code> et de <code>(chat_hash, message_id)</code> pour Telegram.</li>
+</ul>
+<h2 id="54-sequence-quotidienne">5.4 Séquence quotidienne</h2>
+<p><img alt="Automatisation quotidienne et canaux de diffusion" src="visuals/automation_channels.png"></p>
+<p><em>Figure 3 — Orchestration n8n, exécution du pipeline et diffusion multicanale.</em></p>
+<h2 id="55-separation-des-responsabilites">5.5 Séparation des responsabilités</h2>
+<p>Le système évite de confier au modèle les responsabilités qui peuvent être
+codées et testées :</p>
+<ul>
+<li><strong>Python</strong> : validation d’URL, HTTP, parsing, SQL, hash, fichiers, envoi ;</li>
+<li><strong>PostgreSQL</strong> : intégrité, contraintes, transactions et audit ;</li>
+<li><strong>OpenClaw</strong> : choix de skills, lecture sémantique et rédaction ;</li>
+<li><strong>n8n</strong> : planification et déclenchement ;</li>
+<li><strong>MCP</strong> : interface standard et bornée ;</li>
+<li><strong>humain</strong> : validation finale d’une décision ou d’une soumission.</li>
+</ul>
+<hr>
+<h1 id="6-realisation">6. Réalisation</h1>
+<h2 id="61-organisation-du-code">6.1 Organisation du code</h2>
+<p>Le package <code>onetech_ao</code> est structuré par responsabilités :</p>
+<pre><code class="language-text">src/onetech_ao/
+├── config.py       configuration et variables d’environnement
+├── haicop.py       client HTTP, normalisation et parsing
+├── collector.py    orchestration de la collecte
+├── database.py     accès PostgreSQL et transactions
+├── documents.py    téléchargement, hash, extraction, OCR et conversion
+├── analysis.py     contexte, empreinte et validation des fiches
+├── automation.py   runs quotidiens, digest et diffusion
+├── telegram.py     client Telegram et parsing des interactions
+├── worker.py       API FastAPI contrôlée pour n8n
+├── mcp_server.py   cinq outils MCP bornés
+└── cli.py          interface en ligne de commande JSON
+</code></pre>
+<p>Cette organisation facilite les tests unitaires et évite un script monolithique.</p>
+<h2 id="62-collecteur-haicop">6.2 Collecteur HAICOP</h2>
+<p>Le client HAICOP utilise des requêtes HTTPS vérifiées, des timeouts, un
+User-Agent explicite et une pagination de type DataTables. Les fonctions de
+normalisation convertissent les identifiants, dates, booléens et textes dans
+des types stables. Le payload original reste disponible dans <code>donnees_brutes</code>.</p>
+<p>Avec l’option <code>--with-details</code>, le collecteur visite chaque page publique,
+extrait les champs supplémentaires et retient uniquement les URLs de documents
+correspondant au chemin public attendu. La collecte est journalisée : elle
+commence avec <code>statut=en_cours</code>, puis devient <code>terminee</code> ou <code>echec</code> avec ses
+compteurs.</p>
+<p>La dernière indisponibilité observée a été un <code>ConnectTimeout</code> HAICOP. Elle a
+été enregistrée comme échec sans altérer les 100 AO déjà stockées. Ce cas
+illustre l’intérêt de dissocier la disponibilité de la source et la
+disponibilité du référentiel local.</p>
+<h2 id="63-upsert-et-transactions-postgresql">6.3 UPSERT et transactions PostgreSQL</h2>
+<p>Le collecteur utilise <code>INSERT ... ON CONFLICT DO UPDATE</code>. Une AO nouvelle est
+insérée ; une AO déjà connue est mise à jour et sa date de dernière collecte
+est actualisée. Les documents utilisent la paire <code>(tender_id, url)</code>.</p>
+<p>Les valeurs sont transmises à <code>psycopg</code> par paramètres, et non concaténées dans
+le SQL. Les transactions garantissent qu’une erreur grave provoque un rollback
+au lieu de laisser un lot partiellement enregistré.</p>
+<p>Les migrations SQL sont versionnées de <code>001_schema.sql</code> à
+<code>007_telegram.sql</code>. Elles sont idempotentes et s’appliquent dans l’ordre par un
+script PowerShell.</p>
+<h2 id="64-traitement-des-documents">6.4 Traitement des documents</h2>
+<p><img alt="Pipeline de traitement des documents" src="visuals/pipeline_documents.png"></p>
+<p><em>Figure 4 — Téléchargement, identification, extraction, OCR/conversion et persistance.</em></p>
+<p>Le processeur sélectionne les documents à traiter et vérifie l’URL avant tout
+téléchargement. Il refuse les domaines ou chemins non autorisés, borne les
+redirections et limite la taille. Le type réel est détecté à partir du contenu
+et non uniquement de l’extension.</p>
+<p>Après téléchargement :</p>
+<ol>
+<li>le fichier est stocké sous <code>data/documents/</code> ;</li>
+<li>une empreinte SHA-256 est calculée ;</li>
+<li>les archives DOCX sont contrôlées ;</li>
+<li>le texte est extrait selon le format ;</li>
+<li>le résultat et le statut sont enregistrés dans PostgreSQL.</li>
+</ol>
+<p>Pour un PDF sans couche texte, les pages sont rendues par Poppler, contrôlées
+puis soumises à Tesseract. Les anciens DOC sont convertis par LibreOffice en
+mode headless, dans un profil temporaire isolé et avec timeout. Les fichiers
+temporaires sont supprimés, même en cas d’échec.</p>
+<p>Le traitement est reprenable : les documents <code>extrait</code> sont ignorés lors d’une
+relance normale ; les erreurs peuvent être retentées ; une option de
+retraitement permet de bénéficier d’un parseur amélioré sans retélécharger.</p>
+<h2 id="65-contexte-et-analyse-gono-go">6.5 Contexte et analyse Go/No-Go</h2>
+<p>La commande <code>analysis-context</code> joint les faits HAICOP, les champs détaillés,
+le profil One Tech et le texte de tous les documents. Elle produit un fichier
+JSON local et une empreinte SHA-256 déterministe. Les timestamps opérationnels et chemins
+locaux sont exclus de l’empreinte, contrairement aux faits et contenus utiles.</p>
+<p>OpenClaw lit ce contexte et produit une fiche française de neuf sections. Avant
+enregistrement, <code>record-analysis</code> vérifie :</p>
+<ul>
+<li>la présence de toutes les sections ;</li>
+<li>les quatre notes et le total ;</li>
+<li>la cohérence entre total et décision ;</li>
+<li>le statut <code>complete</code> ou <code>partielle</code> ;</li>
+<li>l’empreinte du contexte ;</li>
+<li>la compatibilité avec les règles empêchant un faux <code>GO</code>.</li>
+</ul>
+<p>La fiche, le snapshot et les scores sont conservés dans <code>analyses_ao</code>. Un
+replay du même contexte réutilise l’analyse au lieu de la dupliquer.</p>
+<h2 id="66-automatisation-n8n-et-worker">6.6 Automatisation n8n et worker</h2>
+<p>n8n appelle <code>ao-worker</code> plutôt que Python ou OpenClaw directement. Le worker
+sert de frontière de sécurité : il n’accepte que des routes métier définies et
+un token interne. Il charge des prompts versionnés et n’autorise pas n8n à
+transmettre un prompt arbitraire au gateway.</p>
+<p>Le workflow principal combine un déclencheur manuel et un déclencheur planifié.
+Il appelle <code>/runs/daily</code>, attend la réponse et conserve l’historique dans n8n
+et PostgreSQL. Les exécutions sont préparées, enrichies, finalisées puis
+diffusées.</p>
+<h2 id="67-gmail-mailpit-et-multi-destinataires">6.7 Gmail, Mailpit et multi-destinataires</h2>
+<p>Mailpit fournit une boîte locale de test sans Internet. Gmail est utilisé via
+OAuth, sans stocker de mot de passe SMTP. La liste de destinataires est lue
+depuis une variable d’environnement séparée par des virgules.</p>
+<p>Avant chaque envoi, le système calcule le hash du digest et du destinataire. Il
+réserve une ligne dans <code>diffusions_digest</code>. Si la même exécution a déjà été
+envoyée au même destinataire, le résultat est <code>deja_envoyee</code> et aucun second
+message n’est créé.</p>
+<h2 id="68-telegram">6.8 Telegram</h2>
+<p>L’intégration Telegram comporte deux fonctions : publication du digest et
+réponse aux membres du groupe.</p>
+<p>Le digest est découpé en fragments compatibles avec la limite Telegram. Chaque
+fragment est suivi afin de permettre une reprise sans double publication. Le
+second workflow n8n maintient un offset durable et traite seulement :</p>
+<ul>
+<li>les commandes ;</li>
+<li>les mentions du bot ;</li>
+<li>les réponses à un message du bot.</li>
+</ul>
+<p>Les autres conversations sont ignorées. L’identifiant du chat, de
+l’expéditeur et le contenu sont conservés sous forme d’empreinte plutôt qu’en
+clair dans les tables d’audit. La configuration finale utilise un identifiant
+de groupe négatif et un bot dédié. La validation actuelle contient une
+diffusion Telegram au statut <code>envoyee</code> et une interaction de type <code>mention</code> au
+statut <code>repondue</code>, chacune en une tentative.</p>
+<h2 id="69-serveur-mcp">6.9 Serveur MCP</h2>
+<p>Le serveur <code>onetech-tender</code> utilise le transport stdio local. Les cinq outils
+s’appuient sur les mêmes classes Python et la même base PostgreSQL que la CLI.
+Les limites d’entrée empêchent les listes ou contextes excessifs et les erreurs
+sont expurgées des secrets. Un doctor MCP et un appel en langage naturel ont
+validé la découverte et l’exécution des cinq outils.</p>
+<h2 id="610-exploitation-sauvegarde-et-controle">6.10 Exploitation, sauvegarde et contrôle</h2>
+<p>Des scripts PowerShell permettent de démarrer Docker Desktop, d’appliquer les
+migrations, d’activer les workflows, de lancer le gateway entreprise et Ollama,
+puis d’effectuer un contrôle de santé à la demande. Le lancement manuel est
+documenté par une commande unique et le healthcheck fournit un état explicite
+des services avant une démonstration ou une exécution du pipeline.</p>
+<p>La sauvegarde comprend un dump PostgreSQL, l’état n8n, les workflows, les
+documents, contextes, digests, fiches, prompts et une configuration OpenClaw
+assainie. Les secrets ne sont pas sauvegardés. Un manifeste et des checksums
+SHA-256 garantissent l’intégrité.</p>
+<hr>
+<h1 id="7-validation-tests-et-resultats">7. Validation, tests et résultats</h1>
+<h2 id="71-strategie-de-test">7.1 Stratégie de test</h2>
+<p>La validation combine quatre niveaux :</p>
+<ol>
+<li><strong>Tests unitaires Python</strong> : normalisation, parsing, sécurité des URLs,
+   extraction, scoring, Telegram et MCP.</li>
+<li><strong>Tests d’intégration PostgreSQL</strong> : transactions, UPSERT, idempotence et
+   nettoyage automatique des données factices.</li>
+<li><strong>Smoke tests SQL</strong> : contraintes, vues, analyses, automatisation et
+   Telegram, exécutés dans une transaction annulée.</li>
+<li><strong>Tests bout en bout</strong> : collecte réelle, documents réels, analyse dans
+   l’interface OpenClaw, diffusion Gmail/Telegram, MCP et restauration.</li>
+</ol>
+<h2 id="72-resultats-quantitatifs">7.2 Résultats quantitatifs</h2>
+<p><img alt="Tableau de bord des résultats validés" src="visuals/results_dashboard.png"></p>
+<p><em>Figure 5 — Synthèse des volumes, contrôles d’unicité et validations automatisées.</em></p>
+<table>
+<thead>
+<tr>
+<th>Indicateur</th>
+<th style="text-align: right;">Résultat validé</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Appels d’offres stockés</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr>
+<td>Documents stockés</td>
+<td style="text-align: right;">152</td>
+</tr>
+<tr>
+<td>PDF</td>
+<td style="text-align: right;">41</td>
+</tr>
+<tr>
+<td>DOC</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr>
+<td>DOCX</td>
+<td style="text-align: right;">74</td>
+</tr>
+<tr>
+<td>PNG</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>JPEG</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Fichiers présents</td>
+<td style="text-align: right;">152 / 152</td>
+</tr>
+<tr>
+<td>Empreintes SHA-256 présentes</td>
+<td style="text-align: right;">152 / 152</td>
+</tr>
+<tr>
+<td>Textes extraits</td>
+<td style="text-align: right;">152 / 152</td>
+</tr>
+<tr>
+<td>Doublons AO</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Doublons documents</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Documents en attente / échec</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Tests Python</td>
+<td style="text-align: right;">67 / 67 réussis</td>
+</tr>
+<tr>
+<td>Scripts SQL</td>
+<td style="text-align: right;">6 / 6 réussis</td>
+</tr>
+<tr>
+<td>Outils MCP</td>
+<td style="text-align: right;">5 / 5 découverts et testés</td>
+</tr>
+</tbody>
+</table>
+<h2 id="73-validation-de-lidempotence">7.3 Validation de l’idempotence</h2>
+<p>Lors de la première collecte PostgreSQL de référence, 20 AO et 30 documents
+ont été insérés. La seconde collecte identique a mis à jour les mêmes 20 AO et
+30 documents sans augmenter les compteurs. Les doublons sont restés à zéro.</p>
+<p>Le même principe a été validé pour :</p>
+<ul>
+<li>le traitement documentaire, avec zéro document en attente au replay ;</li>
+<li>l’analyse, qui réutilise l’ID existant pour le même contexte ;</li>
+<li>Mailpit et Gmail, avec statut <code>deja_envoyee</code> au retry ;</li>
+<li>Telegram, avec contraintes d’unicité sur les updates et messages.</li>
+</ul>
+<h2 id="74-cas-danalyse-reels">7.4 Cas d’analyse réels</h2>
+<h3 id="tender-103283">Tender-103283</h3>
+<ul>
+<li>organisme : Société Nationale Immobilière Snit Centre ;</li>
+<li>deux documents sur deux extraits ;</li>
+<li>adéquation : 0/25 ;</li>
+<li>délai : 20/25 ;</li>
+<li>administratif : 1/25 ;</li>
+<li>risque : 3/25 ;</li>
+<li>total : 24/100 ;</li>
+<li>décision : <code>NO_GO</code> ;</li>
+<li>replay : analyse ID 23 réutilisée.</li>
+</ul>
+<h3 id="tender-103307">Tender-103307</h3>
+<ul>
+<li>organisme : Hôpital Charles Nicolle de Tunis ;</li>
+<li>objet : acquisition d’équipements médicaux ;</li>
+<li>deux documents sur deux extraits ;</li>
+<li>total : 36/100 ;</li>
+<li>décision : <code>NO_GO</code> ;</li>
+<li>analyse ID 53 ;</li>
+<li>replay sans doublon.</li>
+</ul>
+<p>Ces cas démontrent qu’un document lisible ne signifie pas qu’une opportunité
+est adaptée au profil logiciel/IT de l’entreprise.</p>
+<h2 id="75-correction-dun-faux-positif">7.5 Correction d’un faux positif</h2>
+<p>Une AO concernant des équipements de formation au gaz avait initialement été
+retenue par un filtre trop permissif. L’analyse a attribué à tort un score
+élevé lors d’un test technique. Le filtre a été corrigé avec :</p>
+<ul>
+<li>recherche de mots entiers ;</li>
+<li>reconnaissance explicite des réseaux informatiques ;</li>
+<li>pénalité pour l’achat matériel ;</li>
+<li>seuil minimal de pertinence fixé à 6 ;</li>
+<li>interdiction d’un <code>GO</code> définitif pour une analyse partielle.</li>
+</ul>
+<p>Après correction, cette AO obtient un score de pertinence négatif et ne figure
+plus dans les digests. Ce défaut a été conservé dans l’historique comme
+illustration de l’importance des tests métier.</p>
+<h2 id="76-benchmark-phi-4-mini">7.6 Benchmark Phi-4 Mini</h2>
+<table>
+<thead>
+<tr>
+<th>Critère</th>
+<th>Observation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Décisions attendues</td>
+<td>2 <code>NO_GO</code> correctement obtenus</td>
+</tr>
+<tr>
+<td>Temps CPU</td>
+<td>79 à 105 secondes par AO</td>
+</tr>
+<tr>
+<td>Intégration</td>
+<td>Appel complet via Ollama et gateway OpenClaw</td>
+</tr>
+<tr>
+<td>Résultat</td>
+<td>Benchmark local achevé et documenté</td>
+</tr>
+<tr>
+<td>Usage retenu</td>
+<td>Comparaison locale et second avis</td>
+</tr>
+</tbody>
+</table>
+<p>Un tour complet via le gateway a nécessité environ 241 secondes. Le benchmark
+a donc permis de valider la chaîne locale et de mesurer précisément son coût
+d’exécution sur CPU.</p>
+<h2 id="77-sauvegarde-et-restauration">7.7 Sauvegarde et restauration</h2>
+<p>La sauvegarde de référence contient 187 fichiers pour 34 455 690 octets. Elle
+a été restaurée dans une base temporaire ; les neuf tables et leurs compteurs
+ont été comparés, puis la base temporaire a été supprimée. Le rapport de drill
+indique <code>status=passed</code> et <code>temporary_database_removed=true</code>.</p>
+<h2 id="78-resilience-face-aux-dependances-externes">7.8 Résilience face aux dépendances externes</h2>
+<p>La dernière collecte observée a échoué proprement avec un <code>ConnectTimeout</code> de
+la liste HAICOP. Le système a :</p>
+<ul>
+<li>conservé les 100 AO déjà présentes ;</li>
+<li>créé un journal de collecte en échec ;</li>
+<li>enregistré une erreur concise sans secret ;</li>
+<li>laissé les autres services opérationnels.</li>
+</ul>
+<p>Cette situation montre que le prototype tolère une indisponibilité temporaire
+de la source : l’incident est observable et le référentiel déjà constitué reste
+disponible pour l’analyse et la démonstration.</p>
+<hr>
+<h1 id="8-gestion-du-projet">8. Gestion du projet</h1>
+<h2 id="81-demarche-incrementale">8.1 Démarche incrémentale</h2>
+<p>Le projet a suivi une approche itérative : chaque nouvelle capacité devait
+reposer sur une couche déjà validée. La chronologie technique reconstruite à
+partir des artefacts est la suivante :</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Jalon</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26 juin 2026</td>
+<td>Confirmation du sujet et choix de la source publique tunisienne</td>
+</tr>
+<tr>
+<td>7 juillet 2026</td>
+<td>Premier PoC HAICOP et trois analyses conservées</td>
+</tr>
+<tr>
+<td>8 juillet 2026</td>
+<td>Retour encadrant et cadrage des jalons PostgreSQL, notifications, n8n, MCP et benchmark local</td>
+</tr>
+<tr>
+<td>20 juillet 2026</td>
+<td>Choix de la tranche <code>collecteur → PostgreSQL → digest local</code></td>
+</tr>
+<tr>
+<td>4 août 2026</td>
+<td>Infrastructure PostgreSQL 16 et pgAdmin sous Docker</td>
+</tr>
+<tr>
+<td>8 août 2026</td>
+<td>Collecteur Python relié à PostgreSQL et double-run idempotent</td>
+</tr>
+<tr>
+<td>10 août 2026</td>
+<td>Traitement documentaire puis analyse PostgreSQL/OpenClaw</td>
+</tr>
+<tr>
+<td>11–17 août 2026</td>
+<td>Automatisation n8n, Mailpit et Gmail multi-destinataires</td>
+</tr>
+<tr>
+<td>18–25 août 2026</td>
+<td>OCR/DOC, Telegram, MCP, Phi, sauvegarde et contrôle d’exploitation</td>
+</tr>
+</tbody>
+</table>
+<p>Ces dates correspondent aux jalons du travail conservés dans le projet. Elles
+ne remplacent pas la période administrative officielle du stage, à indiquer
+sur la page de garde.</p>
+<h2 id="82-versionnement">8.2 Versionnement</h2>
+<p>Le code a été organisé dans un dépôt Git privé. Les commits sont séparés par
+fonctionnalité : base, collecteur, documents, analyse, automatisation, MCP,
+Telegram et exploitation. Cette granularité permet d’identifier l’intention de
+chaque changement et de revenir à un état précédent.</p>
+<p>Les tokens, clés OAuth, fichiers <code>.env</code>, données téléchargées volumineuses,
+contextes générés et fichiers temporaires sont exclus du suivi. Le README privé
+documente volontairement les trois identifiants locaux de démonstration n8n,
+pgAdmin et PostgreSQL ; ils devront être renouvelés avant tout partage du dépôt.
+Les migrations, tests, prompts, workflows et scripts d’exploitation sont versionnés.</p>
+<h2 id="83-gestion-des-risques">8.3 Gestion des risques</h2>
+<table>
+<thead>
+<tr>
+<th>Risque</th>
+<th>Réponse apportée</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Indisponibilité HAICOP</td>
+<td>Timeouts, journal d’échec, données locales préservées</td>
+</tr>
+<tr>
+<td>Doublons</td>
+<td>Clés, contraintes uniques, hashes et registres de diffusion</td>
+</tr>
+<tr>
+<td>Document malveillant ou trop lourd</td>
+<td>Domaine autorisé, limites, validation d’archive et timeout</td>
+</tr>
+<tr>
+<td>Scan illisible</td>
+<td>OCR multi-langue et statut observable</td>
+</tr>
+<tr>
+<td>Ancien DOC</td>
+<td>Conversion LibreOffice isolée</td>
+</tr>
+<tr>
+<td>Hallucination du modèle</td>
+<td>Sources, fiches structurées, validation stricte et humain final</td>
+</tr>
+<tr>
+<td>Prompt injection dans une AO</td>
+<td>Documents traités comme données non fiables</td>
+</tr>
+<tr>
+<td>Fuite de secrets</td>
+<td><code>.env</code>, expurgation des erreurs, backup assaini</td>
+</tr>
+<tr>
+<td>Double réponse Telegram</td>
+<td>Offset durable et unicité des updates/messages</td>
+</tr>
+<tr>
+<td>Perte de données</td>
+<td>Volumes, sauvegarde checksummée et drill de restauration</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="9-qualite-securite-et-responsabilite">9. Qualité, sécurité et responsabilité</h1>
+<h2 id="91-principes-de-securite">9.1 Principes de sécurité</h2>
+<h3 id="moindre-privilege">Moindre privilège</h3>
+<p>Les services sont liés à localhost. Le worker n’expose qu’une API métier
+authentifiée dans le réseau Docker. Le serveur MCP n’expose que cinq outils
+bornés. n8n ne peut pas envoyer de prompt arbitraire au modèle.</p>
+<h3 id="gestion-des-secrets">Gestion des secrets</h3>
+<p>Les tokens, clés OAuth, clés de chiffrement et jetons du gateway sont conservés
+dans <code>.env</code> ou dans la configuration locale ; ils n’apparaissent ni dans les
+livrables de soutenance, ni dans les journaux applicatifs. Les sauvegardes
+excluent également les secrets d’infrastructure.</p>
+<h3 id="tracabilite">Traçabilité</h3>
+<p>Les faits officiels, le contenu extrait, les analyses et les diffusions sont
+séparés. Les empreintes SHA-256 permettent de vérifier que le document ou le
+contexte analysé n’a pas changé. Les interactions Telegram sont auditées sans
+conserver les identifiants ni messages en clair dans les tables concernées.</p>
+<h2 id="92-decision-assistee-et-validation-humaine">9.2 Décision assistée et validation humaine</h2>
+<p>La décision Go/No-Go a un impact commercial. Le système prépare une
+qualification, rassemble les preuves et rend ses critères lisibles ; la
+validation finale appartient à l’équipe. Les fiches exigent des sources,
+indiquent la couverture documentaire et lient la décision au hash du contexte.
+Une analyse partielle ne peut pas produire un <code>GO</code> définitif.</p>
+<h2 id="93-acces-maitrise-aux-donnees-publiques">9.3 Accès maîtrisé aux données publiques</h2>
+<p>Le collecteur n’utilise que les endpoints et documents publics HAICOP. Il ne
+contourne pas TUNEPS, ne réutilise pas de session non autorisée et ne soumet
+aucune offre. Ces frontières doivent rester explicites dans toute évolution.</p>
+<h2 id="94-robustesse-operationnelle-mise-en-uvre">9.4 Robustesse opérationnelle mise en œuvre</h2>
+<p>La robustesse repose sur des mécanismes complémentaires : timeouts et journaux
+de collecte, contraintes d’unicité, transactions SQL, limites de taille pour
+les fichiers, statuts d’extraction observables, offsets Telegram durables,
+registres d’envoi, sauvegarde checksummée et restauration isolée. Ces choix
+permettent de diagnostiquer un incident, de reprendre un traitement et de
+vérifier l’état obtenu sans perdre le référentiel déjà constitué.</p>
+<hr>
+<h1 id="10-conclusion-et-bilan">10. Conclusion et bilan</h1>
+<p>Le projet a permis de construire une chaîne complète de veille et d’analyse
+agentique d’appels d’offres publics. Le passage d’un premier PoC à une
+architecture persistante et automatisée a demandé de traiter des difficultés
+concrètes : instabilité réseau, formats documentaires anciens, scans, doublons,
+cohérence des scores, sécurité des prompts, diffusion multi-canaux et reprise
+après incident.</p>
+<p>La principale contribution réside dans la séparation claire entre les
+responsabilités. PostgreSQL conserve et contrôle l’état ; Python réalise les
+opérations déterministes ; OpenClaw orchestre l’analyse ; n8n planifie ; MCP
+standardise l’accès ; l’utilisateur garde la décision finale. Cette conception
+rend le système plus testable et auditable qu’un agent monolithique.</p>
+<p>Les résultats montrent que le pipeline est techniquement opérationnel lorsqu’il
+est lancé : 100 AO centralisées, 152 documents intégralement traités, aucun
+doublon détecté, notifications Gmail et Telegram validées, cinq outils MCP
+exécutés, 67 tests Python réussis, six scripts SQL validés et une sauvegarde
+restaurée dans une base isolée. Une indisponibilité de HAICOP est journalisée
+sans altérer le référentiel local.</p>
+<p>Ce stage a permis de mettre en pratique des compétences techniques — conception
+d’architecture, Python, PostgreSQL, Docker, traitement documentaire, API,
+automatisation, IA agentique, tests et sécurité — ainsi que des compétences
+transversales : autonomie, communication, organisation, esprit critique,
+persévérance et responsabilité. La valeur principale du travail réside dans un
+système cohérent où le modèle raisonne, le code vérifie et la base conserve la
+preuve.</p>
+<hr>
+<h1 id="11-glossaire">11. Glossaire</h1>
+<table>
+<thead>
+<tr>
+<th>Terme</th>
+<th>Définition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent</td>
+<td>Système qui utilise un modèle, un contexte et des outils pour atteindre un objectif</td>
+</tr>
+<tr>
+<td>AO</td>
+<td>Appel d’offres</td>
+</tr>
+<tr>
+<td>API</td>
+<td>Interface permettant à deux logiciels de communiquer</td>
+</tr>
+<tr>
+<td>CLI</td>
+<td>Interface en ligne de commande</td>
+</tr>
+<tr>
+<td>Digest</td>
+<td>Synthèse périodique des opportunités et analyses</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>Plateforme de conteneurisation des services</td>
+</tr>
+<tr>
+<td>Go/No-Go</td>
+<td>Décision de poursuivre ou non l’étude/réponse à une opportunité</td>
+</tr>
+<tr>
+<td>HAICOP</td>
+<td>Instance tunisienne de contrôle et de suivi des marchés publics ; source publique utilisée</td>
+</tr>
+<tr>
+<td>Hash SHA-256</td>
+<td>Empreinte cryptographique utilisée pour identifier un contenu</td>
+</tr>
+<tr>
+<td>Idempotence</td>
+<td>Propriété d’une opération rejouable sans effet supplémentaire indésirable</td>
+</tr>
+<tr>
+<td>JSONB</td>
+<td>Format JSON binaire et interrogeable de PostgreSQL</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>Grand modèle de langage</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>Model Context Protocol, protocole standard d’exposition d’outils aux agents</td>
+</tr>
+<tr>
+<td>n8n</td>
+<td>Outil d’orchestration visuelle de workflows</td>
+</tr>
+<tr>
+<td>OCR</td>
+<td>Reconnaissance optique de caractères dans une image ou un scan</td>
+</tr>
+<tr>
+<td>OpenClaw</td>
+<td>Environnement agentique utilisé pour orchestrer les skills et outils du projet</td>
+</tr>
+<tr>
+<td>pgAdmin</td>
+<td>Interface graphique d’administration PostgreSQL</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>Système de gestion de base de données relationnelle</td>
+</tr>
+<tr>
+<td>Prompt injection</td>
+<td>Tentative d’insérer des instructions malveillantes dans les données lues par un modèle</td>
+</tr>
+<tr>
+<td>TUNEPS</td>
+<td>Plateforme tunisienne d’achats publics en ligne soumise à authentification</td>
+</tr>
+<tr>
+<td>UPSERT</td>
+<td>Insertion si absent, mise à jour en cas de conflit</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1 id="12-bibliographie-et-sitographie">12. Bibliographie et sitographie</h1>
+<ol>
+<li>PostgreSQL Global Development Group, <em>PostgreSQL 16 Documentation</em>,
+   <a href="https://www.postgresql.org/docs/16/">https://www.postgresql.org/docs/16/</a>, consulté le 25 août 2026.</li>
+<li>Docker, <em>Docker Compose documentation</em>,
+   <a href="https://docs.docker.com/compose/">https://docs.docker.com/compose/</a>, consulté le 25 août 2026.</li>
+<li>Python Software Foundation, <em>Python 3 Documentation</em>,
+   <a href="https://docs.python.org/3/">https://docs.python.org/3/</a>, consulté le 25 août 2026.</li>
+<li>Psycopg Project, <em>Psycopg 3 Documentation</em>,
+   <a href="https://www.psycopg.org/psycopg3/docs/">https://www.psycopg.org/psycopg3/docs/</a>, consulté le 25 août 2026.</li>
+<li>n8n, <em>n8n Documentation</em>, <a href="https://docs.n8n.io/">https://docs.n8n.io/</a>, consulté le 25 août 2026.</li>
+<li>Model Context Protocol, <em>Official Documentation</em>,
+   <a href="https://modelcontextprotocol.io/">https://modelcontextprotocol.io/</a>, consulté le 25 août 2026.</li>
+<li>Ollama, <em>Ollama Documentation</em>, <a href="https://ollama.com/">https://ollama.com/</a>, consulté le 25 août 2026.</li>
+<li>Tesseract OCR, <em>Tesseract User Manual</em>,
+   <a href="https://tesseract-ocr.github.io/">https://tesseract-ocr.github.io/</a>, consulté le 25 août 2026.</li>
+<li>LibreOffice, <em>Documentation — conversion et formats bureautiques</em>,
+   <a href="https://documentation.libreoffice.org/">https://documentation.libreoffice.org/</a>, consulté le 25 août 2026.</li>
+<li>Telegram, <em>Telegram Bot API</em>,
+    <a href="https://core.telegram.org/bots/api">https://core.telegram.org/bots/api</a>, consulté le 25 août 2026.</li>
+<li>HAICOP / Marchés publics Tunisie, portail public,
+    <a href="https://www.marchespublics.gov.tn/">https://www.marchespublics.gov.tn/</a>, consulté le 25 août 2026.</li>
+<li>Documentation interne du projet : <code>README.md</code>, <code>HISTORY.md</code>,
+   <code>database/README.md</code>, <code>docs/OPERATIONS.md</code> et rapports E2E versionnés.</li>
+</ol>
+<hr>
+<h1 id="13-annexes">13. Annexes</h1>
+<h2 id="annexe-a-commandes-principales">Annexe A — Commandes principales</h2>
+<h3 id="demarrage-complet">Démarrage complet</h3>
+<pre><code class="language-powershell">cd C:\Users\khaye\.openclaw-company\workspace
+.\scripts\start-onetech-stack.ps1 -StartGateway -StartOllama
+</code></pre>
+<h3 id="controle-global">Contrôle global</h3>
+<pre><code class="language-powershell">.\scripts\healthcheck-onetech-stack.ps1 `
+  -RequireGateway -RequireOllama -RequireWorkflows -RequireMcp
+</code></pre>
+<h3 id="collecte">Collecte</h3>
+<pre><code class="language-powershell">.\.venv\Scripts\python.exe -m onetech_ao.cli collect `
+  --limit 50 --with-details --process-documents
+</code></pre>
+<h3 id="statut">Statut</h3>
+<pre><code class="language-powershell">docker compose exec -T ao-worker python -m onetech_ao.cli status
+</code></pre>
+<h3 id="tests">Tests</h3>
+<pre><code class="language-powershell">.\.venv\Scripts\python.exe -m pytest -q
+.\scripts\test-database.ps1
+</code></pre>
+<h3 id="sauvegarde-et-drill-de-restauration">Sauvegarde et drill de restauration</h3>
+<pre><code class="language-powershell">.\scripts\backup-onetech-stack.ps1
+.\scripts\test-onetech-backup-restore.ps1
+</code></pre>
+<h2 id="annexe-b-extraits-sql-representatifs">Annexe B — Extraits SQL représentatifs</h2>
+<h3 id="upsert-dun-ao">UPSERT d’un AO</h3>
+<pre><code class="language-sql">INSERT INTO appels_offres (tender_id, organisme, titre, donnees_brutes)
+VALUES (%s, %s, %s, %s)
+ON CONFLICT (tender_id)
+DO UPDATE SET
+    organisme = EXCLUDED.organisme,
+    titre = EXCLUDED.titre,
+    donnees_brutes = EXCLUDED.donnees_brutes,
+    derniere_collecte_le = clock_timestamp();
+</code></pre>
+<h3 id="recherche-des-ao-ouvertes">Recherche des AO ouvertes</h3>
+<pre><code class="language-sql">SELECT tender_id, organisme, titre, date_limite
+FROM v_appels_offres_ouverts
+ORDER BY date_limite ASC NULLS LAST;
+</code></pre>
+<h2 id="annexe-c-architecture-de-reference">Annexe C — Architecture de référence</h2>
+<p>Le diagramme d’architecture intégré à la section 5.1 est livré séparément sous
+les formats PNG et HTML dans le dossier <code>livrables/</code>. Il constitue la vue de
+référence pour la soutenance et la documentation d’exploitation.</p>
+<h2 id="annexe-d-artefacts-de-reference">Annexe D — Artefacts de référence</h2>
+<ul>
+<li><code>README.md</code> : installation, architecture et commandes ;</li>
+<li><code>HISTORY.md</code> : chronologie technique ;</li>
+<li><code>compose.yaml</code> : infrastructure Docker ;</li>
+<li><code>database/init/*.sql</code> : migrations ;</li>
+<li><code>src/onetech_ao/</code> : code Python ;</li>
+<li><code>automation/n8n/workflows/</code> : workflows n8n ;</li>
+<li><code>skills/</code> : skills OpenClaw ;</li>
+<li><code>docs/POSTGRES_ANALYSIS_E2E_REPORT_2026-08-10.md</code> ;</li>
+<li><code>docs/AUTOMATION_E2E_REPORT_2026-08-11.md</code> ;</li>
+<li><code>docs/OPERATIONS.md</code>.</li>
+</ul>
+<h2 id="annexe-e-matrice-de-validation-finale">Annexe E — Matrice de validation finale</h2>
+<table>
+<thead>
+<tr>
+<th>Domaine vérifié</th>
+<th>Résultat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Collecte HAICOP et persistance</td>
+<td>100 AO, aucun doublon</td>
+</tr>
+<tr>
+<td>Traitement documentaire</td>
+<td>152/152 documents traités</td>
+</tr>
+<tr>
+<td>Analyse et scoring</td>
+<td>Fiches persistées et contrôles de cohérence actifs</td>
+</tr>
+<tr>
+<td>Automatisation n8n</td>
+<td>Workflow quotidien actif et rejouable</td>
+</tr>
+<tr>
+<td>Diffusion Gmail</td>
+<td>Multi-destinataires avec anti-doublon</td>
+</tr>
+<tr>
+<td>Diffusion Telegram</td>
+<td>Publication réelle et réponse à une mention validées</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>5/5 outils découverts et exécutés</td>
+</tr>
+<tr>
+<td>Sauvegarde/restauration</td>
+<td>Drill isolé réussi avec checksums</td>
+</tr>
+<tr>
+<td>Tests automatisés</td>
+<td>67 Python + 6 SQL réussis</td>
+</tr>
+</tbody>
+</table></main></body></html>

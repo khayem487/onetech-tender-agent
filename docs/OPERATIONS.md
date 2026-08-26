@@ -18,29 +18,17 @@ entreprise sur `127.0.0.1:18790`. Le gateway personnel n'est jamais touché.
 
 Les journaux persistants se trouvent sous `logs/operations/`.
 
-## Démarrage Windows et watchdog
+## Démarrage manuel
 
-```powershell
-.\scripts\install-onetech-startup-task.ps1 -ConfirmInstall -RunNow
-```
+Le projet ne crée aucune tâche planifiée Windows. Il est lancé à la demande
+avec `start-onetech-stack.ps1`, puis contrôlé ponctuellement avec
+`healthcheck-onetech-stack.ps1`. Cette exploitation manuelle évite tout
+démarrage de Docker ou d’OpenClaw à l’ouverture de la session Windows.
 
-Deux tâches Windows sont installées :
+## Telegram : canal opérationnel
 
-- `OneTech Tender Agent Stack` au logon ;
-- `OneTech Tender Agent Watchdog` toutes les cinq minutes.
-
-Elles sont autorisées sur batterie. Le watchdog effectue des réparations
-bornées pour Docker, le gateway, Ollama et les workflows avant de journaliser
-l'échec. Pour les supprimer :
-
-```powershell
-.\scripts\uninstall-onetech-startup-task.ps1
-```
-
-## Telegram : activation sûre
-
-Telegram reste désactivé par défaut. Il faut un bot OneTech distinct du bot
-personnel et un identifiant de groupe négatif :
+Le bot OneTech et le groupe dédié sont configurés localement. Les valeurs
+sensibles restent dans `.env` et ne sont jamais versionnées :
 
 ```env
 TELEGRAM_ENABLED=true
@@ -49,7 +37,7 @@ TELEGRAM_CHAT_ID=-1001234567890
 AUTOMATION_DELIVERY_ARGS=--mailpit --email --telegram
 ```
 
-Puis :
+Pour réactiver le canal après une reconstruction de la stack :
 
 ```powershell
 docker compose up -d --force-recreate ao-worker n8n

@@ -23,6 +23,12 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<10"]
+deliverables = [
+    "Markdown>=3.10,<4",
+    "PyMuPDF>=1.26,<2",
+    "python-docx>=1.1,<2",
+    "python-pptx>=1.0,<2",
+]
 
 [project.scripts]
 onetech-ao = "onetech_ao.cli:main"

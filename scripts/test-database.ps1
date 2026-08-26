@@ -17,7 +17,7 @@ try {
     foreach ($test in $tests) {
         Write-Host "Execution de $($test.Name)..."
         Get-Content -LiteralPath $test.FullName -Raw |
-            docker compose exec -T postgres sh -lc 'psql -X -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+            docker compose exec -T postgres psql -X -v ON_ERROR_STOP=1 -U onetech -d onetech_ao
 
         if ($LASTEXITCODE -ne 0) {
             throw "Le test $($test.Name) a echoue."

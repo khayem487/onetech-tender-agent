@@ -28,6 +28,7 @@ htmlcov/
 build/
 dist/
 *.egg-info/
+~$*
 /data/documents/
 /data/analysis_context/
 /data/digests/
