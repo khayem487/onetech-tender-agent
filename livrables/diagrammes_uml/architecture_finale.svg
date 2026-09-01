@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture fonctionnelle OneTech Tender Agent</title>
+  <desc id="desc">Chaîne de traitement de HAICOP vers l'acquisition Python, PostgreSQL, OpenClaw, n8n et les canaux de diffusion, avec garde-fous et validation humaine.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#102A43" flood-opacity="0.13"/></filter>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="11" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L12,5 L0,10 z" fill="#52718C"/></marker>
+    <style>
+      .stage{rx:22;ry:22;filter:url(#shadow);stroke-width:3}
+      .kicker{font:700 19px 'Segoe UI',Arial,sans-serif;letter-spacing:1.2px}
+      .heading{font:700 27px 'Segoe UI',Arial,sans-serif;fill:#102A43}
+      .body{font:500 18px 'Segoe UI',Arial,sans-serif;fill:#334E68}
+      .small{font:600 16px 'Segoe UI',Arial,sans-serif;fill:#486581}
+      .arrow{stroke:#52718C;stroke-width:5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1600" height="820" fill="#F6F8FB"/>
+  <text x="80" y="66" class="kicker" fill="#2B6CB0">ARCHITECTURE DE BOUT EN BOUT</text>
+  <text x="80" y="112" class="heading" font-size="34">Une chaîne locale, traçable et contrôlée</text>
+
+  <g transform="translate(70 185)">
+    <rect class="stage" x="0" y="0" width="205" height="285" fill="#E8F0F8" stroke="#2B6CB0"/>
+    <circle cx="102" cy="64" r="32" fill="#2B6CB0"/><text x="102" y="72" text-anchor="middle" font-family="Segoe UI" font-size="25" font-weight="700" fill="#fff">1</text>
+    <text x="102" y="125" text-anchor="middle" class="heading">HAICOP</text>
+    <text x="102" y="164" text-anchor="middle" class="body"><tspan x="102">Annonces et</tspan><tspan x="102" dy="28">pièces publiques</tspan></text>
+    <text x="102" y="242" text-anchor="middle" class="small">Source officielle</text>
+  </g>
+
+  <path class="arrow" d="M285 327 H325"/>
+  <g transform="translate(335 185)">
+    <rect class="stage" x="0" y="0" width="235" height="285" fill="#E6F7FB" stroke="#2CB8D3"/>
+    <circle cx="117" cy="64" r="32" fill="#2CB8D3"/><text x="117" y="72" text-anchor="middle" font-family="Segoe UI" font-size="25" font-weight="700" fill="#fff">2</text>
+    <text x="117" y="125" text-anchor="middle" class="heading">Python</text>
+    <text x="117" y="164" text-anchor="middle" class="body"><tspan x="117">Collecte, détails</tspan><tspan x="117" dy="28">et documents</tspan></text>
+    <text x="117" y="229" text-anchor="middle" class="small"><tspan x="117">OCR · LibreOffice</tspan><tspan x="117" dy="25">SHA-256</tspan></text>
+  </g>
+
+  <path class="arrow" d="M580 327 H620"/>
+  <g transform="translate(630 185)">
+    <rect class="stage" x="0" y="0" width="235" height="285" fill="#EEF3FF" stroke="#496BB3"/>
+    <circle cx="117" cy="64" r="32" fill="#496BB3"/><text x="117" y="72" text-anchor="middle" font-family="Segoe UI" font-size="25" font-weight="700" fill="#fff">3</text>
+    <text x="117" y="125" text-anchor="middle" class="heading">PostgreSQL</text>
+    <text x="117" y="164" text-anchor="middle" class="body"><tspan x="117">Faits, pièces,</tspan><tspan x="117" dy="28">analyses, preuves</tspan></text>
+    <text x="117" y="229" text-anchor="middle" class="small"><tspan x="117">UPSERT · JSONB</tspan><tspan x="117" dy="25">contraintes d'unicité</tspan></text>
+  </g>
+
+  <path class="arrow" d="M875 327 H915"/>
+  <g transform="translate(925 185)">
+    <rect class="stage" x="0" y="0" width="235" height="285" fill="#FFF4DE" stroke="#D99A22"/>
+    <circle cx="117" cy="64" r="32" fill="#D99A22"/><text x="117" y="72" text-anchor="middle" font-family="Segoe UI" font-size="25" font-weight="700" fill="#fff">4</text>
+    <text x="117" y="125" text-anchor="middle" class="heading">OpenClaw</text>
+    <text x="117" y="164" text-anchor="middle" class="body"><tspan x="117">Contexte, fiche</tspan><tspan x="117" dy="28">et score Go/No-Go</tspan></text>
+    <text x="117" y="229" text-anchor="middle" class="small"><tspan x="117">Skills métier</tspan><tspan x="117" dy="25">5 outils MCP bornés</tspan></text>
+  </g>
+
+  <path class="arrow" d="M1170 327 H1210"/>
+  <g transform="translate(1220 185)">
+    <rect class="stage" x="0" y="0" width="310" height="285" fill="#EAF8F0" stroke="#2F9E68"/>
+    <circle cx="155" cy="64" r="32" fill="#2F9E68"/><text x="155" y="72" text-anchor="middle" font-family="Segoe UI" font-size="25" font-weight="700" fill="#fff">5</text>
+    <text x="155" y="125" text-anchor="middle" class="heading">n8n + worker</text>
+    <text x="155" y="164" text-anchor="middle" class="body"><tspan x="155">Planification, reprise</tspan><tspan x="155" dy="28">et diffusion contrôlée</tspan></text>
+    <text x="155" y="229" text-anchor="middle" class="small"><tspan x="155">Mailpit · Gmail · Telegram</tspan><tspan x="155" dy="25">registre anti-doublon</tspan></text>
+  </g>
+
+  <rect x="95" y="550" width="1410" height="168" rx="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="135" y="595" class="kicker" fill="#2B6CB0">GARDE-FOUS TRANSVERSES</text>
+  <g class="small">
+    <text x="135" y="650">✓ URLs et formats contrôlés</text>
+    <text x="460" y="650">✓ empreintes de contexte</text>
+    <text x="780" y="650">✓ validations Python / SQL</text>
+    <text x="1110" y="650">✓ preuves de diffusion</text>
+  </g>
+  <rect x="420" y="742" width="760" height="54" rx="27" fill="#173B5E"/>
+  <text x="800" y="777" text-anchor="middle" font-family="Segoe UI" font-size="22" font-weight="700" fill="#FFFFFF">Le modèle propose · le code vérifie · l'humain décide</text>
+</svg>

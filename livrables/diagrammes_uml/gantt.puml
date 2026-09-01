@@ -1,0 +1,23 @@
+@startgantt gantt
+language fr
+<style>
+ganttDiagram {
+  task { BackGroundColor #6C9BC9 LineColor #1F3B57 FontName "DejaVu Sans" FontSize 12 }
+  milestone { BackGroundColor #E3B341 LineColor #B07D2B }
+  timeline { BackgroundColor #F0F4F8 }
+}
+</style>
+projectscale weekly
+Project starts 2026-06-26
+[Cadrage, IA agentique et OpenClaw] starts 2026-06-26 and ends 2026-07-06
+[PoC collecte HAICOP + 3 analyses] starts 2026-07-01 and ends 2026-07-07
+[Retour encadrant, jalons v2] happens 2026-07-08
+[Choix tranche bout en bout] happens 2026-07-20
+[Infrastructure PostgreSQL + Docker] starts 2026-08-03 and ends 2026-08-05
+[Collecteur Python -> PostgreSQL] starts 2026-08-05 and ends 2026-08-08
+[Traitement documentaire + analyse] starts 2026-08-08 and ends 2026-08-10
+[Automatisation n8n, Gmail, digest] starts 2026-08-11 and ends 2026-08-17
+[OCR, Telegram, MCP, Phi, sauvegarde] starts 2026-08-18 and ends 2026-08-25
+[Rapport, présentation, QA] starts 2026-08-20 and ends 2026-08-26
+[Livraison finale] happens 2026-08-26
+@endgantt

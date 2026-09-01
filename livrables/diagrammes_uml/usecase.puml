@@ -1,0 +1,37 @@
+@startuml usecase
+!include style.iuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Collaborateur\nOne Tech" as Collab
+actor "Analyste /\nResponsable" as Analyste
+actor "Administrateur" as Admin
+actor "n8n\n(planificateur)" as N8N <<système>>
+actor "HAICOP\n(source publique)" as HAICOP <<système>>
+
+rectangle "OneTech Tender Agent" {
+  usecase "UC1\nCollecter les appels\nd'offres publics" as UC1
+  usecase "UC2\nTraiter les documents\n(hash, extraction, OCR)" as UC2
+  usecase "UC3\nAnalyser une AO\n(fiche Go/No-Go)" as UC3
+  usecase "UC4\nGénérer et diffuser\nle digest quotidien" as UC4
+  usecase "UC5\nInterroger l'agent\nvia Telegram" as UC5
+  usecase "UC6\nConsulter AO, fiches\net historique" as UC6
+  usecase "UC7\nSuperviser, sauvegarder\net restaurer" as UC7
+  usecase "Accéder aux outils\nvia MCP" as UC8
+}
+
+Collab --> UC5
+Collab --> UC6
+Analyste --> UC3
+Analyste --> UC6
+Admin --> UC1
+Admin --> UC7
+N8N --> UC4
+UC1 ..> HAICOP : requêtes publiques
+UC2 ..> HAICOP : téléchargements bornés
+UC4 ..> UC1 : <<include>>
+UC4 ..> UC2 : <<include>>
+UC4 ..> UC3 : <<include>>
+UC3 ..> UC2 : <<include>>
+Analyste --> UC8
+@enduml

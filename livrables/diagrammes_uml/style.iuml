@@ -1,0 +1,36 @@
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "DejaVu Sans"
+skinparam defaultFontSize 13
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam ArrowColor #1F3B57
+skinparam ArrowFontColor #333333
+skinparam ActorBorderColor #1F3B57
+skinparam ActorBackgroundColor #E8F0F8
+skinparam usecase {
+  BackgroundColor #E8F0F8
+  BorderColor #1F3B57
+  FontColor #17293D
+}
+skinparam rectangle {
+  BackgroundColor #F7F9FB
+  BorderColor #90A4B8
+}
+skinparam participant {
+  BackgroundColor #E8F0F8
+  BorderColor #1F3B57
+  FontColor #17293D
+}
+skinparam database {
+  BackgroundColor #FDF3E3
+  BorderColor #B07D2B
+}
+skinparam sequence {
+  LifeLineBorderColor #90A4B8
+  GroupBackgroundColor #EEF3F8
+  GroupBorderColor #90A4B8
+}
+skinparam note {
+  BackgroundColor #FFF8DC
+  BorderColor #C9B458
+}

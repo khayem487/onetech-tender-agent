@@ -1,0 +1,49 @@
+@startuml architecture
+!include style.iuml
+title Architecture de bout en bout — OneTech Tender Agent
+skinparam componentStyle rectangle
+skinparam ranksep 40
+skinparam nodesep 30
+
+cloud "HAICOP — marchespublics.gov.tn (données publiques)" as HAICOP #E8F0F8
+
+rectangle "Acquisition (Python — onetech_ao)" as ACQ #F7F9FB {
+  component "Collecteur\nHTTPS vérifié · pagination\ntimeouts · normalisation" as COL
+  component "Traitement documentaire\ntéléchargements bornés · SHA-256\nextraction · OCR Tesseract · LibreOffice" as DOCP
+}
+
+database "PostgreSQL 16\nfaits officiels · documents et empreintes · analyses · registres de diffusion\nUPSERT idempotents · JSONB brut conservé" as PG #FDF3E3
+
+rectangle "Intelligence" as INTEL #F7F9FB {
+  component "OpenClaw entreprise\nskills collecte-haicop-ao / analyse-ao\ngateway 127.0.0.1:18790" as OC
+  component "Serveur MCP\n5 outils bornés" as MCP
+  component "Ollama · Phi-4 Mini\nsecond avis local" as PHI
+}
+
+rectangle "Orchestration" as ORCH #F7F9FB {
+  component "n8n\n08:00 jours ouvrés\n+ polling Telegram" as N8N
+  component "ao-worker (FastAPI)\nAPI bornée · token interne\nprompts versionnés" as W
+}
+
+rectangle "Diffusion — registre anti-doublon" as DIFF #F7F9FB {
+  component "Mailpit\n(test local)" as MP
+  component "Gmail\n(OAuth)" as GM
+  component "Telegram\nbot + groupe dédié\nréponses aux mentions" as TG
+}
+
+HAICOP -down-> COL
+HAICOP -down-> DOCP
+COL -down-> PG
+DOCP -down-> PG
+PG <-down-> OC : contexte empreinté\nfiches Go/No-Go
+PG <-- MCP : accès borné
+OC .right.> PHI : benchmark
+N8N -up-> W : déclenchement\nauthentifié
+W -up-> OC : mission bornée
+W -down-> MP
+W -down-> GM
+W -down-> TG
+note bottom of DIFF
+  La validation finale d'une décision reste humaine.
+end note
+@enduml

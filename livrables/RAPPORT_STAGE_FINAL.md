@@ -1,60 +1,45 @@
 # Rapport de stage — version finale
 
-## Développement d’un système IA agentique pour la gestion des appels d’offres publics
+> **Version de référence pour l’entreprise et CY Tech**
+>
+> Dernière validation : 1er septembre 2026
 
-**Étudiant :** Khayem Ben Ghorbel
+## Fichiers à utiliser
 
-**Formation :** CY Tech — Cycle ingénieur Informatique ING1/GI
+- [Rapport PDF](./RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.pdf) — version de lecture et d’envoi, 34 pages A4.
+- [Rapport Word](./RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.docx) — version éditable, ouvrable dans Microsoft Word.
+- [Évaluation de stage](./ANNEXE_EVALUATION_STAGE_A_FAIRE_REMPLIR_PAR_MAKRAM.pdf) — document séparé à faire compléter par le tuteur entreprise.
 
-**Organisme d’accueil :** One Tech Business Solutions — One Tech Group
+Le fichier Word est la source éditable canonique. Le PDF a été exporté depuis ce même fichier avec Microsoft Word.
 
-**Encadrant entreprise :** Makram Ben Hamed
+## Angle retenu
 
-**Période :** 26 juin – 26 août 2026
+Le rapport présente uniquement le travail livré :
 
-Le rapport a été reconstruit intégralement à partir du code, des migrations, des workflows, des tests et du handoff technique du dépôt. Les versions de référence sont :
+- collecte des données publiques HAICOP ;
+- persistance PostgreSQL idempotente ;
+- téléchargement, empreintes SHA-256, extraction et OCR multilingue ;
+- analyse Go/No-Go structurée et traçable ;
+- orchestration n8n et worker authentifié ;
+- diffusion Mailpit, Gmail et Telegram ;
+- cinq outils MCP bornés ;
+- tests, sauvegarde et restauration vérifiée.
 
-- [RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.pdf](./RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.pdf) — version de lecture et d’impression, 35 pages A4 ;
-- [RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.docx](./RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.docx) — version Word éditable.
+La narration suit le principe : **le modèle propose, le code vérifie, PostgreSQL conserve la preuve et l’humain décide**.
 
-## Résumé
+## Snapshot présenté
 
-OneTech Tender Agent est un MVP d’IA agentique pour la gestion des appels d’offres publics. Il collecte des consultations publiques depuis HAICOP, normalise les faits dans PostgreSQL, télécharge les pièces sous contraintes, extrait leur texte par des méthodes natives ou par OCR, puis prépare un contexte traçable pour une analyse Go / No-Go en neuf sections. Une grille explicite de quatre critères sur vingt-cinq points structure la recommandation. Des validations déterministes contrôlent les scores, la cohérence de la décision, la complétude et l’empreinte du contexte.
+| Indicateur | Résultat validé |
+|---|---:|
+| Appels d’offres centralisés | 100 |
+| Documents présents, hachés et extraits | 152 / 152 |
+| Tests Python | 62 locaux + 5 d’intégration = 67 |
+| Scripts SQL | 6 / 6 |
+| Outils MCP | 5 / 5 |
+| Canaux validés | Mailpit, Gmail, Telegram |
 
-L’exécution quotidienne s’appuie sur n8n, un worker Python et un registre de diffusion idempotent vers Mailpit, Gmail et Telegram. Un serveur MCP expose cinq opérations bornées à l’agent. Le résultat reste une aide à la décision : la validation humaine demeure obligatoire.
-
-## État vérifié présenté dans le rapport
-
-- 100 appels d’offres collectés ;
-- 152 pièces documentaires présentes, hachées et extraites ;
-- corpus : 41 PDF, 74 DOCX, 35 DOC, 1 PNG et 1 JPEG ;
-- 5 outils MCP exposés ;
-- 62 tests locaux réussis sur 62, hors intégration et réseau ;
-- référence full-stack documentée : 67 tests Python et 6 tests SQL ;
-- deux cas de démonstration traçables : `Tender-103283` à 24/100 et `Tender-103307` à 36/100, tous deux `NO_GO` ;
-- rejeu sans duplication des consultations, documents, analyses et livraisons.
-
-## Structure du rapport
-
-Le document couvre le contexte du stage, l’état de l’art, les spécifications, la méthode, l’architecture, le modèle de données, la collecte, le pipeline documentaire et OCR, l’analyse Go / No-Go, l’automatisation, les séquences, MCP, les résultats, la sécurité, la démonstration, les compétences acquises et la conclusion. Il contient aussi une bibliographie, un scénario de démonstration de trois minutes et une checklist de soutenance.
+Les formulations absolues ont été évitées : le rapport indique qu’aucun doublon n’a été observé pendant la campagne de validation et décrit les contraintes techniques qui protègent les rejouements.
 
 ## Diagrammes
 
-Les figures sont intégrées dans le rapport et fournies séparément dans [diagrammes_finaux](./diagrammes_finaux/) :
-
-1. chronologie du projet ;
-2. diagramme de cas d’utilisation ;
-3. architecture logique et déploiement ;
-4. modèle de données et chaîne de traçabilité ;
-5. pipeline de téléchargement, détection, extraction et OCR ;
-6. matrice Go / No-Go ;
-7. diagramme de séquence de l’exécution quotidienne ;
-8. diagramme de séquence de l’interaction Telegram ;
-9. architecture MCP ;
-10. résultats de validation ;
-11. contrôles de sécurité et de qualité ;
-12. scénarios de démonstration.
-
-## Positionnement
-
-Le livrable est présenté comme un **MVP opérationnel, validé et démontrable**. Il ne revendique ni mise en production, ni gain métier chiffré, ni précision statistique non mesurée. Les pièces et recommandations restent soumises à une vérification humaine.
+Les sources PlantUML de la version Claude et les diagrammes finaux grand format sont conservés dans [diagrammes_uml](./diagrammes_uml/).

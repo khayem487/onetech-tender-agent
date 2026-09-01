@@ -1,36 +1,41 @@
 # Présentation de soutenance — version finale
 
-Les versions de référence sont :
+> **16 diapositives · format 16:9 · notes orateur 16/16 · durée visée 16–18 minutes**
 
-- [PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pptx](./PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pptx) — présentation PowerPoint éditable avec notes orateur sur chaque diapositive ;
-- [PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pdf](./PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pdf) — version PDF de secours ;
-- [version Canva éditable](https://www.canva.com/d/a00BY55ehhel_wn) — import de la présentation finale.
+## Fichiers à utiliser
 
-## Fil narratif des 16 diapositives
+- [PowerPoint éditable](./PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pptx)
+- [PDF de secours](./PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pdf)
 
-1. **Titre** — mission, étudiant, entreprise et période.
-2. **Contexte et mission** — problème métier, objectif et contraintes de confiance.
-3. **Problématique** — transformer des sources hétérogènes en décision traçable.
-4. **Chronologie** — progression par couches de risque.
-5. **Cas d’utilisation** — décideur AO, automate n8n et source HAICOP.
-6. **Architecture** — collecte, PostgreSQL, documents, agent et canaux.
-7. **Traçabilité** — faits, documents, contexte, analyse et diffusion.
-8. **Pipeline documentaire** — téléchargement sûr, signature, extraction native et OCR.
-9. **Go / No-Go** — quatre critères, seuils et garde-fous de cohérence.
-10. **Séquence quotidienne** — collecte, sélection, analyse et diffusion idempotente.
-11. **Séquence Telegram** — filtrage, reprise et absence de persistance du texte utilisateur.
-12. **MCP** — cinq outils bornés et séparation agent / domaine.
-13. **Résultats** — corpus, couverture documentaire et tests.
-14. **Sécurité et qualité** — contrôles aux différentes frontières.
-15. **Démonstration** — deux décisions `NO_GO` et rejeu sans doublon.
-16. **Conclusion** — résultat, compétences et message final.
+## Déroulé conforme aux consignes CY Tech
 
-## Messages à défendre
+1. titre et résultats clés ;
+2. entreprise d’accueil ;
+3. problème métier ;
+4. mission du stage ;
+5. principe d’un système agentique ;
+6. outils utilisés ;
+7. architecture de bout en bout ;
+8. cas d’utilisation ;
+9. traçabilité des données ;
+10. pipeline quotidien ;
+11. analyse Go/No-Go ;
+12. résultats mesurés ;
+13. démonstration ;
+14. garde-fous ;
+15. compétences techniques et transversales ;
+16. conclusion et apports livrés à One Tech.
 
-- Le système produit une recommandation explicable ; il ne remplace pas la décision humaine.
-- L’empreinte du contexte relie les faits sources, les pièces et l’analyse.
-- L’idempotence permet de relancer les workflows sans multiplier leurs effets.
-- Les entrées externes sont bornées : URL, signatures de fichiers, archives, délais et secrets.
-- L’état présenté correspond à un MVP opérationnel, validé et démontrable.
+## Corrections intégrées
 
-Les notes orateur intégrées au fichier PowerPoint reprennent le discours conseillé et les sources techniques de chaque diapositive.
+- retrait du chiffre non vérifié sur le volume total d’annonces HAICOP ;
+- distinction explicite entre 62 tests locaux et 5 tests d’intégration ;
+- suppression des formulations absolues sur les doublons ;
+- conclusion centrée sur les apports réalisés ;
+- quatre diagrammes grand format optimisés pour la projection ;
+- benchmark Phi-4 Mini présenté uniquement comme second avis expérimental encadré ;
+- aucune information secrète, aucun mot de passe, aucun jeton.
+
+## Démonstration conseillée
+
+La démonstration suit quatre preuves : état PostgreSQL, fiche Go/No-Go, rejeu idempotent, puis diffusion du digest. Les résultats peuvent aussi être montrés à partir des rapports d’exécution si un service externe n’est pas disponible.

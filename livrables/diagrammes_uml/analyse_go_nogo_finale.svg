@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">Analyse Go No-Go traçable</title>
+  <desc id="desc">Le contexte empreinté alimente une fiche structurée, contrôlée par Python avant persistance, avec quatre scores et des seuils de décision.</desc>
+  <defs><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#102A43" flood-opacity="0.13"/></filter><marker id="arrow" markerWidth="13" markerHeight="13" refX="11" refY="5" orient="auto"><path d="M0 0 L12 5 L0 10 z" fill="#61758A"/></marker><style>.h{font:700 28px 'Segoe UI',Arial;fill:#102A43}.t{font:600 18px 'Segoe UI',Arial;fill:#334E68}.s{font:600 16px 'Segoe UI',Arial;fill:#486581}.k{font:700 18px 'Segoe UI',Arial;letter-spacing:1.2px}.a{stroke:#61758A;stroke-width:5;marker-end:url(#arrow)}.card{filter:url(#shadow);stroke-width:3}</style></defs>
+  <rect width="1600" height="820" fill="#F6F8FB"/>
+  <text x="75" y="64" class="k" fill="#2B6CB0">DÉCISION ASSISTÉE</text><text x="75" y="112" class="h" font-size="34">Une recommandation expliquée, puis contrôlée avant stockage</text>
+  <g transform="translate(85 205)">
+    <rect class="card" width="340" height="330" rx="24" fill="#FFF" stroke="#2B6CB0"/><text x="170" y="62" text-anchor="middle" class="h">Contexte empreinté</text><text x="45" y="122" class="t"><tspan x="45">• faits HAICOP</tspan><tspan x="45" dy="36">• documents extraits</tspan><tspan x="45" dy="36">• profil métier validé</tspan><tspan x="45" dy="36">• règles de scoring</tspan></text><text x="170" y="291" text-anchor="middle" class="s">empreinte SHA-256</text>
+    <path class="a" d="M350 165 H450"/>
+    <g transform="translate(460)"><rect class="card" width="430" height="330" rx="24" fill="#FFF" stroke="#D99A22"/><text x="215" y="62" text-anchor="middle" class="h">Fiche générée</text><text x="48" y="118" class="t"><tspan x="48">9 sections obligatoires</tspan><tspan x="48" dy="36">preuves et champs « Non trouvé »</tspan><tspan x="48" dy="36">4 scores sur 25</tspan><tspan x="48" dy="36">recommandation argumentée</tspan></text><rect x="55" y="255" width="320" height="48" rx="24" fill="#FFF4DE"/><text x="215" y="286" text-anchor="middle" class="s">aucune décision finale automatique</text></g>
+    <path class="a" d="M900 165 H1000"/>
+    <g transform="translate(1010)"><rect class="card" width="420" height="330" rx="24" fill="#FFF" stroke="#2F9E68"/><text x="210" y="62" text-anchor="middle" class="h">Validation Python</text><text x="48" y="118" class="t"><tspan x="48">✓ structure complète</tspan><tspan x="48" dy="36">✓ scores cohérents</tspan><tspan x="48" dy="36">✓ sources inchangées</tspan><tspan x="48" dy="36">✓ contexte non partiel</tspan></text><text x="210" y="291" text-anchor="middle" class="s">persistance ou refus explicite</text></g>
+  </g>
+  <g transform="translate(140 600)">
+    <rect width="360" height="105" rx="22" fill="#FDEBEC" stroke="#D7545D" stroke-width="2"/><text x="180" y="43" text-anchor="middle" class="h" font-size="24" fill="#B83B45">NO_GO</text><text x="180" y="78" text-anchor="middle" class="t">score &lt; 45</text>
+    <rect x="410" width="360" height="105" rx="22" fill="#FFF4DE" stroke="#D99A22" stroke-width="2"/><text x="590" y="43" text-anchor="middle" class="h" font-size="24" fill="#B87812">À DISCUTER</text><text x="590" y="78" text-anchor="middle" class="t">45 à 69</text>
+    <rect x="820" width="360" height="105" rx="22" fill="#EAF8F0" stroke="#2F9E68" stroke-width="2"/><text x="1000" y="43" text-anchor="middle" class="h" font-size="24" fill="#238457">GO</text><text x="1000" y="78" text-anchor="middle" class="t">score ≥ 70 · contexte complet</text>
+  </g>
+  <text x="800" y="772" text-anchor="middle" class="s">La validation humaine reste obligatoire avant toute réponse à un appel d'offres.</text>
+</svg>

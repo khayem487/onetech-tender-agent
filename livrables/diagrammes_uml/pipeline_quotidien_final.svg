@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">Pipeline quotidien automatisé</title>
+  <desc id="desc">n8n déclenche un worker authentifié qui pilote OpenClaw et la CLI Python, écrit les preuves dans PostgreSQL et diffuse le digest.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="13" markerHeight="13" refX="11" refY="5" orient="auto"><path d="M0 0 L12 5 L0 10 z" fill="#49677F"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#102A43" flood-opacity="0.13"/></filter>
+    <style>.h{font:700 28px 'Segoe UI',Arial;fill:#102A43}.t{font:600 18px 'Segoe UI',Arial;fill:#334E68}.s{font:600 16px 'Segoe UI',Arial;fill:#486581}.k{font:700 18px 'Segoe UI',Arial;letter-spacing:1.2px}.a{stroke:#49677F;stroke-width:5;fill:none;marker-end:url(#arrow)}.card{filter:url(#shadow);stroke-width:3}</style>
+  </defs>
+  <rect width="1600" height="820" fill="#F6F8FB"/>
+  <text x="75" y="64" class="k" fill="#2B6CB0">EXÉCUTION QUOTIDIENNE</text>
+  <text x="75" y="112" class="h" font-size="34">Collecter, comprendre et diffuser — une seule fois</text>
+  <line x1="105" x2="1495" y1="400" y2="400" stroke="#D6E0EA" stroke-width="6"/>
+  <g transform="translate(70 235)">
+    <g><rect class="card" width="205" height="250" rx="22" fill="#FFF" stroke="#2B6CB0"/><text x="102" y="65" text-anchor="middle" class="h">n8n</text><text x="102" y="112" text-anchor="middle" class="t"><tspan x="102">08:00</tspan><tspan x="102" dy="28">jours ouvrés</tspan></text><text x="102" y="212" text-anchor="middle" class="s">déclenchement</text></g>
+    <path class="a" d="M215 125 H275"/>
+    <g transform="translate(285)"><rect class="card" width="225" height="250" rx="22" fill="#FFF" stroke="#2CB8D3"/><text x="112" y="65" text-anchor="middle" class="h">ao-worker</text><text x="112" y="112" text-anchor="middle" class="t"><tspan x="112">Route métier</tspan><tspan x="112" dy="28">authentifiée</tspan></text><text x="112" y="212" text-anchor="middle" class="s">run + journal</text></g>
+    <path class="a" d="M520 125 H580"/>
+    <g transform="translate(590)"><rect class="card" width="225" height="250" rx="22" fill="#FFF" stroke="#D99A22"/><text x="112" y="65" text-anchor="middle" class="h">OpenClaw</text><text x="112" y="112" text-anchor="middle" class="t"><tspan x="112">Mission bornée</tspan><tspan x="112" dy="28">skills versionnés</tspan></text><text x="112" y="212" text-anchor="middle" class="s">orchestration agentique</text></g>
+    <path class="a" d="M825 125 H885"/>
+    <g transform="translate(895)"><rect class="card" width="225" height="250" rx="22" fill="#FFF" stroke="#496BB3"/><text x="112" y="65" text-anchor="middle" class="h">CLI Python</text><text x="112" y="112" text-anchor="middle" class="t"><tspan x="112">Collecte · OCR</tspan><tspan x="112" dy="28">analyse · digest</tspan></text><text x="112" y="212" text-anchor="middle" class="s">opérations testées</text></g>
+    <path class="a" d="M1130 125 H1190"/>
+    <g transform="translate(1200)"><rect class="card" width="260" height="250" rx="22" fill="#FFF" stroke="#2F9E68"/><text x="130" y="65" text-anchor="middle" class="h">PostgreSQL</text><text x="130" y="112" text-anchor="middle" class="t"><tspan x="130">Sources, analyses</tspan><tspan x="130" dy="28">preuves d'envoi</tspan></text><text x="130" y="212" text-anchor="middle" class="s">source de vérité</text></g>
+  </g>
+  <path class="a" d="M1400 510 C1400 600 1260 615 1140 615"/>
+  <rect x="290" y="565" width="850" height="118" rx="24" fill="#EAF8F0" stroke="#2F9E68" stroke-width="2"/>
+  <text x="345" y="611" class="k" fill="#238457">DIFFUSION MULTICANALE</text>
+  <text x="345" y="654" class="h" font-size="25">Mailpit · Gmail · Telegram</text>
+  <text x="800" y="654" class="t">réservation de la preuve avant envoi · reprise sans renvoi doublonné</text>
+  <rect x="500" y="730" width="600" height="52" rx="26" fill="#173B5E"/>
+  <text x="800" y="764" text-anchor="middle" font-family="Segoe UI" font-size="20" font-weight="700" fill="#FFFFFF">Chaque étape laisse un état vérifiable et reprenable</text>
+</svg>

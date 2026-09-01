@@ -139,21 +139,22 @@ PostgreSQL
 
 ---
 
-## Accès locaux et identifiants
+## Accès locaux
 
-> [!WARNING]
-> Les identifiants ci-dessous concernent uniquement l’environnement local actuel. Ils doivent être remplacés avant tout déploiement partagé, démonstration sur une autre machine ou publication du dépôt.
+> [!IMPORTANT]
+> Les identifiants et secrets ne sont jamais documentés dans le dépôt. Ils sont
+> fournis localement par `.env`, créé à partir de `.env.example`.
 
 ### Tableau des services
 
-| Service | URL / hôte | Compte | Mot de passe |
-|---|---|---|---|
-| **n8n** | <http://localhost:5678> | `admin@onetech.com` | `OneTech_n8n#2026!9n8` |
-| **pgAdmin** | <http://localhost:5050> | `admin@onetech.com` | `OneTech_Admin#2026!9pG` |
-| **PostgreSQL** | `127.0.0.1:5432` | `onetech` | `OneTech_AO#2026_Postgres!7qM` |
-| **Mailpit** | <http://localhost:8025> | aucun | aucun |
-| **Ollama** | `127.0.0.1:11434` | aucun | aucun |
-| **Gateway OpenClaw** | `127.0.0.1:18790` | configuration locale | jeton privé non affiché |
+| Service | URL / hôte | Authentification |
+|---|---|---|
+| **n8n** | <http://localhost:5678> | compte défini dans `.env` |
+| **pgAdmin** | <http://localhost:5050> | compte défini dans `.env` |
+| **PostgreSQL** | `127.0.0.1:5432` | utilisateur et mot de passe définis dans `.env` |
+| **Mailpit** | <http://localhost:8025> | aucune en local |
+| **Ollama** | `127.0.0.1:11434` | aucune en local |
+| **Gateway OpenClaw** | `127.0.0.1:18790` | jeton privé local |
 
 ### Connexion PostgreSQL depuis pgAdmin
 
@@ -164,12 +165,12 @@ Host depuis Docker   : postgres
 Port                 : 5432
 Maintenance database : onetech_ao
 Username             : onetech
-Password             : OneTech_AO#2026_Postgres!7qM
+Password             : valeur de POSTGRES_PASSWORD dans .env
 ```
 
 Le mot de passe pgAdmin ouvre l’interface graphique. Le mot de passe PostgreSQL authentifie pgAdmin, Python ou `psql` auprès de la base : ce sont deux comptes différents.
 
-### Secrets qui ne figurent volontairement pas dans ce README
+### Gestion des secrets
 
 Les valeurs suivantes restent uniquement dans le fichier local `.env` ou dans la configuration OpenClaw :
 
@@ -619,26 +620,27 @@ Ouvrir Mailpit sur <http://localhost:8025>, vérifier `DIGEST_EMAIL_TO`, `GOG_AC
 | [`DOCKER_SETUP.md`](DOCKER_SETUP.md) | installation et compréhension de Docker |
 | [`docs/OPERATIONS.md`](docs/OPERATIONS.md) | exploitation, sauvegarde et restauration |
 | [`HISTORY.md`](HISTORY.md) | historique des décisions et jalons |
-| [`livrables/PRESENTATION_SOUTENANCE_FINALE.md`](livrables/PRESENTATION_SOUTENANCE_FINALE.md) | contenu final et notes de la soutenance |
-| [`livrables/RAPPORT_STAGE_FINAL.md`](livrables/RAPPORT_STAGE_FINAL.md) | rapport final en source Markdown |
+| [`livrables/LIVRABLES_TUTEUR_ENTREPRISE.md`](livrables/LIVRABLES_TUTEUR_ENTREPRISE.md) | paquet à transmettre et message d’accompagnement |
+| [`livrables/PRESENTATION_SOUTENANCE_FINALE.md`](livrables/PRESENTATION_SOUTENANCE_FINALE.md) | guide de la version finale et déroulé des 16 diapositives |
+| [`livrables/RAPPORT_STAGE_FINAL.md`](livrables/RAPPORT_STAGE_FINAL.md) | index, périmètre et métriques du rapport final |
 | [`livrables/PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pptx`](livrables/PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pptx) | présentation éditable, 16 diapositives et notes orateur |
 | [`livrables/PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pdf`](livrables/PRESENTATION_SOUTENANCE_KHAYEM_BEN_GHORBEL.pdf) | présentation prête à consulter ou imprimer |
 | [`livrables/RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.docx`](livrables/RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.docx) | rapport Word éditable |
 | [`livrables/RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.pdf`](livrables/RAPPORT_STAGE_KHAYEM_BEN_GHORBEL.pdf) | rapport A4 mis en page |
 | [`livrables/ANNEXE_EVALUATION_STAGE_A_FAIRE_REMPLIR_PAR_MAKRAM.pdf`](livrables/ANNEXE_EVALUATION_STAGE_A_FAIRE_REMPLIR_PAR_MAKRAM.pdf) | questionnaire CY Tech à faire signer et joindre au rapport |
-| [`docs/DELIVERABLES_FINAL_QA_2026-08-26.md`](docs/DELIVERABLES_FINAL_QA_2026-08-26.md) | contrôle final du rapport, de la présentation et des visuels |
+| [`docs/DELIVERABLES_FINAL_QA_2026-09-01.md`](docs/DELIVERABLES_FINAL_QA_2026-09-01.md) | contrôle final du rapport, de la présentation et des visuels |
 
-Reproduire les livrables :
+### Vérification des livrables finaux
 
-```powershell
-.\.venv\Scripts\python.exe -m pip install -e '.[deliverables]'
-.\.venv\Scripts\python.exe .\scripts\build-livrables.py
-.\scripts\export-livrables-office.ps1
-```
+Les quatre fichiers Office/PDF listés ci-dessus constituent la version canonique
+validée. Les anciens scripts de génération restent disponibles à titre
+historique et de développement, mais ne doivent pas être exécutés pour préparer
+le paquet à transmettre : ils produisent une ancienne mise en page.
 
-La génération produit le DOCX, le HTML imprimable et le PPTX éditables. Le
-script d’export imprime le rapport HTML en PDF avec Chrome et exporte le
-diaporama depuis PowerPoint, de façon reproductible et sans fenêtre visible.
+Avant un envoi, vérifier les empreintes et les contrôles consignés dans
+[`docs/DELIVERABLES_FINAL_QA_2026-09-01.md`](docs/DELIVERABLES_FINAL_QA_2026-09-01.md),
+puis utiliser uniquement les fichiers référencés dans
+[`livrables/LIVRABLES_TUTEUR_ENTREPRISE.md`](livrables/LIVRABLES_TUTEUR_ENTREPRISE.md).
 
 ---
 

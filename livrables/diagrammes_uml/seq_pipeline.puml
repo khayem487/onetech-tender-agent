@@ -1,0 +1,39 @@
+@startuml seq_pipeline
+!include style.iuml
+title Diagramme de séquence — Pipeline quotidien automatisé (08:00, jours ouvrés)
+
+participant "n8n" as N8N
+participant "ao-worker\n(FastAPI)" as W
+participant "OpenClaw\nentreprise" as OC
+participant "CLI onetech_ao\n(Python)" as CLI
+database "PostgreSQL" as PG
+participant "Canaux\nMailpit / Gmail / Telegram" as CH
+
+N8N -> W : POST /runs/daily (token interne)
+activate W
+W -> PG : créer exécution (en_cours)
+W -> OC : mission bornée (prompt versionné)
+activate OC
+OC -> CLI : collect --with-details
+CLI -> PG : UPSERT AO + documents
+OC -> CLI : process-documents
+CLI -> PG : hash SHA-256 + textes extraits
+OC -> CLI : analyses des candidats retenus
+CLI -> PG : fiches + scores (idempotent)
+OC --> W : digest Markdown
+deactivate OC
+W -> PG : hash du digest + candidats
+loop pour chaque canal x destinataire
+  W -> PG : réserver preuve de diffusion
+  alt jamais envoyé
+    W -> CH : envoi du digest
+    CH --> W : accusé
+    W -> PG : statut = envoyée
+  else déjà envoyé
+    W -> PG : statut = deja_envoyee (aucun renvoi)
+  end
+end
+W -> PG : clôturer exécution (compteurs)
+W --> N8N : résultat JSON
+deactivate W
+@enduml

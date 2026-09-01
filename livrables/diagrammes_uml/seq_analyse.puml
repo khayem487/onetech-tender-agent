@@ -1,0 +1,38 @@
+@startuml seq_analyse
+!include style.iuml
+title Diagramme de séquence — Analyse Go/No-Go traçable d'un appel d'offres
+
+actor "Analyste" as U
+participant "OpenClaw\n(skill analyse-ao)" as OC
+participant "CLI onetech_ao" as CLI
+database "PostgreSQL" as PG
+
+U -> OC : "Analyse l'AO Tender-103283"
+activate OC
+OC -> CLI : analysis-context Tender-103283
+activate CLI
+CLI -> PG : faits AO + détails + profil\n+ textes des documents
+PG --> CLI : contexte factuel complet
+CLI -> CLI : empreinte SHA-256\ndu contexte canonique
+CLI --> OC : fichier contexte + empreinte
+deactivate CLI
+OC -> OC : lecture intégrale des sources\nrédaction de la fiche (9 sections)\n4 scores /25 + décision
+OC -> CLI : record-analysis\n(fiche, scores, décision, empreinte)
+activate CLI
+CLI -> CLI : valider : 9 sections présentes,\ncohérence scores/décision (seuils 70/45),\nstatut complet/partiel, empreinte intacte
+alt contexte inchangé et fiche valide
+  CLI -> PG : UPSERT analyse (idempotent)
+  PG --> CLI : ID d'analyse (réutilisé au rejeu)
+  CLI --> OC : enregistrée (ex. ID 23)
+else fiche incomplète / incohérente / contexte modifié
+  CLI --> OC : refus motivé, rien n'est écrit
+end
+deactivate CLI
+OC --> U : synthèse + chemin de la fiche
+deactivate OC
+note right of PG
+  Faits officiels (appels_offres, documents_ao)
+  et raisonnement généré (analyses_ao)
+  restent dans des tables distinctes.
+end note
+@enduml

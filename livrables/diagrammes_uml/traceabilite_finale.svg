@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" role="img" aria-labelledby="title desc">
+  <title id="title">Chaîne de traçabilité OneTech Tender Agent</title>
+  <desc id="desc">Des faits HAICOP jusqu'à la diffusion, chaque étape conserve une preuve et utilise une clé d'idempotence.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#102A43" flood-opacity="0.12"/></filter>
+    <marker id="arrow" markerWidth="13" markerHeight="13" refX="11" refY="5" orient="auto"><path d="M0 0 L12 5 L0 10 z" fill="#61758A"/></marker>
+    <style>.h{font:700 29px 'Segoe UI',Arial;fill:#102A43}.t{font:600 19px 'Segoe UI',Arial;fill:#334E68}.s{font:600 16px 'Segoe UI',Arial;fill:#486581}.k{font:700 18px 'Segoe UI',Arial;letter-spacing:1.2px}.a{stroke:#61758A;stroke-width:5;marker-end:url(#arrow)}.card{filter:url(#shadow);stroke-width:3}</style>
+  </defs>
+  <rect width="1600" height="820" fill="#F6F8FB"/>
+  <text x="75" y="64" class="k" fill="#2B6CB0">TRAÇABILITÉ PAR CONSTRUCTION</text>
+  <text x="75" y="112" class="h" font-size="34">Chaque transition conserve une preuve vérifiable</text>
+  <g transform="translate(70 205)">
+    <g><rect class="card" width="245" height="280" rx="22" fill="#FFF" stroke="#2B6CB0"/><text x="122" y="58" text-anchor="middle" class="h">AO</text><line x1="30" x2="215" y1="82" y2="82" stroke="#D6E0EA" stroke-width="2"/><text x="122" y="132" text-anchor="middle" class="t"><tspan x="122">Faits source</tspan><tspan x="122" dy="30">état · dates</tspan><tspan x="122" dy="30">acheteur</tspan></text><text x="122" y="246" text-anchor="middle" class="s">clé métier unique</text></g>
+    <line class="a" x1="255" x2="305" y1="140" y2="140"/>
+    <g transform="translate(315)"><rect class="card" width="245" height="280" rx="22" fill="#FFF" stroke="#2CB8D3"/><text x="122" y="58" text-anchor="middle" class="h" fill="#2CB8D3">Documents</text><line x1="30" x2="215" y1="82" y2="82" stroke="#D6E0EA" stroke-width="2"/><text x="122" y="132" text-anchor="middle" class="t"><tspan x="122">URL · format</tspan><tspan x="122" dy="30">fichier · texte</tspan><tspan x="122" dy="30">statut</tspan></text><text x="122" y="246" text-anchor="middle" class="s">empreinte SHA-256</text></g>
+    <line class="a" x1="570" x2="620" y1="140" y2="140"/>
+    <g transform="translate(630)"><rect class="card" width="245" height="280" rx="22" fill="#FFF" stroke="#496BB3"/><text x="122" y="58" text-anchor="middle" class="h">Contexte</text><line x1="30" x2="215" y1="82" y2="82" stroke="#D6E0EA" stroke-width="2"/><text x="122" y="132" text-anchor="middle" class="t"><tspan x="122">Profil · règles</tspan><tspan x="122" dy="30">sources utiles</tspan><tspan x="122" dy="30">version</tspan></text><text x="122" y="246" text-anchor="middle" class="s">empreinte stable</text></g>
+    <line class="a" x1="885" x2="935" y1="140" y2="140"/>
+    <g transform="translate(945)"><rect class="card" width="245" height="280" rx="22" fill="#FFF" stroke="#D99A22"/><text x="122" y="58" text-anchor="middle" class="h" fill="#B87812">Analyse</text><line x1="30" x2="215" y1="82" y2="82" stroke="#D6E0EA" stroke-width="2"/><text x="122" y="132" text-anchor="middle" class="t"><tspan x="122">9 sections</tspan><tspan x="122" dy="30">4 scores</tspan><tspan x="122" dy="30">preuves</tspan></text><text x="122" y="246" text-anchor="middle" class="s">validation avant écriture</text></g>
+    <line class="a" x1="1200" x2="1250" y1="140" y2="140"/>
+    <g transform="translate(1260)"><rect class="card" width="245" height="280" rx="22" fill="#FFF" stroke="#2F9E68"/><text x="122" y="58" text-anchor="middle" class="h" fill="#238457">Diffusion</text><line x1="30" x2="215" y1="82" y2="82" stroke="#D6E0EA" stroke-width="2"/><text x="122" y="132" text-anchor="middle" class="t"><tspan x="122">Canal</tspan><tspan x="122" dy="30">destinataire</tspan><tspan x="122" dy="30">statut</tspan></text><text x="122" y="246" text-anchor="middle" class="s">preuve d'envoi</text></g>
+  </g>
+  <rect x="150" y="570" width="1300" height="150" rx="25" fill="#E8F0F8" stroke="#2B6CB0" stroke-width="2"/>
+  <text x="200" y="620" class="k" fill="#2B6CB0">REJEU MAÎTRISÉ</text>
+  <text x="200" y="667" class="h" font-size="27">Même source + même contexte + même canal</text>
+  <text x="200" y="705" class="t">→ mise à jour de l'existant ; aucun doublon observé pendant la campagne de validation.</text>
+</svg>

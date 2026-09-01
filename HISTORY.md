@@ -124,9 +124,8 @@ items.
 - Added Tesseract OCR for scanned PDF/image documents and bounded LibreOffice
   conversion for legacy DOC files. All 152 stored documents now have a local
   file, SHA-256 and extracted text.
-- Added a Telegram digest/reply implementation with database idempotence. Its
-  workflow remains disabled until a dedicated OneTech bot and group ID are
-  configured; the personal bot token is explicitly rejected.
+- Added and validated Telegram digest/reply automation with a dedicated OneTech
+  bot and group, durable offsets and database idempotence.
 - Registered `phi4-mini:latest` through Ollama in the company OpenClaw. The
   benchmark classifies the test tenders correctly but remains slow and is used
   only as an experimental second opinion.
@@ -136,8 +135,8 @@ items.
 - Added complete, checksummed backups and explicit component restoration.
   Restored a real backup into an isolated temporary PostgreSQL database and
   verified all table counts before deleting the drill database.
-- Added Windows logon startup, a five-minute watchdog, health checks and
-  persistent operational logs without touching the personal OpenClaw gateway.
+- Kept startup manual. The temporary Windows logon task and recurring watchdog
+  were removed; manual health checks and persistent operational logs remain.
 - Final validation: 100 tenders, 152 extracted documents, no tender/document
-  duplicates, 67 Python tests and 6 SQL tests passing.
-- Odoo was intentionally excluded from the final scope.
+  duplicates observed during the final validation campaign, 67 Python tests
+  and 6 SQL tests passing.

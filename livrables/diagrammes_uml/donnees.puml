@@ -1,0 +1,69 @@
+@startuml donnees
+!include style.iuml
+title Modèle de données — séparation faits officiels / preuves / raisonnement / diffusion
+hide circle
+skinparam linetype ortho
+skinparam class {
+  BackgroundColor #F7F9FB
+  BorderColor #1F3B57
+  HeaderBackgroundColor #E8F0F8
+}
+
+entity "collectes_haicop" as CH {
+  * id
+  --
+  statut (en_cours / terminee / echec)
+  compteurs, erreur, horodatage
+}
+entity "appels_offres" as AO {
+  * tender_id <<PK>>
+  --
+  organisme, titre
+  date_publication, date_limite
+  donnees_brutes (JSONB original)
+  derniere_collecte_le
+}
+entity "documents_ao" as DOC {
+  * (tender_id, url) <<unique>>
+  --
+  fichier local, type réel
+  sha256, statut, texte_extrait
+}
+entity "analyses_ao" as AN {
+  * id
+  --
+  empreinte contexte <<unique>>
+  fiche (9 sections), 4 scores /25
+  décision GO / A_DISCUTER / NO_GO
+}
+entity "executions_quotidiennes" as EX {
+  * id
+  --
+  état du pipeline planifié
+}
+entity "candidats_execution" as CA {
+  * (execution, tender_id)
+}
+entity "diffusions_digest" as DIF {
+  * (execution, canal,\ndestinataire_hash) <<unique>>
+  --
+  hash du digest, statut
+}
+entity "telegram_poll_state" as TPS {
+  * offset durable
+}
+entity "telegram_interactions" as TI {
+  * update_id <<unique>>
+  --
+  empreintes chat / message
+  statut (repondue)
+}
+
+CH ||--o{ AO : collecte
+AO ||--o{ DOC : documents publics
+AO ||--o{ AN : analyses
+EX ||--o{ CA : candidats
+CA }o--|| AO
+EX ||--o{ DIF : preuves d'envoi
+TPS ||--o{ TI : updates
+@enduml
