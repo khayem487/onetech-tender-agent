@@ -39,3 +39,7 @@ dist/
 /.tmp/
 /data/ocr/
 /data/converted/
+
+# Public-demo deployment metadata and local temporary files
+/.vercel/
+/web_demo/.tmp/

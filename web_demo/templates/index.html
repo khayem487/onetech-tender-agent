@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#152c49">
+  <meta name="description" content="Le traitement documentaire réel du projet OneTech Tender Agent : extraction PDF/DOCX, sources et qualification humaine.">
+  <title>OneTech Tender Agent · Atelier documentaire</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script type="module" src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+  <a class="skip" href="#atelier">Aller à l’atelier</a>
+  <header class="site-header wrap">
+    <a class="brand" href="/" aria-label="OneTech Tender Agent, accueil"><span class="brand-icon" aria-hidden="true">OT</span><span>OneTech <strong>Tender Agent</strong></span></a>
+    <nav aria-label="Navigation"><a href="https://github.com/khayem487/onetech-tender-agent" target="_blank" rel="noopener noreferrer">Le code ↗</a><a href="https://khayem-ben-ghorbel.vercel.app/#project/onetech-tender-agent">Le projet de stage ↗</a></nav>
+  </header>
+
+  <main class="wrap">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">DU PROJET DE STAGE AU NAVIGATEUR</p><h1 id="page-title">Lire les pièces.<br><span>Garder les preuves.</span></h1><p class="lead">Faites passer un PDF ou un DOCX dans le véritable traitement Python du projet. Retrouvez son texte, les passages sources et les éléments à qualifier.</p></div>
+      <aside class="scope-card"><span class="scope-dot" aria-hidden="true"></span><h2>Ce qui s’exécute ici</h2><p>Extraction native, classification documentaire et présélection par mots-clés. Les résultats sont calculés à chaque traitement.</p><p class="scope-note">La qualification reste humaine. L’orchestration OpenClaw, l’OCR et les envois du pipeline complet ne sont pas exécutés par cet atelier.</p></aside>
+    </section>
+
+    <div class="progress" aria-label="Parcours"><span><b>01</b> Importer</span><span><b>02</b> Lire les sources</span><span><b>03</b> Qualifier</span></div>
+
+    <div id="service-status" class="service-status" role="status">Connexion à l’atelier…</div>
+    <button id="retry-service" class="button subtle" type="button" hidden>Réessayer la connexion</button>
+
+    <section id="atelier" class="workspace" aria-label="Atelier documentaire">
+      <div class="input-column">
+        <section class="panel">
+          <div class="section-heading"><span class="section-number">01</span><h2>Choisir un document</h2></div>
+          <p class="muted">Utilisez un document public ou un fichier de test.</p>
+          <form id="document-form">
+            <fieldset id="document-fields" disabled>
+              <label class="file-box" for="document-file"><span class="file-symbol" aria-hidden="true">↥</span><strong>PDF ou DOCX</strong><span id="file-limit">2 Mo maximum · PDF natif jusqu’à 20 pages</span><input type="file" id="document-file" name="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"></label>
+              <p id="upload-availability" class="field-help"></p>
+              <label for="keywords">Vos mots-clés de présélection</label>
+              <input id="keywords" name="keywords" value="logiciel, API, données, maintenance, sécurité" maxlength="491" autocomplete="off" aria-describedby="keywords-help">
+              <p id="keywords-help" class="field-help">Jusqu’à 12 termes séparés par des virgules. Ils servent au classement lexical, sans décision IA.</p>
+              <button id="process-file" type="submit" class="button primary">Extraire le document <span aria-hidden="true">→</span></button>
+              <div class="examples"><span>Ou essayez un document fictif</span><div><button type="button" id="sample-pdf" class="button secondary">Exemple PDF</button><button type="button" id="sample-docx" class="button secondary">Exemple DOCX</button></div><small>Ces fichiers passent dans le même moteur d’extraction, à chaque clic.</small></div>
+            </fieldset>
+          </form>
+          <button id="cancel-process" type="button" class="button subtle" hidden>Arrêter l’attente</button>
+          <p class="privacy-note">Le fichier est envoyé à ce serveur pour être traité temporairement, puis supprimé. Aucun document n’est enregistré dans une base ni transmis à un modèle IA. Le texte affiché reste en mémoire dans cette page jusqu’à sa fermeture.</p>
+        </section>
+        <div class="project-note"><strong>Le traitement original, dans un périmètre précis.</strong><p>Le projet complet ajoute la collecte HAICOP, PostgreSQL, l’analyse agentique et la diffusion. Cet atelier vous permet de tester sa partie documentaire et son barème de validation.</p><a href="https://github.com/khayem487/onetech-tender-agent#architecture" target="_blank" rel="noopener noreferrer">Comprendre l’architecture ↗</a></div>
+      </div>
+
+      <div class="output-column">
+        <section class="panel result-panel" aria-labelledby="results-title">
+          <div class="section-heading"><span class="section-number">02</span><h2 id="results-title">Lire les sources</h2><span id="processing-badge" class="badge" hidden>Traitement réel</span></div>
+          <p id="process-status" class="feedback" role="status">Le résultat de votre prochain traitement apparaîtra ici.</p>
+          <div id="result-empty" class="empty-state"><div aria-hidden="true" class="paper-icon">≡</div><h3>Un texte à relire, des sources à vérifier.</h3><p>Chargez un document ou lancez l’un des exemples pour commencer.</p></div>
+          <div id="result-content" hidden>
+            <div class="document-summary"><h3 id="document-name"></h3><p id="document-details" class="muted"></p><p class="hash-label">Empreinte SHA-256 <code id="document-hash"></code></p></div>
+            <div id="warnings" class="warning-box" hidden><h3>Points à vérifier</h3><ul id="warning-list"></ul></div>
+            <div class="reading-summary"><div><span>Type repéré</span><strong id="document-classification"></strong></div><div><span>Présélection lexicale</span><strong id="relevance-score"></strong></div></div>
+            <p id="relevance-explanation" class="field-help"></p><ul id="relevance-reasons" class="reasons-list"></ul>
+            <div class="sources-heading"><h3>Passages extraits</h3><span class="muted">À confronter au document</span></div>
+            <div id="sources" class="sources"></div>
+            <details class="full-text"><summary>Lire tout le texte extrait</summary><pre id="extracted-text" tabindex="0"></pre></details>
+            <div class="result-actions"><button id="download-result" class="button secondary" type="button">Exporter les résultats JSON ↓</button><button id="clear-result" class="button subtle" type="button">Effacer cette lecture</button></div>
+          </div>
+        </section>
+
+        <section id="qualification" class="panel qualification" aria-labelledby="qualification-title">
+          <div class="section-heading"><span class="section-number">03</span><h2 id="qualification-title">Votre qualification</h2><span class="badge human">MANUELLE</span></div>
+          <p class="muted">Après lecture, renseignez les quatre axes du barème original. Le serveur vérifie les notes et calcule leur total ; il ne les choisit pas à votre place.</p>
+          <label class="review-check"><input type="checkbox" id="reviewed" disabled><span>J’ai relu les passages et les limites du contexte.</span></label>
+          <form id="decision-form"><fieldset id="decision-fields" disabled><div class="scores-grid">
+            <label>Adéquation aux compétences<input name="adequation" type="number" min="0" max="25" step="1" placeholder="0–25" required><small>Plus la note est haute, meilleure est l’adéquation.</small></label>
+            <label>Faisabilité du délai<input name="delai" type="number" min="0" max="25" step="1" placeholder="0–25" required><small>Une note haute correspond à un délai plus faisable.</small></label>
+            <label>Charge administrative<input name="administratif" type="number" min="0" max="25" step="1" placeholder="0–25" required><small>Une note haute correspond à une charge plus maîtrisable.</small></label>
+            <label>Niveau de risque<input name="risque" type="number" min="0" max="25" step="1" placeholder="0–25" required><small>Une note haute correspond à un risque plus maîtrisé.</small></label>
+          </div><button type="submit" class="button primary" id="calculate-decision">Vérifier ma qualification →</button></fieldset></form>
+          <p id="decision-status" class="feedback" role="status">Traitez un document pour accéder au barème.</p>
+          <div id="decision-result" class="decision-result" hidden><strong id="decision-label"></strong><span id="decision-total"></span><p>Qualification renseignée par vous, à valider avec l’équipe concernée avant toute décision réelle.</p></div>
+          <p class="field-help rubric-help">Barème : GO à partir de 70, À DISCUTER de 45 à 69, NO-GO en dessous de 45. Un contexte partiel ne permet pas de valider un GO.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap"><span>OneTech Tender Agent · Projet de stage de Khayem Ben Ghorbel</span><a href="https://khayem-ben-ghorbel.vercel.app/">Retour au portfolio ↗</a></footer>
+</body>
+</html>

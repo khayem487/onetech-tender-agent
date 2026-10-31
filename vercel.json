@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "flask",
+  "regions": ["cdg1"],
+  "functions": {
+    "app.py": {
+      "maxDuration": 30,
+      "excludeFiles": "{tests,sources,fiches,livrables,database,docs,config,automation,scripts,skills,pgadmin}/**"
+    }
+  }
+}

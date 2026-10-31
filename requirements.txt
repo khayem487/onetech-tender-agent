@@ -1,0 +1,9 @@
+# Thin public-adapter runtime. Original worker dependencies remain in pyproject.toml.
+Flask==3.1.3
+pypdf==6.21.4
+python-docx==1.2.0
+python-dotenv==1.2.4
+requests==2.34.2
+beautifulsoup4==4.15.0
+psycopg[binary]==3.3.6
+tzdata==2026.6
