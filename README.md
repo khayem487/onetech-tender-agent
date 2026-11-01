@@ -19,6 +19,38 @@
 
 ---
 
+## Atelier web — extraction réelle
+
+**[Ouvrir l’atelier documentaire](https://khayem-onetech.vercel.app/)**
+
+Le site public exécute les fonctions Python originales `extract_text`, `classify_document`, `relevance` et `expected_decision`. Vous pouvez charger un PDF natif ou un DOCX, lire les passages extraits et exporter le résultat JSON. Les exemples fictifs sont générés puis retraités à chaque requête. La présélection est lexicale ; les quatre notes du barème sont saisies par le visiteur et vérifiées par le serveur.
+
+Cet atelier expose la partie documentaire du projet. La collecte HAICOP, PostgreSQL, l’OCR, OpenClaw, les notifications et les autres services du pipeline complet restent distincts. Aucun résultat IA préétabli n’est présenté comme une nouvelle analyse.
+
+- Fichiers limités à 2 Mio, PDF de 20 pages maximum, ZIP DOCX de 8 Mio décompressés, texte de 40 000 caractères.
+- Traitement dans un processus séparé, avec limites de mémoire/CPU sous Linux, délai maximal de 10 secondes, fichiers temporaires supprimés après traitement et aucune conservation en base.
+- Les fichiers personnels sont désactivés si les protections Linux sont indisponibles ; les exemples synthétiques restent utilisables en local sous Windows.
+- Aucun téléchargement d’URL, appel de modèle IA, lecture du profil d’entreprise ou envoi d’email/Telegram par cette entrée publique.
+- Les extraits sont affichés comme texte ; les documents natifs incomplets et les dossiers partiels sont signalés. Un contexte partiel interdit la validation d’un GO dans le barème manuel.
+
+Lancer cet atelier avec Python 3.12, séparément du worker d’automatisation :
+
+```text
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python app.py
+```
+
+Ouvrir `http://127.0.0.1:5182`. Pour consulter les capacités et limites du service public :
+
+```text
+curl https://khayem-onetech.vercel.app/api/capabilities
+```
+
+Le déploiement manuel utilise un dossier neuf et filtré, préparé par `python web_demo/package_public.py /nouveau/dossier/vide`. Il contient le code nécessaire, les assets CDN et le seul manifeste `requirements.txt` ; le `pyproject.toml` complet reste destiné au pipeline d’origine dans ce dépôt. Configuration d’entreprise, données, fiches, livrables et secrets ne sont pas copiés. Le projet Vercel `khayem-onetech` n’ajoute pas d’accès GitHub App : sa publication reste manuelle.
+
+---
+
 ## Vue d’ensemble
 
 OneTech Tender Agent automatise la veille des appels d’offres publics tunisiens publiés sur HAICOP. Le système collecte les données publiques, télécharge et lit les pièces jointes, applique un filtre de pertinence IT, prépare une analyse traçable et diffuse un digest quotidien aux équipes.
